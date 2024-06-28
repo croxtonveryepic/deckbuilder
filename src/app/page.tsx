@@ -1,113 +1,102 @@
+'use client';
+import { Box, Container, Modal } from "@mui/material";
+import CardList, { ShrineList, ShrineImprovementList, BaseCardList, EssenceList } from "./components/card-list";
+import { base_cards } from "./cardlists/base-cards";
+import { shrines } from "./cardlists/shrines";
+import { essences } from "./cardlists/essences";
+import { shrine_improvements } from "./cardlists/shrine-improvements";
+import { CardType, ImprovedShrine } from "./components/card";
+import { useState } from "react";
+import Card from "./components/card";
+import { Deck } from "./components/card-list";
+import { idGenerator } from "./utils";
 import Image from "next/image";
 
+export class DeckSlot {
+  base_card: string;
+  overlay: string;
+  id: number;
+
+  constructor(base_card: string, overlay = '') {
+    this.base_card = base_card
+    this.overlay = overlay
+    this.id = newId()
+  }
+}
+
+class ModalStatus {
+  open: boolean;
+  position: number;
+
+  constructor(open: boolean, pos: number) {
+    this.open = open;
+    this.position = pos;
+  }
+}
+
+const newId = idGenerator();
+
 export default function Home() {
+  const [shrineMode, setShrineMode] = useState(true);
+  const [shrine, setShrine] = useState('')
+  const [shrineImprovement, setShrineImprovement] = useState('')
+  const [deck, setDeck] = useState(new Array<DeckSlot>);
+  const [baseCardModal, setBaseCardModal] = useState(new ModalStatus(false, 0))
+
+  function addBaseCard(card: string) {
+    // if(e.type === 'click') {
+    //   setDeck([...deck, new DeckSlot(card)])
+    // } else if(e.type === 'contextmenu') {
+      setBaseCardModal(new ModalStatus(true, base_cards.indexOf(card)))
+    // }
+  }
+
+  function toggleShrineMode() {
+    setShrineMode(!shrineMode);
+  }
+
+  function removeCard(id: number) {
+    setDeck(deck.filter((card) => {
+      return id !== card.id
+    }))
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <Box>
+      <Container className="deck-container">
+        <Container className="deck-widget-container">
+          <button onClick={toggleShrineMode}>Toggle Shrine Mode</button>
+        </Container>
+        <Deck shrine={shrine} shrine_improvement={shrineImprovement} card_list={deck} onClickBaseCard={removeCard}></Deck>
+      </Container>
+      <Container className="base-card-container">
+        <Container className="base-card-widget-container">
+          button stuff
+        </Container>
+        {shrineMode ? (
+          <ShrineList card_list={shrines} onClickShrine={setShrine}></ShrineList>
+          ) : (
+            <BaseCardList card_list={base_cards} onClickBaseCard={(card_name) => setBaseCardModal(new ModalStatus(true, base_cards.indexOf(card_name)))}></BaseCardList>
+          )
+        }
+      </Container>
+      <Container className="overlay-card-container">
+        <Container className="overlay-card-widget-container">
+          button stuff
+        </Container>
+        {shrineMode ? (
+          <ShrineImprovementList card_list={shrine_improvements} onClickShrineImprovement={setShrineImprovement}></ShrineImprovementList>
+        ) : (
+          <EssenceList essence_list={essences}></EssenceList>
+        )
+      }
+      </Container>
+      <Modal open={baseCardModal.open}>
+        <Image src={'/assets/base-cards/' + base_cards[baseCardModal.position] + '.png'} alt={base_cards[baseCardModal.position]}
+          width="739"
+          height="1035"
         />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </Modal>
+    </Box>
   );
 }
