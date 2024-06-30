@@ -8,13 +8,13 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -36,7 +36,16 @@ body {
   position: relative;
 }
 
-.overlay {
+.card .overlay {
+  top: 0%;
+  position: absolute;
+}
+
+.overlayed-modal {
+  position: relative;
+}
+
+.overlayed-modal .overlay {
   top: 0%;
   position: absolute;
 }
@@ -93,7 +102,7 @@ body {
   right: 0;
   max-width: none;
   padding: 0;
-  overflow: scroll; 
+  overflow: scroll;
 }
 
 .overlay-card-container .overlay-card-widget-container {
@@ -105,7 +114,24 @@ body {
   padding: 0;
 }
 
-.card img { 
+/* .overlay-grid {
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform: rotate(-90deg);
+  transform-origin: right top;
+}
+
+.overlay-grid > div {
+  transform: rotate(90deg);
+  transform-origin: right top;
+} */
+
+.card {
+  padding-right: 0%;
+  padding-left: 0%;
+}
+
+.card img {
   width: 7.55vw;
   height: 10.57vw;
   /* max-width: none; */
@@ -113,5 +139,55 @@ body {
 
 .unbacked-overlay img {
   border-radius: 5%;
-  background: blanchedalmond;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.logo-card {
+  border-radius: 5%;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.modal-parent {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+}
+
+.modal-center {
+  flex-grow: 2;
+  display: flex;
+  justify-content: center;
+  max-width: 800px;
+}
+
+/* .modal-center > img {
+} */
+
+.modal-left {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal-left svg {
+  font-size: 4rem;
+}
+/* 
+.modal-side > button {
+} */
+
+.modal-right {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.modal-right svg {
+  font-size: 4rem;
+}
+
+.spacer {
+  flex-grow: 1;
 }
