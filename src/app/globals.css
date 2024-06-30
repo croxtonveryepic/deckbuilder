@@ -62,6 +62,8 @@ body {
   right: 0;
   max-width: none;
   padding: 0;
+  overflow: scroll;
+
   /* float: right; */
 }
 

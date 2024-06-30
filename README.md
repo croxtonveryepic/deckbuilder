@@ -16,21 +16,14 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Using The Deckbuilder
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+There are three main sections to the app:
 
-## Learn More
+- In the top right is your deck. You can click on cards to remove their overlay card (if applicable) or remove them.
+- To the left is base card library. This holds Shrines and all the regular cards (Unit, Event, etc.). You can click on base cards to add them to you deck, or you can drag them in.
+- Along the bottom right is the overlay library. This hold Shrine Improvements and Essences. You can click a Shrine Improvement to select it, and you can drag overlay cards onto base cards in your deck to apply them.
 
-To learn more about Next.js, take a look at the following resources:
+Initially you will be in Shrine mode, meaning the libraries will contain Shrine and Shrine Improvements. Click the Toggle Shrine Mode button above the Deck section to see regular base cards and Essences instead.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+You can right click any card to see it closer. In this state, you can click the arrow buttons (or use the left and right arrow keys) to browse through other cards in that section. If you are browsing the base card library, pressing Enter adds the card to your deck. Click away or press Esc to exit.

@@ -45,7 +45,7 @@ const newId = idGenerator();
 export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
   const [shrine, setShrine] = useState(new ShrineSlot('', ''));
-  const [deck, setDeck] = useState([new DeckSlot('absorbmagic', '')]);
+  const [deck, setDeck] = useState(new Array<DeckSlot>());
 
   function addBaseCard(card: string) {
     setDeck([...deck, new DeckSlot(card, '')]);
