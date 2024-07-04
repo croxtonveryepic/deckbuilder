@@ -1,0 +1,43 @@
+Imagine you are working on a tool related to a trading card game. For it, you will need the metadata for every card. Unfortunately, all that you have to work with are images of the card. What you will be doing is looking at card images and processing the data into JavaScript Objects. This is the schema you choose to use:
+
+```
+enum Element {
+  Air,
+  Dark,
+  Earth,
+  Fire,
+  Light,
+  Water,
+}
+
+class Essence {
+  name: string;
+  filename: string;
+  cost: Element[];
+  text: string;
+  resources: Element[];
+  unlimited: boolean;
+  ccc: number;
+}
+```
+
+Pay close attention to the use of the `Element` enum here, it is an important part of the represetation. Ignore section 4: Additional Stat Bonuses.
+
+So, for Clandestine Essence, the Essence object representation would be this:
+
+```
+
+class Essence {
+  name: 'Clandestine Essence',
+  filename: 'clandestineessence-1',
+  cost: [Element.Dark],
+  text: '(C): Stealth 3.',
+  resources: [Element.Dark],
+  unlimited: false,
+  ccc: '3',
+}
+```
+
+Notice that the `text` field sometime contains a letter embedded in a white circle. As with Clandestine Essence, represent these symbols by surrounding the letter in parentheses. Clandestine Essence features the Element Dark, whose symbol is purple. The other Elements and their colors are: Air (Gray), Earth (Green), Fire (Red), Light (Yellow), and Water (Blue).
+
+In the next prompt, I am going to upload of all the images you will need to analyze. When you are done, put all of the data into a JavaScript array. Are you ready?

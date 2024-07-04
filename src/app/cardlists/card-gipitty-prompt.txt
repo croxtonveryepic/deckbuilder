@@ -1,0 +1,72 @@
+Imagine you are working on a tool related to a trading card game. For it, you will need the metadata for every card. Unfortunately, all that you have to work with are images of the card. What you will be doing is looking at card images and processing the data into JavaScript Objects. This is the schema you choose to use:
+
+```
+enum CardType {
+  Unit,
+  Event,
+  ContinuousEvent,
+  Item,
+  Structure,
+}
+
+enum Element {
+  Air,
+  Dark,
+  Earth,
+  Fire,
+  Light,
+  Water,
+  Neutral,
+}
+
+enum Rarity {
+  Common,
+  Uncommon,
+  Rare,
+  Epic,
+}
+
+class Card {
+  name: string;
+  filename: string;
+  epic: boolean;
+  supertype: CardType;
+  subtype: string;
+  cost: Element[];
+  hp: number;
+  power: number;
+  speed: number;
+  text: string;
+  ccc: number;
+  artist: string;
+  rarity: Rarity;
+}
+```
+
+Pay close attention to the use of `enum`s here, they are an important part of the represetation.
+
+So, for Earth's Elite, the card object representation would be this:
+
+```
+{
+    name: 'Earth\'s Elite',
+    filename: 'earthselite',
+    epic: false,
+    supertype: BaseCardType.Unit,
+    subtype: 'Human Knight',
+    cost: [Element.Neutral, Element.Neutral, Element.Earth, Element.Earth],
+    hp: 4,
+    power: 4,
+    speed: 2,
+    text: '(C): Armor 1. (Armor decreases any damage received by 1.)',
+    ccc: 1,
+    artist: 'Robert Nix',
+    rarity: Rarity.Common,
+  }
+```
+
+Notice that the `text` field sometime contains a letter embedded in a white circle. As with Earth's Elite, represent these symbols by surrounding the letter in parentheses.
+
+Earth's Elite features the Element Earth, whose symbol is green. The other Elements and their colors are: Air (Gray), Dark (Purple), Fire (Red), Light (Yellow), and Water (Blue).
+
+In the next prompt, I am going to upload of all the images you will need to analyze. When you are done, put all of the data into a JavaScript array. Are you ready?
