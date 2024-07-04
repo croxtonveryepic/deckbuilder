@@ -1,0 +1,11 @@
+Imagine you are working on a tool related to a trading card game. For it, you will need the metadata for every card. Unfortunately, all that you have to work with are images of the card. What you will be doing is looking at card images and processing the data into TypeScript Objects. This is the schema you choose to use:
+
+```
+class ShrineImprovement {
+  name: string;
+  filename: string;
+  text: string;
+}
+```
+
+In the next prompt, I am going to upload of all the images you will need to analyze. When you are done, put all of the data into a TypeScript array. Are you ready?
