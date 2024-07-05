@@ -5,25 +5,28 @@ import { ImprovedShrine, ImbuedCard } from './card';
 import { DeckSlot, ShrineSlot } from '../page';
 import { CardModal, DeckModal } from './card-modal';
 import { useState } from 'react';
+import { Shrine } from '../cardlists/shrines';
+import { ShrineImprovement } from '../cardlists/shrine-improvements';
+import { BaseCard } from '../cardlists/base-cards';
+import { Essence } from '../cardlists/essences';
 
 export function ShrineList({
-  card_list,
+  shrines,
   onClickShrine,
 }: {
-  card_list: string[];
-  onClickShrine: (arg0: string) => void;
+  shrines: Shrine[];
+  onClickShrine: (shrine: Shrine) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
 
-  function openModal(card: string) {
-    setModalCard(card_list.indexOf(card));
+  function openModal(shrine: Shrine) {
+    setModalCard(shrines.indexOf(shrine));
   }
 
-  const images = card_list.map((card_name) => (
-    <Grid item key={card_name}>
+  const images = shrines.map((shrine) => (
+    <Grid item key={shrine.filename}>
       <Card
-        card_name={card_name}
-        card_type={CardType.Shrine}
+        card={shrine}
         onClick={onClickShrine}
         onContextMenu={openModal}
       ></Card>
@@ -34,7 +37,7 @@ export function ShrineList({
     <Container>
       <CardModal
         cardType={CardType.Shrine}
-        cardList={card_list}
+        list={shrines}
         activeCard={modalCard}
         setActiveCard={setModalCard}
         onEnter={onClickShrine}
@@ -47,23 +50,22 @@ export function ShrineList({
 }
 
 export function ShrineImprovementList({
-  card_list,
+  shrineImprovements,
   onClickShrineImprovement,
 }: {
-  card_list: string[];
-  onClickShrineImprovement: (arg0: string) => void;
+  shrineImprovements: ShrineImprovement[];
+  onClickShrineImprovement: (shrineImprovement: string) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
 
-  function openModal(card: string) {
-    setModalCard(card_list.indexOf(card));
+  function openModal(shrineImprovement: ShrineImprovement) {
+    setModalCard(shrineImprovements.indexOf(shrineImprovement));
   }
 
-  const images = card_list.map((card_name) => (
-    <Grid className="unbacked-overlay" item key={card_name}>
+  const images = shrineImprovements.map((si) => (
+    <Grid className="unbacked-overlay" item key={si.filename}>
       <Card
-        card_name={card_name}
-        card_type={CardType.ShrineImprovement}
+        card={si}
         onClick={onClickShrineImprovement}
         onContextMenu={openModal}
       ></Card>
@@ -74,7 +76,7 @@ export function ShrineImprovementList({
     <Container>
       <CardModal
         cardType={CardType.ShrineImprovement}
-        cardList={card_list}
+        list={shrineImprovements}
         activeCard={modalCard}
         setActiveCard={setModalCard}
       ></CardModal>
@@ -86,26 +88,21 @@ export function ShrineImprovementList({
 }
 
 export function BaseCardList({
-  card_list,
+  cards,
   onClickBaseCard,
 }: {
-  card_list: string[];
+  cards: BaseCard[];
   onClickBaseCard: (arg0: string) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
 
-  function openModal(card: string) {
-    setModalCard(card_list.indexOf(card));
+  function openModal(card: BaseCard) {
+    setModalCard(cards.indexOf(card));
   }
 
-  const images = card_list.map((card_name) => (
-    <Grid item key={card_name}>
-      <Card
-        card_name={card_name}
-        card_type={CardType.BaseCard}
-        onClick={onClickBaseCard}
-        onContextMenu={openModal}
-      ></Card>
+  const images = cards.map((c) => (
+    <Grid item key={c.filename}>
+      <Card card={c} onClick={onClickBaseCard} onContextMenu={openModal}></Card>
     </Grid>
   ));
 
@@ -113,7 +110,7 @@ export function BaseCardList({
     <Container>
       <CardModal
         cardType={CardType.BaseCard}
-        cardList={card_list}
+        list={cards}
         activeCard={modalCard}
         setActiveCard={setModalCard}
         onEnter={onClickBaseCard}
@@ -125,20 +122,16 @@ export function BaseCardList({
   );
 }
 
-export function EssenceList({ essence_list }: { essence_list: string[] }) {
+export function EssenceList({ essences }: { essences: Essence[] }) {
   const [modalCard, setModalCard] = useState(-1);
 
-  function openModal(card: string) {
-    setModalCard(essence_list.indexOf(card));
+  function openModal(essence: Essence) {
+    setModalCard(essences.indexOf(essence));
   }
 
-  const images = essence_list.map((e) => (
-    <Grid className="unbacked-overlay" item key={e}>
-      <Card
-        card_name={e}
-        card_type={CardType.Essence}
-        onContextMenu={openModal}
-      ></Card>
+  const images = essences.map((e) => (
+    <Grid className="unbacked-overlay" item key={e.filename}>
+      <Card card={e} onContextMenu={openModal}></Card>
     </Grid>
   ));
 
@@ -146,7 +139,7 @@ export function EssenceList({ essence_list }: { essence_list: string[] }) {
     <Container>
       <CardModal
         cardType={CardType.Essence}
-        cardList={essence_list}
+        list={essences}
         activeCard={modalCard}
         setActiveCard={setModalCard}
       ></CardModal>
@@ -194,16 +187,7 @@ export function Deck({
         e.preventDefault();
       }}
     >
-      {c.essence === '' ? (
-        <Card
-          card_name={c.baseCard}
-          card_type={CardType.BaseCard}
-          onClick={() => onClickDeckSlot(c.id)}
-          onContextMenu={(s) => {
-            setModalCard(getIndex(c.id));
-          }}
-        ></Card>
-      ) : (
+      {c.essence ? (
         <ImbuedCard
           card={c.baseCard}
           essence={c.essence}
@@ -212,43 +196,46 @@ export function Deck({
             setModalCard(getIndex(c.id));
           }}
         ></ImbuedCard>
+      ) : (
+        <Card
+          card={c.baseCard}
+          onClick={() => onClickDeckSlot(c.id)}
+          onContextMenu={(s) => {
+            setModalCard(getIndex(c.id));
+          }}
+        ></Card>
       )}
     </Grid>
   ));
 
   let shrine;
-  if (shrineSlot.shrine === '') {
-    shrine =
-      shrineSlot.shrineImprovement === '' ? (
-        <Card
-          card_name={''}
-          card_type={CardType.Placeholder}
-          onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
-        ></Card>
-      ) : (
-        <Card
-          card_name={shrineSlot.shrineImprovement}
-          card_type={CardType.ShrineImprovement}
-          onClick={() => setShrineImprovement('')}
-          onContextMenu={() => setModalCard(-1)}
-        ></Card>
-      );
+  if (shrineSlot.shrine) {
+    shrine = shrineSlot.shrineImprovement ? (
+      <Card
+        card={shrineSlot.shrine}
+        onClick={() => setShrine('')}
+        onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
+      ></Card>
+    ) : (
+      <ImprovedShrine
+        shrineSlot={shrineSlot}
+        onClick={() => setShrineImprovement('')}
+        onContextMenu={() => setModalCard(-1)}
+      ></ImprovedShrine>
+    );
   } else {
-    shrine =
-      shrineSlot.shrineImprovement === '' ? (
-        <Card
-          card_name={shrineSlot.shrine}
-          card_type={CardType.Shrine}
-          onClick={() => setShrine('')}
-          onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
-        ></Card>
-      ) : (
-        <ImprovedShrine
-          shrineSlot={shrineSlot}
-          onClick={() => setShrineImprovement('')}
-          onContextMenu={() => setModalCard(-1)}
-        ></ImprovedShrine>
-      );
+    shrine = shrineSlot.shrineImprovement ? (
+      <Card
+        card={shrineSlot.shrineImprovement}
+        onClick={() => setShrineImprovement('')}
+        onContextMenu={() => setModalCard(-1)}
+      ></Card>
+    ) : (
+      <Card
+        card={{ name: '', filename: '', type: CardType.Placeholder }}
+        onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
+      ></Card>
+    );
   }
 
   return (

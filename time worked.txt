@@ -7,7 +7,7 @@ time worked
 6/29: 10 hours (modal next/prev buttons added and styled, now activates in all sections on right click, now disappears when clicking away, empty slot for shrine)
 6/30: 8 hours (modal now properly displays embued cards and all cases of the shrine slot, cards and shrines can be dragged into the deck, essences and shrine improvements can be dragged onto their respective base cards, essences, improvements, and shrines can be removed by clicking)
 7/3: 6 hours (chat gpt prompt engineering to extract card metadata and cleaning up data)
-7/4: 2 hours (more gpting)
+7/4: 4 hours (more gpting, data cleaning, refactoring components for improved data)
 
 todo:
 modify the deck modal to allow browsing overlay cards

@@ -6,10 +6,13 @@ import {
   BaseCardList,
   EssenceList,
 } from './components/card-list';
-import { base_cards } from './cardlists/base-cards';
-import { shrines } from './cardlists/shrines';
-import { essences } from './cardlists/essences';
-import { shrine_improvements } from './cardlists/shrine-improvements';
+import { baseCards, BaseCard, Element } from './cardlists/base-cards';
+import { shrines, Shrine } from './cardlists/shrines';
+import { essences, Essence } from './cardlists/essences';
+import {
+  shrineImprovements,
+  ShrineImprovement,
+} from './cardlists/shrine-improvements';
 import { CardType, ImprovedShrine } from './components/card';
 import { useState } from 'react';
 import Card from './components/card';
@@ -19,21 +22,21 @@ import Image from 'next/image';
 import { DndContext } from '@dnd-kit/core';
 
 export class ShrineSlot {
-  shrine: string;
-  shrineImprovement: string;
+  shrine: Shrine | null;
+  shrineImprovement: ShrineImprovement | null;
 
-  constructor(shrine: string, improvement: string) {
+  constructor(shrine: Shrine | null, improvement: ShrineImprovement | null) {
     this.shrine = shrine;
     this.shrineImprovement = improvement;
   }
 }
 
 export class DeckSlot {
-  baseCard: string;
-  essence: string;
+  baseCard: BaseCard;
+  essence: Essence | null;
   id: number;
 
-  constructor(baseCard: string, essence: string) {
+  constructor(baseCard: BaseCard, essence: Essence | null) {
     this.baseCard = baseCard;
     this.essence = essence;
     this.id = newId();
@@ -44,11 +47,11 @@ const newId = idGenerator();
 
 export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
-  const [shrine, setShrine] = useState(new ShrineSlot('', ''));
+  const [shrine, setShrine] = useState(new ShrineSlot(null, null));
   const [deck, setDeck] = useState(new Array<DeckSlot>());
 
   function addBaseCard(card: string) {
-    setDeck([...deck, new DeckSlot(card, '')]);
+    setDeck([...deck, new DeckSlot(getCardByFilename(card, baseCards), null)]);
   }
 
   function toggleShrineMode() {
@@ -59,7 +62,7 @@ export default function Home() {
     const c = deck.find((ds) => ds.id === id);
     if (!c) {
       console.warn('missing card');
-    } else if (c.essence === '') {
+    } else if (!c.essence) {
       setDeck(
         deck.filter((card) => {
           return id !== card.id;
@@ -69,7 +72,7 @@ export default function Home() {
       setDeck(
         deck.map((ds) => {
           if (ds.id === id) {
-            return { ...ds, essence: '' };
+            return { ...ds, essence: null };
           } else {
             return ds;
           }
@@ -78,11 +81,17 @@ export default function Home() {
     }
   }
 
+  function getCardByFilename(filename: string, list: any[]) {
+    return list.find((obj) => {
+      return obj.filename === filename;
+    });
+  }
+
   function applyEssence(id: number, essence: string) {
     setDeck(
       deck.map((ds) => {
         if (ds.id === id) {
-          return { ...ds, essence: essence };
+          return { ...ds, essence: getCardByFilename(essence, essences) };
         } else {
           return ds;
         }
@@ -103,10 +112,20 @@ export default function Home() {
             onClickDeckSlot={removeLayer}
             applyEssence={applyEssence}
             setShrine={(s) =>
-              setShrine(new ShrineSlot(s, shrine.shrineImprovement))
+              setShrine(
+                new ShrineSlot(
+                  getCardByFilename(s, shrines),
+                  shrine.shrineImprovement
+                )
+              )
             }
             setShrineImprovement={(si) =>
-              setShrine(new ShrineSlot(shrine.shrine, si))
+              setShrine(
+                new ShrineSlot(
+                  shrine.shrine,
+                  getCardByFilename(si, shrineImprovements)
+                )
+              )
             }
           ></Deck>
         </Container>
@@ -122,12 +141,12 @@ export default function Home() {
           </Container>
           {shrineMode ? (
             <ShrineList
-              card_list={shrines}
-              onClickShrine={(s) => setShrine(new ShrineSlot(s, ''))}
+              shrines={shrines}
+              onClickShrine={(s) => setShrine(new ShrineSlot(s, null))}
             ></ShrineList>
           ) : (
             <BaseCardList
-              card_list={base_cards}
+              cards={baseCards}
               onClickBaseCard={(card_name) => addBaseCard(card_name)}
             ></BaseCardList>
           )}
@@ -138,13 +157,18 @@ export default function Home() {
           </Container>
           {shrineMode ? (
             <ShrineImprovementList
-              card_list={shrine_improvements}
+              shrineImprovements={shrineImprovements}
               onClickShrineImprovement={(si) =>
-                setShrine(new ShrineSlot(shrine.shrine, si))
+                setShrine(
+                  new ShrineSlot(
+                    shrine.shrine,
+                    getCardByFilename(si, shrineImprovements)
+                  )
+                )
               }
             ></ShrineImprovementList>
           ) : (
-            <EssenceList essence_list={essences}></EssenceList>
+            <EssenceList essences={essences}></EssenceList>
           )}
         </Container>
       </DndContext>

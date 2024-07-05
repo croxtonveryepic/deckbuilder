@@ -1,5 +1,6 @@
 import { Element } from './base-cards';
-class Essence {
+import { CardType } from '../components/card';
+export class Essence {
   name: string;
   filename: string;
   cost: Element[];
@@ -10,9 +11,10 @@ class Essence {
   hp: number;
   power: number;
   speed: number;
+  type: CardType;
 }
 
-let essences: Array<Essence> = [
+export const essences: Essence[] = [
   {
     name: 'Advanced Essence',
     filename: 'advancedessence-1',
@@ -24,6 +26,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Air Essence',
@@ -36,6 +39,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Blinding Essence',
@@ -48,6 +52,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Brackish Essence',
@@ -60,6 +65,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Bright Essence',
@@ -72,6 +78,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Brisk Essence',
@@ -84,6 +91,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Burgeoning Essence',
@@ -96,6 +104,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Chilled Essence',
@@ -108,6 +117,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Clouded Essence',
@@ -120,6 +130,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Compelling Essence',
@@ -132,6 +143,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Dark Essence',
@@ -144,6 +156,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Earth Essence',
@@ -156,6 +169,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Air and Dark',
@@ -168,6 +182,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Air and Earth',
@@ -180,6 +195,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Air and Light',
@@ -192,6 +208,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Combat',
@@ -204,6 +221,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Dark and Fire',
@@ -216,6 +234,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Dark and Light',
@@ -228,6 +247,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Dark and Water',
@@ -240,6 +260,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Clandestine Essence',
@@ -252,6 +273,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Earth and Dark',
@@ -264,6 +286,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Earth and Light',
@@ -276,6 +299,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Eternity',
@@ -288,6 +312,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Evasion',
@@ -300,6 +325,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Fire and Air',
@@ -312,6 +338,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Fire and Earth',
@@ -324,6 +351,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Fire and Water',
@@ -336,6 +364,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Life',
@@ -348,6 +377,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Light and Fire',
@@ -360,6 +390,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Light and Water',
@@ -372,6 +403,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Might',
@@ -384,6 +416,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Opportunity',
@@ -396,6 +429,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Precision',
@@ -408,6 +442,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Stealth',
@@ -420,6 +455,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Surprise',
@@ -432,6 +468,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Swiftness',
@@ -444,6 +481,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of the Bounty',
@@ -456,6 +494,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of the Guardian',
@@ -468,6 +507,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Water and Air',
@@ -480,6 +520,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Essence of Water and Earth',
@@ -492,6 +533,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Fire Essence',
@@ -504,6 +546,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Frenzied Essence',
@@ -516,6 +559,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Fresh Essence',
@@ -528,6 +572,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Gloomy Essence',
@@ -540,6 +585,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Hostile Essence',
@@ -552,6 +598,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Infused Air Essence',
@@ -564,6 +611,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Infused Dark Essence',
@@ -576,6 +624,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Infused Earth Essence',
@@ -588,6 +637,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Infused Fire Essence',
@@ -600,6 +650,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Infused Light Essence',
@@ -612,6 +663,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Infused Water Essence',
@@ -624,6 +676,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Ingenious Essence',
@@ -636,6 +689,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Light Essence',
@@ -648,6 +702,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Loyal Essence',
@@ -660,6 +715,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Martial Essence',
@@ -672,6 +728,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Pure Air Essence',
@@ -684,6 +741,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Pure Dark Essence',
@@ -696,6 +754,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Pure Earth Essence',
@@ -708,6 +767,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Pure Fire Essence',
@@ -720,6 +780,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Pure Light Essence',
@@ -732,6 +793,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Pure Water Essence',
@@ -744,6 +806,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Razing Essence',
@@ -756,6 +819,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Rebellious Essence',
@@ -768,6 +832,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Reflective Essence',
@@ -780,6 +845,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Rushing Essence',
@@ -792,6 +858,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Shadowy Essence',
@@ -804,6 +871,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Slick Essence',
@@ -816,6 +884,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Smoldering Essence',
@@ -828,6 +897,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Soulful',
@@ -840,6 +910,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Soulless',
@@ -852,6 +923,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Staunch Essence',
@@ -864,6 +936,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Steaming Essence',
@@ -876,6 +949,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Thriving Essence',
@@ -888,6 +962,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Timeworn Essence',
@@ -900,6 +975,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Torrid Essence',
@@ -912,6 +988,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Vehement Essence',
@@ -924,6 +1001,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Warding Essence',
@@ -936,6 +1014,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Water Essence',
@@ -948,6 +1027,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Whispering Essence',
@@ -960,6 +1040,7 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
   {
     name: 'Wicked Essence',
@@ -972,5 +1053,6 @@ let essences: Array<Essence> = [
     hp: 0,
     power: 0,
     speed: 0,
+    type: CardType.Essence,
   },
 ];

@@ -3,6 +3,8 @@ import { Container } from '@mui/material';
 import { ShrineSlot } from '../page';
 import { useDroppable, useDraggable } from '@dnd-kit/core';
 import { green } from '@mui/material/colors';
+import { BaseCard } from '../cardlists/base-cards';
+import { Essence } from '../cardlists/essences';
 
 export enum CardType {
   Shrine = 'shrines',
@@ -12,27 +14,31 @@ export enum CardType {
   Placeholder = 'placeholder',
 }
 
+export class DisplayData {
+  name: string;
+  filename: string;
+  type: CardType;
+}
+
 export default function Card({
-  card_name,
-  card_type,
+  card,
   onClick,
   onContextMenu,
 }: {
-  card_name: string;
-  card_type: CardType;
-  onClick?: (arg0: string) => void;
-  onContextMenu?: (arg0: string) => void;
+  card: DisplayData;
+  onClick?: (card: any) => void;
+  onContextMenu?: (card: any) => void;
 }) {
   let path, alt, className;
-  if (card_type === CardType.Placeholder) {
+  if (card.type === CardType.Placeholder) {
     path = '/assets/misc/card-shaped-logo.png';
     alt = 'placeholder';
     className = 'card unbacked-overlay';
   } else {
-    path = '/assets/' + card_type + '/' + card_name + '.png';
-    alt = card_name;
+    path = '/assets/' + card.type + '/' + card.filename + '.png';
+    alt = card.name;
     className =
-      card_type === CardType.Essence || card_type === CardType.ShrineImprovement
+      card.type === CardType.Essence || card.type === CardType.ShrineImprovement
         ? 'card unbacked-overlay'
         : 'card';
   }
@@ -42,19 +48,19 @@ export default function Card({
       draggable
       onDragStart={(e) => {
         // e.dataTransfer.dropEffect = 'move';
-        e.dataTransfer.setData('card', card_name);
-        e.dataTransfer.setData('type', card_type);
+        e.dataTransfer.setData('card', card.filename);
+        e.dataTransfer.setData('type', card.type);
       }}
     >
       <Image
         src={path}
-        alt={card_name}
+        alt={card.name}
         width="145"
         height="203"
-        onClick={(e) => onClick && onClick(card_name)}
+        onClick={(e) => onClick && onClick(card)}
         onContextMenu={(e) => {
           e.preventDefault();
-          onContextMenu && onContextMenu(card_name);
+          onContextMenu && onContextMenu(card);
         }}
       />
     </div>
@@ -74,8 +80,8 @@ export function ImprovedShrine({
     <Container className="card">
       <Image
         className="base-card"
-        src={'/assets/shrines/' + shrineSlot.shrine + '.png'}
-        alt={shrineSlot.shrine}
+        src={'/assets/shrines/' + shrineSlot.shrine?.filename + '.png'}
+        alt={shrineSlot.shrine?.name || ''}
         width="145"
         height="203"
       />
@@ -84,7 +90,7 @@ export function ImprovedShrine({
         src={
           '/assets/shrine-improvements/' + shrineSlot.shrineImprovement + '.png'
         }
-        alt={shrineSlot.shrineImprovement}
+        alt={shrineSlot.shrineImprovement?.name || ''}
         width="145"
         height="203"
         onClick={(e) => onClick && onClick()}
@@ -103,8 +109,8 @@ export function ImbuedCard({
   onClick,
   onContextMenu,
 }: {
-  card: string;
-  essence: string;
+  card: BaseCard;
+  essence: Essence;
   onClick?: () => void;
   onContextMenu?: () => void;
 }) {
@@ -112,15 +118,15 @@ export function ImbuedCard({
     <Container className="card">
       <Image
         className="base-card"
-        src={'/assets/base-cards/' + card + '.png'}
-        alt={card}
+        src={'/assets/base-cards/' + card.filename + '.png'}
+        alt={card.name}
         width="145"
         height="203"
       />
       <Image
         className="overlay"
-        src={'/assets/essences/' + essence + '.png'}
-        alt={essence}
+        src={'/assets/essences/' + essence.filename + '.png'}
+        alt={essence.name}
         width="145"
         height="203"
         onClick={(e) => onClick && onClick()}
