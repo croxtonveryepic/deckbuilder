@@ -1,4 +1,4 @@
-import { Element } from './base-cards';
+import { BaseCard, BaseCardType, Element } from './base-cards';
 import { CardType } from '../components/card';
 export class Essence {
   name: string;
@@ -12,14 +12,15 @@ export class Essence {
   power: number;
   speed: number;
   type: CardType;
+  isValidBase: (c: BaseCard) => boolean;
 }
 
 export const essences: Essence[] = [
   {
     name: 'Advanced Essence',
     filename: 'advancedessence-1',
-    cost: [Element.Dark],
-    text: '(R): Enters exhausted.\n(S): When this Card resolves, Surge 1.\n(C): +2 Initiative.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.\n (C): +2 Initiative.',
     resources: [Element.Dark, Element.Earth],
     unlimited: false,
     ccc: 2,
@@ -27,6 +28,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Air Essence',
@@ -40,6 +44,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Blinding Essence',
@@ -51,14 +58,17 @@ export const essences: Essence[] = [
     ccc: 0,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 3,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Air) >= 0;
+    },
   },
   {
     name: 'Brackish Essence',
     filename: 'brackishessence-1',
-    cost: [Element.Water],
-    text: '(R): Enters exhausted.\n(S): Eventbound: Evasion 1.\n(C): Evasion 1.\n(C): +2 Initiative.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.\n (C): +2 Initiative.',
     resources: [Element.Water, Element.Dark],
     unlimited: false,
     ccc: 2,
@@ -66,38 +76,47 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Bright Essence',
     filename: 'brightessence-1',
-    cost: [Element.Fire],
+    cost: [Element.Neutral],
     text: '(R): Enters exhausted.',
     resources: [Element.Fire, Element.Light],
     unlimited: false,
     ccc: 2,
-    hp: 0,
-    power: 0,
+    hp: 1,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Brisk Essence',
     filename: 'briskessence-1',
-    cost: [Element.Light],
+    cost: [Element.Neutral],
     text: '(R): Enters exhausted.',
     resources: [Element.Light, Element.Air],
     unlimited: false,
     ccc: 2,
-    hp: 0,
+    hp: 1,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Burgeoning Essence',
     filename: 'burgeoningessence-1',
-    cost: [Element.Earth],
-    text: "(S): When this Card resolves, Surge 1.\n(S): When this Card resolves, move up to one target (D) Card to the bottom of its owner's deck.",
+    cost: [],
+    text: "(S): When this Card resolves, Surge 1.\n (S): When this Card resolves, move up to one target (D) Card to the bottom of its owner's deck.",
     resources: [Element.Earth],
     unlimited: false,
     ccc: 3,
@@ -105,32 +124,57 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Chilled Essence',
     filename: 'chilledessence-1',
-    cost: [Element.Water],
-    text: '(R): Enters exhausted.\n(S): Eventbound: Evasion 1.\n(C): Evasion 1.',
-    resources: [Element.Water, Element.Air],
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.',
+    resources: [Element.Air, Element.Water],
     unlimited: false,
     ccc: 2,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
+  },
+  {
+    name: 'Clandestine Essence',
+    filename: 'clandestineessence-1',
+    cost: [Element.Dark],
+    text: '(C): Stealth 3.',
+    resources: [Element.Dark],
+    unlimited: false,
+    ccc: 3,
+    hp: 0,
+    power: 0,
+    speed: 1,
+    type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Clouded Essence',
     filename: 'cloudedessence-1',
-    cost: [Element.Air],
+    cost: [],
     text: '(S): When this Card resolves, draw a Card then discard a Card.',
     resources: [Element.Air],
     unlimited: false,
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Compelling Essence',
@@ -142,8 +186,11 @@ export const essences: Essence[] = [
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Dark Essence',
@@ -157,6 +204,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Earth Essence',
@@ -170,6 +220,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Air and Dark',
@@ -183,6 +236,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Air and Earth',
@@ -196,6 +252,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Air and Light',
@@ -209,6 +268,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Combat',
@@ -218,10 +280,13 @@ export const essences: Essence[] = [
     resources: [Element.Fire],
     unlimited: false,
     ccc: 3,
-    hp: 0,
-    power: 0,
-    speed: 0,
+    hp: 1,
+    power: 1,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Dark and Fire',
@@ -235,6 +300,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Dark and Light',
@@ -248,6 +316,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Dark and Water',
@@ -261,19 +332,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
-  },
-  {
-    name: 'Clandestine Essence',
-    filename: 'clandestineessence-1',
-    cost: [Element.Dark],
-    text: '(C): Stealth 3.',
-    resources: [Element.Dark],
-    unlimited: false,
-    ccc: 3,
-    hp: 0,
-    power: 0,
-    speed: 0,
-    type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Earth and Dark',
@@ -287,6 +348,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Earth and Light',
@@ -300,6 +364,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Eternity',
@@ -313,12 +380,15 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Evasion',
     filename: 'essenceofevasion-1',
-    cost: [Element.Water],
-    text: '(S): Eventbound: Evasion 2.\n(C): Evasion 2.',
+    cost: [],
+    text: '(S): Eventbound: Evasion 2.\n (C): Evasion 2.',
     resources: [Element.Water],
     unlimited: false,
     ccc: 4,
@@ -326,6 +396,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Fire and Air',
@@ -339,6 +412,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Fire and Earth',
@@ -352,6 +428,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Fire and Water',
@@ -365,6 +444,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Life',
@@ -374,10 +456,13 @@ export const essences: Essence[] = [
     resources: [Element.Light],
     unlimited: false,
     ccc: 4,
-    hp: 0,
+    hp: 2,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Light and Fire',
@@ -391,6 +476,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Light and Water',
@@ -404,6 +492,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Might',
@@ -414,14 +505,17 @@ export const essences: Essence[] = [
     unlimited: false,
     ccc: 4,
     hp: 0,
-    power: 0,
+    power: 2,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Opportunity',
     filename: 'essenceofopportunity-1',
-    cost: [Element.Dark],
+    cost: [],
     text: '(C): +4 Initiative.',
     resources: [Element.Dark],
     unlimited: false,
@@ -430,11 +524,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Precision',
     filename: 'essenceofprecision-1',
-    cost: [Element.Fire],
+    cost: [],
     text: '(S)(C): Accuracy.',
     resources: [Element.Fire],
     unlimited: false,
@@ -443,50 +540,62 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Stealth',
     filename: 'essenceofstealth-1',
-    cost: [Element.Water],
+    cost: [],
     text: '(C): Stealth 1.',
     resources: [Element.Water],
     unlimited: false,
     ccc: 2,
     hp: 0,
-    power: 0,
+    power: -1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Surprise',
     filename: 'essenceofsurprise-1',
-    cost: [Element.Dark],
+    cost: [],
     text: '(R): You may play this Card as the first action of the turn.',
     resources: [Element.Dark],
     unlimited: false,
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Swiftness',
     filename: 'essenceofswiftness-1',
-    cost: [Element.Air],
+    cost: [],
     text: '',
     resources: [Element.Air],
     unlimited: false,
     ccc: 4,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 2,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of the Bounty',
     filename: 'essenceofthebounty-1',
-    cost: [Element.Earth],
+    cost: [],
     text: '(S): When this Card resolves, Surge 2.',
     resources: [Element.Earth],
     unlimited: false,
@@ -495,12 +604,15 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of the Guardian',
     filename: 'essenceoftheguardian-1',
-    cost: [Element.Earth],
-    text: '(C): Armor 1.\n(C): While defending, this Card gains Armor 1.',
+    cost: [],
+    text: '(C): Armor 1.\n (C): While defending, this Card gains Armor 1.',
     resources: [Element.Earth],
     unlimited: false,
     ccc: 4,
@@ -508,11 +620,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Water and Air',
     filename: 'essenceofwaterandair-1',
-    cost: [Element.Water, Element.Air],
+    cost: [],
     text: '',
     resources: [Element.Water, Element.Air],
     unlimited: false,
@@ -521,11 +636,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Essence of Water and Earth',
     filename: 'essenceofwaterandearth-1',
-    cost: [Element.Water, Element.Earth],
+    cost: [],
     text: '',
     resources: [Element.Water, Element.Earth],
     unlimited: false,
@@ -534,11 +652,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Fire Essence',
     filename: 'fireessence-1',
-    cost: [Element.Fire],
+    cost: [],
     text: '',
     resources: [Element.Fire],
     unlimited: true,
@@ -547,11 +668,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Frenzied Essence',
     filename: 'frenziedessence-1',
-    cost: [Element.Air],
+    cost: [],
     text: 'This Card gains the subtype Barbarian. (C): When you discard a Card, this Card gains +1 Pwr until the end of turn.',
     resources: [Element.Air],
     unlimited: false,
@@ -560,63 +684,78 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.supertype === BaseCardType.Unit;
+    },
   },
   {
     name: 'Fresh Essence',
     filename: 'freshessence-1',
-    cost: [Element.Light],
-    text: '(R): Enters exhausted. (S): When this Card resolves, Surge 1.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.',
     resources: [Element.Light, Element.Earth],
     unlimited: false,
     ccc: 2,
-    hp: 0,
+    hp: 1,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Gloomy Essence',
     filename: 'gloomyessence-1',
-    cost: [Element.Dark],
-    text: '(R): Enters exhausted. (C): +2 Initiative.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (C): +2 Initiative.',
     resources: [Element.Dark, Element.Air],
     unlimited: false,
     ccc: 2,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Hostile Essence',
     filename: 'hostileessence-1',
-    cost: [Element.Fire],
-    text: '(R): Enters exhausted. (S): When this Card resolves, Surge 1.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.',
     resources: [Element.Earth, Element.Fire],
     unlimited: false,
     ccc: 2,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Infused Air Essence',
     filename: 'infusedairessence-1',
-    cost: [Element.Air],
+    cost: [],
     text: '',
     resources: [Element.Air],
     unlimited: true,
     ccc: 2,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Infused Dark Essence',
     filename: 'infuseddarkessence-1',
-    cost: [Element.Dark],
+    cost: [],
     text: '(C): +2 Initiative.',
     resources: [Element.Dark],
     unlimited: true,
@@ -625,11 +764,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Infused Earth Essence',
     filename: 'infusedearthessence-1',
-    cost: [Element.Earth],
+    cost: [],
     text: '(S): When this Card resolves, Surge 1.',
     resources: [Element.Earth],
     unlimited: true,
@@ -638,38 +780,47 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Infused Fire Essence',
     filename: 'infusedfireessence-1',
-    cost: [Element.Fire],
+    cost: [],
     text: '',
     resources: [Element.Fire],
     unlimited: true,
     ccc: 2,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Infused Light Essence',
     filename: 'infusedlightessence-1',
-    cost: [Element.Light],
+    cost: [],
     text: '',
     resources: [Element.Light],
     unlimited: true,
     ccc: 2,
-    hp: 0,
+    hp: 1,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Infused Water Essence',
     filename: 'infusedwateressence-1',
-    cost: [Element.Water],
-    text: '(S): Eventbound: Evasion 1. (C): Evasion 1.',
+    cost: [],
+    text: '(S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Water],
     unlimited: true,
     ccc: 2,
@@ -677,24 +828,33 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Ingenious Essence',
     filename: 'ingeniousessence-1',
-    cost: [Element.Light],
+    cost: [],
     text: '',
     resources: [Element.Light],
     unlimited: false,
     ccc: 1,
-    hp: 0,
-    power: 0,
-    speed: 0,
+    hp: 1,
+    power: 1,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return (
+        c.supertype === BaseCardType.Structure ||
+        c.supertype === BaseCardType.Item
+      );
+    },
   },
   {
     name: 'Light Essence',
     filename: 'lightessence-1',
-    cost: [Element.Light],
+    cost: [],
     text: '',
     resources: [Element.Light],
     unlimited: true,
@@ -703,51 +863,63 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Loyal Essence',
     filename: 'loyalessence-1',
-    cost: [Element.Earth],
+    cost: [],
     text: 'This Card gains the subtype Knight.',
     resources: [Element.Earth],
-    unlimited: false,
+    unlimited: true,
     ccc: 0,
     hp: 0,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.supertype === BaseCardType.Unit;
+    },
   },
   {
     name: 'Martial Essence',
     filename: 'martialessence-1',
-    cost: [Element.Light],
+    cost: [],
     text: '(S): When this Card resolves, you may Link target (C) Item you control to target (C) Unit.',
     resources: [Element.Light],
     unlimited: false,
     ccc: 2,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Pure Air Essence',
     filename: 'pureairessence-1',
-    cost: [Element.Air],
+    cost: [],
     text: '(S): When this Card resolves, you may discard a Card, if you do, exhaust target (C) Unit.',
     resources: [Element.Air],
     unlimited: false,
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Air) >= 0;
+    },
   },
   {
     name: 'Pure Dark Essence',
     filename: 'puredarkessence-1',
-    cost: [Element.Dark],
-    text: '(S): When this Card resolves, if it was played as the first action of the turn, draw a Card. (C): +2 Initiative.',
+    cost: [],
+    text: '(S): When this Card resolves, if it was played as the first action of the turn, draw a Card.\n (C): +2 Initiative.',
     resources: [Element.Dark],
     unlimited: false,
     ccc: 3,
@@ -755,12 +927,15 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Dark) >= 0;
+    },
   },
   {
     name: 'Pure Earth Essence',
     filename: 'pureearthessence-1',
-    cost: [Element.Earth],
-    text: '(S): When this Card resolves, Surge 1. (C): When this Card is destroyed, place it into your resource zone exhausted.',
+    cost: [],
+    text: '(S): When this Card resolves, Surge 1.\n (C): When this Card is destroyed, place it into your resource zone exhausted.',
     resources: [Element.Earth],
     unlimited: false,
     ccc: 3,
@@ -768,38 +943,47 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Earth) >= 0;
+    },
   },
   {
     name: 'Pure Fire Essence',
     filename: 'purefireessence-1',
-    cost: [Element.Fire],
+    cost: [],
     text: '(S): When this Card resolves, deal 1 damage to target (C) Structure.',
     resources: [Element.Fire],
     unlimited: false,
     ccc: 3,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Fire) >= 0;
+    },
   },
   {
     name: 'Pure Light Essence',
     filename: 'purelightessence-1',
-    cost: [Element.Light],
+    cost: [],
     text: '(S): When this Card resolves, heal 2 damage from target (C) Card.',
     resources: [Element.Light],
     unlimited: false,
     ccc: 3,
-    hp: 0,
+    hp: 1,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Light) >= 0;
+    },
   },
   {
     name: 'Pure Water Essence',
     filename: 'purewateressence',
-    cost: [Element.Water],
-    text: "(S): Eventbound: Evasion 3 during your action.\n(C): Evasion 3 during opponents' actions.",
+    cost: [],
+    text: "(S): Eventbound: Evasion 3 during your action.\n (C): Evasion 3 during opponents' actions.",
     resources: [Element.Water],
     unlimited: false,
     ccc: 3,
@@ -807,11 +991,14 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.pips.indexOf(Element.Water) >= 0;
+    },
   },
   {
     name: 'Razing Essence',
     filename: 'razingessence-1',
-    cost: [Element.Fire],
+    cost: [],
     text: '(S)(C): Damage dealt to an Enemy Shrine by this Card is increased by 2.',
     resources: [Element.Fire],
     unlimited: false,
@@ -820,32 +1007,41 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Rebellious Essence',
     filename: 'rebelliousessence-1',
-    cost: [Element.Fire],
+    cost: [],
     text: '(C): Sworn Enemy Soldier: +1 Spd and +1 Pwr.',
     resources: [Element.Fire],
     unlimited: false,
     ccc: 3,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Reflective Essence',
     filename: 'reflectiveessence-1',
-    cost: [Element.Water, Element.Light],
-    text: '(R): Enters exhausted.\n(S): Eventbound: Evasion 1.\n(C): Evasion 1.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Water, Element.Light],
     unlimited: false,
     ccc: 2,
-    hp: 0,
+    hp: 1,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Rushing Essence',
@@ -857,53 +1053,65 @@ export const essences: Essence[] = [
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.supertype === BaseCardType.Event;
+    },
   },
   {
     name: 'Shadowy Essence',
     filename: 'shadowyessence-1',
-    cost: [Element.Light, Element.Dark],
-    text: '(R): Enters exhausted.\n(C): +2 Initiative.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (C): +2 Initiative.',
     resources: [Element.Light, Element.Dark],
     unlimited: false,
     ccc: 2,
-    hp: 0,
+    hp: 1,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Slick Essence',
     filename: 'slickessence-1',
-    cost: [Element.Dark],
+    cost: [],
     text: '(C): +1 Initiative.',
     resources: [Element.Dark],
     unlimited: false,
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Smoldering Essence',
     filename: 'smolderingessence-1',
-    cost: [Element.Fire, Element.Dark],
-    text: '(R): Enters exhausted.\n(C): +2 Initiative.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (C): +2 Initiative.',
     resources: [Element.Fire, Element.Dark],
     unlimited: false,
     ccc: 2,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Soulful',
     filename: 'soulful-1',
     cost: [],
-    text: 'This Essence is all Elements.\n(R): Produce a Soul that any other Card in your resource zone could produce.',
+    text: 'This Essence is all Elements.\n (R): (tap): Produce a Soul that any other Card in your resource zone could produce.',
     resources: [],
     unlimited: false,
     ccc: 4,
@@ -911,25 +1119,31 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Soulless',
     filename: 'soulless-1',
     cost: [],
-    text: 'This Card has no Element.\n(S): When this Card resolves, an opponent of your choice may draw a Card.',
-    resources: [],
+    text: 'This Card has no Element.\n (S): When this Card resolves, an opponent of your choice may draw a Card.',
+    resources: [Element.Neutral],
     unlimited: false,
     ccc: 5,
-    hp: 0,
-    power: 0,
-    speed: 0,
+    hp: 1,
+    power: 1,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Staunch Essence',
     filename: 'staunchessence',
-    cost: [Element.Water],
-    text: 'This Card gains the subtype Soldier.\n(C): Evasion 1.\n(C): When this Card is destroyed, you may deal 1 damage to target (C) Unit.',
+    cost: [],
+    text: 'This Card gains the subtype Soldier.\n (C): Evasion 1.\n (C): When this Card is destroyed, you may deal 1 damage to target (C) Unit.',
     resources: [Element.Water],
     unlimited: false,
     ccc: 3,
@@ -937,25 +1151,31 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return c.supertype === BaseCardType.Unit;
+    },
   },
   {
     name: 'Steaming Essence',
     filename: 'steamingessence-1',
-    cost: [Element.Water, Element.Fire],
-    text: '(R): Enters exhausted.\n(S): Eventbound: Evasion 1.\n(C): Evasion 1.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Water, Element.Fire],
     unlimited: false,
     ccc: 2,
     hp: 0,
-    power: 0,
+    power: 1,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Thriving Essence',
     filename: 'thrivingessence-1',
-    cost: [Element.Earth, Element.Water],
-    text: '(R): Enters exhausted.\n(S): When this Card resolves, Surge 1.\n(S): Eventbound: Evasion 1.\n(C): Evasion 1.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.\n (S): Eventbound: Evasion 1.\n(C): Evasion 1.',
     resources: [Element.Earth, Element.Water],
     unlimited: false,
     ccc: 2,
@@ -963,32 +1183,41 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Timeworn Essence',
     filename: 'timewornessence-1',
-    cost: [Element.Earth, Element.Air],
-    text: '(R): Enters exhausted.\n(S): When this Card resolves, Surge 1.',
+    cost: [Element.Neutral],
+    text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.',
     resources: [Element.Earth, Element.Air],
     unlimited: false,
     ccc: 2,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Torrid Essence',
     filename: 'torridessence-1',
-    cost: [Element.Air, Element.Fire],
+    cost: [Element.Neutral],
     text: '(R): Enters exhausted.',
     resources: [Element.Air, Element.Fire],
     unlimited: false,
     ccc: 2,
     hp: 0,
-    power: 0,
-    speed: 0,
+    power: 1,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Vehement Essence',
@@ -1002,24 +1231,30 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Warding Essence',
     filename: 'wardingessence-1',
-    cost: [Element.Light],
+    cost: [],
     text: '(C): This Card may defend as if it had Stealth 1.',
     resources: [Element.Light],
     unlimited: false,
     ccc: 3,
-    hp: 0,
+    hp: 1,
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Water Essence',
     filename: 'wateressence-1',
-    cost: [Element.Water],
+    cost: [],
     text: '',
     resources: [Element.Water],
     unlimited: true,
@@ -1028,6 +1263,9 @@ export const essences: Essence[] = [
     power: 0,
     speed: 0,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Whispering Essence',
@@ -1039,20 +1277,28 @@ export const essences: Essence[] = [
     ccc: 3,
     hp: 0,
     power: 0,
-    speed: 0,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return true;
+    },
   },
   {
     name: 'Wicked Essence',
     filename: 'wickedessence-1',
-    cost: [Element.Dark],
+    cost: [],
     text: '',
     resources: [Element.Dark],
     unlimited: false,
     ccc: 1,
     hp: 0,
-    power: 0,
-    speed: 0,
+    power: 1,
+    speed: 1,
     type: CardType.Essence,
+    isValidBase: (c) => {
+      return (
+        c.supertype === BaseCardType.Event && c.pips.indexOf(Element.Dark) >= 0
+      );
+    },
   },
 ];

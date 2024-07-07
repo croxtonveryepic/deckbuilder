@@ -8,8 +8,11 @@ time worked
 6/30: 8 hours (modal now properly displays embued cards and all cases of the shrine slot, cards and shrines can be dragged into the deck, essences and shrine improvements can be dragged onto their respective base cards, essences, improvements, and shrines can be removed by clicking)
 7/3: 6 hours (chat gpt prompt engineering to extract card metadata and cleaning up data)
 7/4: 4 hours (more gpting, data cleaning, refactoring components for improved data)
+7/5: 5 hours (more refactoring and cleaing up base card data)
+7/6: 6 hours (clean up essence, shrine, and improvement data, isValid funcs)
 
 todo:
+code for soulful and soulless
 modify the deck modal to allow browsing overlay cards
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity
 holding space on the modal should 'peek' the deck by lowering opacity on the image(s)
