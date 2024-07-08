@@ -4,7 +4,7 @@ import { CardType } from '../components/card';
 export class Shrine {
   name: string;
   filename: string;
-  indentity: Element;
+  identity: Element;
   hp: number;
   power: number;
   speed: number;
@@ -18,7 +18,7 @@ export let shrines: Shrine[] = [
   {
     name: 'Hall of Shadows - Crooked Cornerstone',
     filename: 'hallofshadowscrookedcornerstone',
-    indentity: Element.Dark,
+    identity: Element.Dark,
     hp: 19,
     power: 0,
     speed: 0,
@@ -30,7 +30,7 @@ export let shrines: Shrine[] = [
   {
     name: "Hallowed Ground - Stranger's First Sighting",
     filename: 'hallowedgroundstrangersfirstsighting',
-    indentity: Element.Light,
+    identity: Element.Light,
     hp: 25,
     power: 0,
     speed: 0,
@@ -42,7 +42,7 @@ export let shrines: Shrine[] = [
   {
     name: 'Mikiri Ravine - First Stronghold',
     filename: 'mikiriravinefirststronghold',
-    indentity: Element.Fire,
+    identity: Element.Fire,
     hp: 17,
     power: 0,
     speed: 0,
@@ -54,7 +54,7 @@ export let shrines: Shrine[] = [
   {
     name: 'Temple in the Skies - Pilgrimage Terminus',
     filename: 'templeintheskiespilgrimageterminus',
-    indentity: Element.Air,
+    identity: Element.Air,
     hp: 21,
     power: 0,
     speed: 0,
@@ -66,7 +66,7 @@ export let shrines: Shrine[] = [
   {
     name: 'The Great Oak - Fabled Guardian',
     filename: 'thegreatoakfabledguardian',
-    indentity: Element.Earth,
+    identity: Element.Earth,
     hp: 21,
     power: 0,
     speed: 0,
@@ -78,7 +78,7 @@ export let shrines: Shrine[] = [
   {
     name: "Unseen City - D'Marque Control",
     filename: 'unseencitydmarquecontrol',
-    indentity: Element.Water,
+    identity: Element.Water,
     hp: 20,
     power: 0,
     speed: 0,

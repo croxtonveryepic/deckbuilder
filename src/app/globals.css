@@ -88,12 +88,114 @@ body {
 }
 
 .base-card-container .base-card-widget-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   position: relative;
-  height: 12%;
-  width: 22.6%;
+  /* height: 12%; */
   top: 0;
   left: 0;
   padding: 0;
+}
+
+.base-card-widget-container .search-filter-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+.base-card-widget-container .search-filter-container .query {
+  flex-grow: 1;
+}
+
+.base-card-widget-container .type-rarity-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+.base-card-widget-container .type-rarity-container > div {
+  flex-grow: 1;
+}
+
+.base-card-widget-container .element-filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  /* flex-grow: 1; */
+}
+
+.base-card-widget-container .element-filter .element-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.base-card-widget-container
+  .element-filter
+  .element-button-container
+  button
+  img {
+  padding: 4px;
+}
+
+.base-card-widget-container
+  .element-filter
+  .element-button-container
+  button.selected
+  img {
+  padding: 0;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: black;
+  border-width: 4px;
+  box-sizing: border-box;
+}
+
+.base-card-widget-container .cost-filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.base-card-widget-container .mana-pip {
+  position: relative;
+  max-width: 12.5%;
+  font-weight: bolder;
+  margin: 2px;
+}
+
+.base-card-widget-container .pip-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.base-card-widget-container .mana-pip.selected .circle {
+  background-color: aqua;
+}
+
+.base-card-widget-container .mana-pip.highlighted .circle {
+  background-color: greenyellow;
+}
+
+.base-card-widget-container .mana-pip .circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  background-color: grey;
+  align-content: center;
 }
 
 .overlay-card-container {

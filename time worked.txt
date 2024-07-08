@@ -10,19 +10,15 @@ time worked
 7/4: 4 hours (more gpting, data cleaning, refactoring components for improved data)
 7/5: 5 hours (more refactoring and cleaing up base card data)
 7/6: 6 hours (clean up essence, shrine, and improvement data, isValid funcs)
+7/7: 10 hours (fixed refactoring bugs & touching up, added components for filtering base cards by query string, type, rarity, identity, and cost)
 
 todo:
+sorting
+legality of dragging
+modal peeking
 code for soulful and soulless
 modify the deck modal to allow browsing overlay cards
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity
-holding space on the modal should 'peek' the deck by lowering opacity on the image(s)
-add filters:
-    base card type (dropdown)
-    colors (6 symbols, plus AND/OR toggle)
-    converted mana cost (like hearthstone crystals, plus dragging)
-    spell speed
-    ccc
-    epic
 essence filters
     colors (6 symbols, plus AND/OR toggle)
     stat modifiers (speed, attach, health, mana)

@@ -131,45 +131,16 @@ export function DeckModal({
   } else {
     if (activeCard === -1) {
       // 4 cases here, both shrine and improvement can be present or missing
-      if (!shrineSlot.shrineImprovement) {
-        image = !shrineSlot.shrine ? (
-          <Image
-            className="logo-card"
-            src="/assets/misc/card-shaped-logo.png"
-            alt="placeholder"
-            width="739"
-            height="1035"
-          ></Image>
-        ) : (
-          <Image
-            src={
-              '/assets/' + CardType.Shrine + '/' + shrineSlot.shrine + '.png'
-            }
-            alt={shrineSlot.shrine.name}
-            width="739"
-            height="1035"
-          />
-        );
-      } else {
-        image = !shrineSlot.shrine ? (
-          <Image
-            className="unbacked-overlay"
-            src={
-              '/assets/' +
-              CardType.ShrineImprovement +
-              '/' +
-              shrineSlot.shrineImprovement +
-              '.png'
-            }
-            alt={shrineSlot.shrineImprovement.name}
-            width="739"
-            height="1035"
-          />
-        ) : (
+      if (shrineSlot.shrineImprovement) {
+        image = shrineSlot.shrine ? (
           <div className="overlayed-modal">
             <Image
               src={
-                '/assets/' + CardType.Shrine + '/' + shrineSlot.shrine + '.png'
+                '/assets/' +
+                CardType.Shrine +
+                '/' +
+                shrineSlot.shrine.filename +
+                '.png'
               }
               alt={shrineSlot.shrine.name}
               width="739"
@@ -180,7 +151,7 @@ export function DeckModal({
                 '/assets/' +
                 CardType.ShrineImprovement +
                 '/' +
-                shrineSlot.shrineImprovement +
+                shrineSlot.shrineImprovement.filename +
                 '.png'
               }
               alt={shrineSlot.shrineImprovement.name}
@@ -189,33 +160,81 @@ export function DeckModal({
               className="overlay"
             />
           </div>
+        ) : (
+          <Image
+            className="unbacked-overlay"
+            src={
+              '/assets/' +
+              CardType.ShrineImprovement +
+              '/' +
+              shrineSlot.shrineImprovement.filename +
+              '.png'
+            }
+            alt={shrineSlot.shrineImprovement.name}
+            width="739"
+            height="1035"
+          />
+        );
+      } else {
+        image = shrineSlot.shrine ? (
+          <Image
+            src={
+              '/assets/' +
+              CardType.Shrine +
+              '/' +
+              shrineSlot.shrine.filename +
+              '.png'
+            }
+            alt={shrineSlot.shrine.name}
+            width="739"
+            height="1035"
+          />
+        ) : (
+          <Image
+            className="logo-card"
+            src="/assets/misc/card-shaped-logo.png"
+            alt="placeholder"
+            width="739"
+            height="1035"
+          ></Image>
         );
       }
     } else {
+      // regular card, not shrine
       const c = mainDeck[activeCard];
-      image = !c.essence ? (
-        <Image
-          src={'/assets/' + CardType.BaseCard + '/' + c.baseCard + '.png'}
-          alt={c.baseCard.name}
-          width="739"
-          height="1035"
-        />
-      ) : (
+      image = c.essence ? (
         <div className="overlayed-modal">
           <Image
-            src={'/assets/' + CardType.BaseCard + '/' + c.baseCard + '.png'}
+            src={
+              '/assets/' +
+              CardType.BaseCard +
+              '/' +
+              c.baseCard.filename +
+              '.png'
+            }
             alt={c.baseCard.name}
             width="739"
             height="1035"
           />
           <Image
-            src={'/assets/' + CardType.Essence + '/' + c.essence + '.png'}
+            src={
+              '/assets/' + CardType.Essence + '/' + c.essence.filename + '.png'
+            }
             alt={c.essence.name}
             width="739"
             height="1035"
             className="overlay"
           />
         </div>
+      ) : (
+        <Image
+          src={
+            '/assets/' + CardType.BaseCard + '/' + c.baseCard.filename + '.png'
+          }
+          alt={c.baseCard.name}
+          width="739"
+          height="1035"
+        />
       );
     }
   }

@@ -29,11 +29,12 @@ export default function Card({
   onClick?: (card: any) => void;
   onContextMenu?: (card: any) => void;
 }) {
-  let path, alt, className;
+  let path, alt, className, priority;
   if (card.type === CardType.Placeholder) {
     path = '/assets/misc/card-shaped-logo.png';
     alt = 'placeholder';
     className = 'card unbacked-overlay';
+    priority = true;
   } else {
     path = '/assets/' + card.type + '/' + card.filename + '.png';
     alt = card.name;
@@ -62,6 +63,7 @@ export default function Card({
           e.preventDefault();
           onContextMenu && onContextMenu(card);
         }}
+        priority={priority}
       />
     </div>
   );
@@ -88,7 +90,9 @@ export function ImprovedShrine({
       <Image
         className="overlay"
         src={
-          '/assets/shrine-improvements/' + shrineSlot.shrineImprovement + '.png'
+          '/assets/shrine-improvements/' +
+          shrineSlot.shrineImprovement?.filename +
+          '.png'
         }
         alt={shrineSlot.shrineImprovement?.name || ''}
         width="145"

@@ -1,12 +1,33 @@
 'use client';
-import { Box, Container, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Container,
+  MenuItem,
+  Select,
+  Switch,
+  Typography,
+  Stack,
+  FormGroup,
+  FormControlLabel,
+  IconButton,
+  Icon,
+  TextField,
+  Paper,
+} from '@mui/material';
 import {
   ShrineList,
   ShrineImprovementList,
   BaseCardList,
   EssenceList,
 } from './components/card-list';
-import { baseCards, BaseCard, Element } from './cardlists/base-cards';
+import {
+  baseCards,
+  BaseCardFilters,
+  BaseCard,
+  Element,
+  BaseCardType,
+  Rarity,
+} from './cardlists/base-cards';
 import { shrines, Shrine } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
 import {
@@ -20,6 +41,9 @@ import { Deck } from './components/card-list';
 import { idGenerator } from './utils';
 import Image from 'next/image';
 import { DndContext } from '@dnd-kit/core';
+import { PipButtons } from './components/pip-button';
+import { ElementButtons } from './components/element-buttons';
+import { HighlightOff } from '@mui/icons-material';
 
 export class ShrineSlot {
   shrine: Shrine | null;
@@ -45,13 +69,29 @@ export class DeckSlot {
 
 const newId = idGenerator();
 
+// typeChoice?: BaseCardType;
+//     elementChoices?: Element[];
+//     elementAnd: boolean;
+//     costChoiceOne?: number;
+//     costChoiceTwo?: number;
+//     costOperator: string;
+//     query?: string;
 export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
   const [shrine, setShrine] = useState(new ShrineSlot(null, null));
   const [deck, setDeck] = useState(new Array<DeckSlot>());
+  const [sElements, setSElements] = useState([] as Element[]);
+  const [bcType, setBcType] = useState(BaseCardType.Any);
+  const [bcRarity, setBcRarity] = useState(Rarity.Any);
+  const [bcElements, setBcElements] = useState([] as Element[]);
+  const [bcElementAnd, setBcElementAnd] = useState(false);
+  const [bcCostValOne, setBcCostValOne] = useState(NaN);
+  const [bcCostValTwo, setBcCostValTwo] = useState(NaN);
+  const [bcCostOperator, setBcCostOperator] = useState('=');
+  const [bcQuery, setBcQuery] = useState('');
 
-  function addBaseCard(card: string) {
-    setDeck([...deck, new DeckSlot(getCardByFilename(card, baseCards), null)]);
+  function addBaseCard(card: BaseCard) {
+    setDeck([...deck, new DeckSlot(card, null)]);
   }
 
   function toggleShrineMode() {
@@ -79,6 +119,90 @@ export default function Home() {
         })
       );
     }
+  }
+
+  function filteredAndSortedShrines() {
+    let filtered =
+      sElements.length === 0
+        ? shrines
+        : shrines.filter((s) => {
+            return sElements.includes(s.identity);
+          });
+    return filtered.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  function handleShrineElementFilterClicked(e: Element) {
+    if (sElements.includes(e)) {
+      setSElements(sElements.filter((el) => el !== e));
+    } else {
+      setSElements([...sElements, e]);
+    }
+  }
+
+  function handleBaseCardElementFilterClicked(e: Element) {
+    if (bcElements.includes(e)) {
+      setBcElements(bcElements.filter((el) => el !== e));
+    } else {
+      setBcElements([...bcElements, e]);
+    }
+  }
+
+  function handleCostFilterClicked(x: number) {
+    if (bcCostOperator === '<>') {
+      if (!bcCostValOne) {
+        setBcCostValOne(x);
+      } else if (bcCostValOne === x) {
+        setBcCostValOne(bcCostValTwo);
+        setBcCostValTwo(NaN);
+      } else if (!bcCostValTwo) {
+        if (x > bcCostValOne) {
+          setBcCostValTwo(x);
+        } else {
+          setBcCostValTwo(bcCostValOne);
+          setBcCostValOne(x);
+        }
+      } else if (bcCostValTwo === x) {
+        setBcCostValTwo(NaN);
+      } else {
+        // could do some other logic here to decide how to move them instead of reseting
+        setBcCostValOne(x);
+        setBcCostValTwo(NaN);
+      }
+    } else {
+      if (bcCostValOne === x) {
+        setBcCostValOne(NaN);
+      } else {
+        setBcCostValOne(x);
+      }
+    }
+  }
+
+  // handleCostFilterLineT
+
+  function filteredAndSortedBaseCards() {
+    const filters = new BaseCardFilters({
+      typeChoice: bcType,
+      elementChoices: bcElements,
+      elementAnd: bcElementAnd,
+      costChoiceOne: bcCostValOne,
+      costChoiceTwo: bcCostValTwo,
+      costOperator: bcCostOperator,
+      query: bcQuery,
+      rarityFilter: bcRarity,
+    });
+    return baseCards
+      .filter((c) => {
+        return (
+          filters.type(c.supertype) &&
+          filters.identity(c.pips) &&
+          filters.cost(c.cost) &&
+          filters.query([c.name, c.subtype, c.text, c.artist]) &&
+          filters.rarity(c.rarity)
+        );
+      })
+      .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
   }
 
   function getCardByFilename(filename: string, list: any[]) {
@@ -131,22 +255,120 @@ export default function Home() {
         </Container>
         <Container className="base-card-container">
           <Container className="base-card-widget-container">
-            button stuff
-            {/* <Select label="Type" value={''}>
-              <MenuItem value={'Unit'}>Unit</MenuItem>
-              <MenuItem value={'Event'}>Event</MenuItem>
-              <MenuItem value={'Item'}>Item</MenuItem>
-              <MenuItem value={'Structure'}>Structure</MenuItem>
-            </Select> */}
+            {/* <FormGroup>
+              <FormControlLabel label={} control={<Switch></Switch>}>
+                
+              </FormControlLabel>
+            </FormGroup> */}
+            {shrineMode ? (
+              <FormGroup className="element-filter">
+                <ElementButtons
+                  selected={sElements}
+                  onElementClicked={handleShrineElementFilterClicked}
+                ></ElementButtons>
+              </FormGroup>
+            ) : (
+              <div>
+                <FormGroup>
+                  <div className="search-filter-container">
+                    <TextField
+                      label="Search"
+                      value={bcQuery}
+                      onChange={(e) => setBcQuery(e.target.value)}
+                      className="query"
+                    ></TextField>
+                    <IconButton onClick={() => setBcQuery('')}>
+                      <HighlightOff></HighlightOff>
+                    </IconButton>
+                  </div>
+                </FormGroup>
+                <FormGroup>
+                  <div className="type-rarity-container">
+                    <Select
+                      label="Type"
+                      value={bcType}
+                      onChange={(e) => {
+                        setBcType(e.target.value as BaseCardType);
+                      }}
+                    >
+                      <MenuItem value={BaseCardType.Any}>Any</MenuItem>
+                      <MenuItem value={BaseCardType.Unit}>Unit</MenuItem>
+                      <MenuItem value={BaseCardType.Event}>Event</MenuItem>
+                      <MenuItem value={BaseCardType.ContinuousEvent}>
+                        Continuous Event
+                      </MenuItem>
+                      <MenuItem value={BaseCardType.Item}>Item</MenuItem>
+                      <MenuItem value={BaseCardType.Structure}>
+                        Structure
+                      </MenuItem>
+                    </Select>
+
+                    <Select
+                      label="Rarity"
+                      value={bcRarity}
+                      onChange={(e) => {
+                        setBcRarity(e.target.value as Rarity);
+                      }}
+                    >
+                      <MenuItem value={Rarity.Any}>Any</MenuItem>
+                      <MenuItem value={Rarity.Common}>Common</MenuItem>
+                      <MenuItem value={Rarity.Uncommon}>Uncommon</MenuItem>
+                      <MenuItem value={Rarity.Rare}>Rare</MenuItem>
+                      <MenuItem value={Rarity.Epic}>Epic</MenuItem>
+                    </Select>
+                  </div>
+                </FormGroup>
+                <FormGroup className="element-filter">
+                  <ElementButtons
+                    selected={bcElements}
+                    onElementClicked={handleBaseCardElementFilterClicked}
+                  ></ElementButtons>
+                  <Stack direction="row" alignItems="center">
+                    <Typography>Or</Typography>
+                    <Switch
+                      checked={bcElementAnd}
+                      onChange={(e) => setBcElementAnd(e.target.checked)}
+                    />
+                    <Typography>And</Typography>
+                  </Stack>
+                </FormGroup>
+                <FormGroup className="cost-filter">
+                  <Select
+                    value={bcCostOperator}
+                    onChange={(e) => {
+                      let val = e.target.value;
+                      if (bcCostOperator === '<>') {
+                        setBcCostValTwo(NaN);
+                      }
+                      setBcCostOperator(val);
+                    }}
+                    // sx={{ width = '20%' }}
+                  >
+                    <MenuItem value={'='}>=</MenuItem>
+                    <MenuItem value={'<='}>&lt;=</MenuItem>
+                    <MenuItem value={'>='}>&gt;=</MenuItem>
+                    <MenuItem value={'<>'}>&lt;&gt;</MenuItem>
+                  </Select>
+                  <PipButtons
+                    count={8}
+                    selectedOne={bcCostValOne}
+                    selectedTwo={bcCostValTwo}
+                    onClick={handleCostFilterClicked}
+                  ></PipButtons>
+                </FormGroup>
+              </div>
+            )}
           </Container>
           {shrineMode ? (
             <ShrineList
-              shrines={shrines}
-              onClickShrine={(s) => setShrine(new ShrineSlot(s, null))}
+              shrines={filteredAndSortedShrines()}
+              onClickShrine={(s) =>
+                setShrine(new ShrineSlot(s, shrine.shrineImprovement))
+              }
             ></ShrineList>
           ) : (
             <BaseCardList
-              cards={baseCards}
+              cards={filteredAndSortedBaseCards()}
               onClickBaseCard={(card_name) => addBaseCard(card_name)}
             ></BaseCardList>
           )}
@@ -159,12 +381,7 @@ export default function Home() {
             <ShrineImprovementList
               shrineImprovements={shrineImprovements}
               onClickShrineImprovement={(si) =>
-                setShrine(
-                  new ShrineSlot(
-                    shrine.shrine,
-                    getCardByFilename(si, shrineImprovements)
-                  )
-                )
+                setShrine(new ShrineSlot(shrine.shrine, si))
               }
             ></ShrineImprovementList>
           ) : (

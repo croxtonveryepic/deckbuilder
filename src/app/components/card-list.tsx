@@ -54,7 +54,7 @@ export function ShrineImprovementList({
   onClickShrineImprovement,
 }: {
   shrineImprovements: ShrineImprovement[];
-  onClickShrineImprovement: (shrineImprovement: string) => void;
+  onClickShrineImprovement: (shrineImprovement: ShrineImprovement) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
 
@@ -92,7 +92,7 @@ export function BaseCardList({
   onClickBaseCard,
 }: {
   cards: BaseCard[];
-  onClickBaseCard: (arg0: string) => void;
+  onClickBaseCard: (arg0: BaseCard) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
 
@@ -211,17 +211,17 @@ export function Deck({
   let shrine;
   if (shrineSlot.shrine) {
     shrine = shrineSlot.shrineImprovement ? (
-      <Card
-        card={shrineSlot.shrine}
-        onClick={() => setShrine('')}
-        onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
-      ></Card>
-    ) : (
       <ImprovedShrine
         shrineSlot={shrineSlot}
         onClick={() => setShrineImprovement('')}
         onContextMenu={() => setModalCard(-1)}
       ></ImprovedShrine>
+    ) : (
+      <Card
+        card={shrineSlot.shrine}
+        onClick={() => setShrine('')}
+        onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
+      ></Card>
     );
   } else {
     shrine = shrineSlot.shrineImprovement ? (
