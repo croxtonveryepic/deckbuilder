@@ -34,7 +34,7 @@ export function ShrineList({
   ));
 
   return (
-    <Container>
+    <Container className="base-card-list-container">
       <CardModal
         cardType={CardType.Shrine}
         list={shrines}
@@ -107,7 +107,7 @@ export function BaseCardList({
   ));
 
   return (
-    <Container>
+    <Container className="base-card-list-container">
       <CardModal
         cardType={CardType.BaseCard}
         list={cards}

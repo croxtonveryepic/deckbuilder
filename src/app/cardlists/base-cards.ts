@@ -122,6 +122,7 @@ export class BaseCardFilters {
 export class BaseCard {
   name: string;
   filename: string;
+  id: number;
   epic: boolean;
   supertype: BaseCardType;
   subtype: string;
@@ -142,6 +143,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Absorb Magic',
     filename: 'absorbmagic',
+    id: 0,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -162,6 +164,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Aegis Greenhorn',
     filename: 'aegisgreenhorn',
+    id: 1,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Knight',
@@ -182,6 +185,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Alleyway Intimidator',
     filename: 'alleywayintimidator',
+    id: 2,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Mercenary',
@@ -202,6 +206,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Armentia - Celestial Spear',
     filename: 'armentiacelestialspear',
+    id: 3,
     epic: true,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -222,6 +227,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Arsonist',
     filename: 'arsonist',
+    id: 4,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -242,6 +248,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Avarisa Darkhart - Silver Tongued',
     filename: 'avarisadarkhartsilvertongued',
+    id: 5,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -262,6 +269,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Backstab',
     filename: 'backstab',
+    id: 6,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -282,6 +290,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Banishment',
     filename: 'banishment',
+    id: 7,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -302,6 +311,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Barracks',
     filename: 'barracks',
+    id: 8,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -322,6 +332,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Battlefield Headsman',
     filename: 'battlefieldheadsman',
+    id: 9,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -342,6 +353,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Best Laid Plans',
     filename: 'bestlaidplans',
+    id: 10,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -362,6 +374,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Binding Chains',
     filename: 'bindingchains',
+    id: 11,
     epic: false,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -382,6 +395,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Bladeborne Dreng',
     filename: 'bladebornedreng',
+    id: 12,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -402,6 +416,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Blue Back Strategist',
     filename: 'bluebackstrategist',
+    id: 13,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -422,6 +437,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Brute',
     filename: 'brute',
+    id: 14,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Barbarian',
@@ -442,6 +458,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Burst of Speed',
     filename: 'burstofspeed',
+    id: 15,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -462,6 +479,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Bury Magic',
     filename: 'burymagic',
+    id: 16,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -482,6 +500,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Call Lightning',
     filename: 'calllightning',
+    id: 17,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -502,6 +521,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Call Wind',
     filename: 'callwind',
+    id: 18,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -522,6 +542,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Careful Sneak',
     filename: 'carefulsneak',
+    id: 19,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -542,6 +563,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Churn',
     filename: 'churn',
+    id: 20,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -562,6 +584,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Cleanse',
     filename: 'cleanse',
+    id: 21,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -582,6 +605,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Combat Medic',
     filename: 'combatmedic',
+    id: 22,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric',
@@ -602,6 +626,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Conjure Barrier',
     filename: 'conjurebarrier',
+    id: 23,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -622,6 +647,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Counter Assassin',
     filename: 'counterassassin',
+    id: 24,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Assassin',
@@ -642,6 +668,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Covert Operation',
     filename: 'covertoperation',
+    id: 25,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -662,6 +689,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Cutthroat',
     filename: 'cutthroat',
+    id: 26,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Assassin',
@@ -682,6 +710,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Demolition Vanguard',
     filename: 'demolitionvanguard',
+    id: 27,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -702,6 +731,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Devoted Defender',
     filename: 'devoteddefender',
+    id: 28,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -722,6 +752,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Disbelief',
     filename: 'disbelief',
+    id: 29,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -742,6 +773,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Disgraced Veteran',
     filename: 'disgracedveteran',
+    id: 30,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -762,6 +794,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Distrust',
     filename: 'distrust',
+    id: 31,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -782,6 +815,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "D'Marque Heirloom - Gilded Mask",
     filename: 'dmarqueheirloomgildedmask',
+    id: 32,
     epic: true,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -802,6 +836,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Driis Palisade',
     filename: 'driispalisade',
+    id: 33,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -822,6 +857,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Driis Sentry',
     filename: 'driissentry',
+    id: 34,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Ranger',
@@ -842,6 +878,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Drown',
     filename: 'drown',
+    id: 35,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -862,6 +899,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Dying Breath',
     filename: 'dyingbreath',
+    id: 36,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -882,6 +920,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Earthquake',
     filename: 'earthquake',
+    id: 37,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -902,6 +941,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "Earth's Elite",
     filename: 'earthselite',
+    id: 38,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Knight',
@@ -922,6 +962,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Elvyrra - Slayer Squad Commander',
     filename: 'elvyrraslayersquadcommander',
+    id: 39,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -942,6 +983,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Eternal Flame Soldier',
     filename: 'eternalflamesoldier',
+    id: 40,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Soldier',
@@ -962,6 +1004,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Expert Combatant',
     filename: 'expertcombatant',
+    id: 41,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Knight',
@@ -982,6 +1025,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Exploit Might',
     filename: 'exploitmight',
+    id: 42,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1002,6 +1046,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Fablemonger',
     filename: 'fablemonger',
+    id: 43,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Knight',
@@ -1022,6 +1067,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Fierce Protector',
     filename: 'fierceprotector',
+    id: 44,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -1042,6 +1088,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "Fighter's Heart",
     filename: 'fightersheart',
+    id: 45,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -1062,6 +1109,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Finishing Move',
     filename: 'finishingmove',
+    id: 46,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1082,6 +1130,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Firebomb',
     filename: 'firebomb',
+    id: 47,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1102,6 +1151,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Fire Palm Strike',
     filename: 'firepalmstrike',
+    id: 48,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1122,6 +1172,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'First Strike',
     filename: 'firststrike',
+    id: 49,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1142,6 +1193,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Fountain of Life',
     filename: 'fountainoflife',
+    id: 50,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -1162,6 +1214,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Funeral Pyre',
     filename: 'funeralpyre',
+    id: 51,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -1182,6 +1235,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Gale Warrior',
     filename: 'galewarrior',
+    id: 52,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -1202,6 +1256,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Garrison',
     filename: 'garrison',
+    id: 53,
     epic: false,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -1222,6 +1277,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Griffin IV - Earth Splitter',
     filename: 'griffinivearthsplitter',
+    id: 54,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human King',
@@ -1242,6 +1298,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Grizzled Crop Keeper',
     filename: 'grizzledcropkeeper',
+    id: 55,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -1262,6 +1319,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Grunt',
     filename: 'grunt',
+    id: 56,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -1282,6 +1340,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Guardian of The Sacred Grove',
     filename: 'guardianofthesacredgrove',
+    id: 57,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -1302,6 +1361,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Guard Shack',
     filename: 'guardshack',
+    id: 58,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -1322,6 +1382,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Gust',
     filename: 'gust',
+    id: 59,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1342,6 +1403,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Hatred',
     filename: 'hatred',
+    id: 60,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1362,6 +1424,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Heat Stroke',
     filename: 'heatstroke',
+    id: 61,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -1382,6 +1445,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Highland Isolationist',
     filename: 'highlandisolationist',
+    id: 62,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -1402,6 +1466,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Holy Symbol',
     filename: 'holysymbol',
+    id: 63,
     epic: false,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -1422,6 +1487,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Hurricane',
     filename: 'hurricane',
+    id: 64,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1442,6 +1508,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Icy Skin',
     filename: 'icyskin',
+    id: 65,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -1462,6 +1529,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Intelligence Operative',
     filename: 'intelligenceoperative',
+    id: 66,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -1482,6 +1550,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Invisible Force',
     filename: 'invisibleforce',
+    id: 67,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1502,6 +1571,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Knife Expert',
     filename: 'knifeexpert',
+    id: 68,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Assassin Tactician',
@@ -1522,6 +1592,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Life Cycle Warden',
     filename: 'lifecyclewarden',
+    id: 69,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Knight',
@@ -1542,6 +1613,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Light Lance',
     filename: 'lightlance',
+    id: 70,
     epic: false,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -1562,6 +1634,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Lightning Warrior',
     filename: 'lightningwarrior',
+    id: 71,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -1582,6 +1655,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Little Breeze - A New Way',
     filename: 'littlebreezeanewway',
+    id: 72,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human Shaman',
@@ -1602,6 +1676,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Lowland Hunter',
     filename: 'lowlandhunter',
+    id: 73,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Ranger Soldier',
@@ -1622,6 +1697,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Melee Alumnus',
     filename: 'meleealumnus',
+    id: 74,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -1642,6 +1718,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Mend',
     filename: 'mend',
+    id: 75,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1662,6 +1739,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Might of the Earth',
     filename: 'mightoftheearth',
+    id: 76,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -1682,6 +1760,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Mikiri Frontliner',
     filename: 'mikirifrontliner',
+    id: 77,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -1702,6 +1781,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Natural Forces',
     filename: 'naturalforces',
+    id: 78,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1722,6 +1802,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "Nature's Divinity",
     filename: 'naturesdivinity',
+    id: 79,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -1742,6 +1823,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Night Watch',
     filename: 'nightwatch',
+    id: 80,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -1762,6 +1844,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Novice Sellsword',
     filename: 'novicesellsword',
+    id: 81,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Mercenary',
@@ -1782,6 +1865,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Nullifier',
     filename: 'nullifier',
+    id: 82,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Knight',
@@ -1802,6 +1886,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Old Man Gerhalt - Trinity Speaker',
     filename: 'oldmangerhalttrinityspeaker',
+    id: 83,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric',
@@ -1822,6 +1907,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Partisan',
     filename: 'partisan',
+    id: 84,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -1842,6 +1928,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Payday',
     filename: 'payday',
+    id: 85,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1862,6 +1949,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Pillory',
     filename: 'pillory',
+    id: 86,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -1882,6 +1970,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Pincer Maneuver',
     filename: 'pincermaneuver',
+    id: 87,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1902,6 +1991,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Planting',
     filename: 'planting',
+    id: 88,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1922,6 +2012,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Prayers Answered',
     filename: 'prayersanswered',
+    id: 89,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -1942,6 +2033,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Quarterstaff',
     filename: 'quarterstaff',
+    id: 90,
     epic: false,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -1962,6 +2054,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Quicksilver Wings - Mystic Headpiece',
     filename: 'quicksilverwingsmysticheadpiece',
+    id: 91,
     epic: true,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -1982,6 +2075,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Ram the Gates',
     filename: 'ramthegates',
+    id: 92,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2002,6 +2096,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Re-equip',
     filename: 're-equip',
+    id: 93,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2022,6 +2117,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Refugee',
     filename: 'refugee',
+    id: 94,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -2042,6 +2138,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Root Tender',
     filename: 'roottender',
+    id: 95,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -2062,6 +2159,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Royal Custodian',
     filename: 'royalcustodian',
+    id: 96,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -2082,6 +2180,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "Ruebane - Fury's Avatar",
     filename: 'ruebanefurysavatar',
+    id: 97,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Warrior',
@@ -2102,6 +2201,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Ruffian',
     filename: 'ruffian',
+    id: 98,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -2122,6 +2222,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Sabotage',
     filename: 'sabotage',
+    id: 99,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2142,6 +2243,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Scourge Opportunist',
     filename: 'scourgeopportunist',
+    id: 100,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -2162,6 +2264,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Scourge Shooter',
     filename: 'scourgeshooter',
+    id: 101,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Assassin',
@@ -2182,6 +2285,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Secret Keeper',
     filename: 'secretkeeper',
+    id: 102,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -2202,6 +2306,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Secrets in the Dark',
     filename: 'secretsinthedark',
+    id: 103,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2222,6 +2327,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Siege Master',
     filename: 'siegemaster',
+    id: 104,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -2242,6 +2348,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Siege Trebuchet',
     filename: 'siegetrebuchet',
+    id: 105,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -2262,6 +2369,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Sky Devotee',
     filename: 'skydevotee',
+    id: 106,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -2282,6 +2390,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Sky Totem',
     filename: 'skytotem',
+    id: 107,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -2302,6 +2411,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Slayer Squad Recruit',
     filename: 'slayersquadrecruit',
+    id: 108,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -2322,6 +2432,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Standard Issue Falchion',
     filename: 'standardissuefalchion',
+    id: 109,
     epic: false,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -2342,6 +2453,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "Stranger's Fanatic",
     filename: 'strangersfanatic',
+    id: 110,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric',
@@ -2362,6 +2474,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Strongarm Thug',
     filename: 'strongarmthug',
+    id: 111,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -2382,6 +2495,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Sudden Strength',
     filename: 'suddenstrength',
+    id: 112,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2402,6 +2516,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Take Root',
     filename: 'takeroot',
+    id: 113,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -2422,6 +2537,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Talia - The Waveshaper',
     filename: 'taliathewaveshaper',
+    id: 114,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human Craftsman',
@@ -2442,6 +2558,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Targeted Strike',
     filename: 'targetedstrike',
+    id: 115,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2462,6 +2579,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Temple Dedicant',
     filename: 'templededicant',
+    id: 116,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -2482,6 +2600,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "Thaddeus's Neophyte",
     filename: 'thaddeussneophyte',
+    id: 117,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric',
@@ -2502,6 +2621,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Thaddeus - Stranger',
     filename: 'thaddeusstranger',
+    id: 118,
     epic: true,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric',
@@ -2522,6 +2642,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'The Abyss',
     filename: 'theabyss',
+    id: 119,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Assassin',
@@ -2542,6 +2663,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Through the Keyhole',
     filename: 'throughthekeyhole',
+    id: 120,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2562,6 +2684,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Totem Keeper',
     filename: 'totemkeeper',
+    id: 121,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -2582,6 +2705,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Towerwright',
     filename: 'towerwright',
+    id: 122,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Tactician',
@@ -2602,6 +2726,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Triage',
     filename: 'triage',
+    id: 123,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2622,6 +2747,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'True Believer',
     filename: 'truebeliever',
+    id: 124,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric Warrior',
@@ -2642,6 +2768,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Underwater Spearman',
     filename: 'underwaterspearman',
+    id: 125,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Soldier',
@@ -2662,6 +2789,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Unseen Duelist',
     filename: 'unseenduelist',
+    id: 126,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human',
@@ -2682,6 +2810,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Unseen Tactics',
     filename: 'unseentactics',
+    id: 127,
     epic: false,
     supertype: BaseCardType.ContinuousEvent,
     subtype: '',
@@ -2702,6 +2831,7 @@ export const baseCards: BaseCard[] = [
   // {
   //   name: 'War Kitten',
   //   filename: 'wakittentoken',
+  // id: ,
   //   epic: false,
   //   supertype: BaseCardType.Unit,
   //   subtype: 'Cat - Fire',
@@ -2720,6 +2850,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "War Cat's Mane - Gift of Rage",
     filename: 'warcatsmanegiftofrage',
+    id: 128,
     epic: true,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -2740,6 +2871,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Wardsmith',
     filename: 'wardsmith',
+    id: 129,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Craftsman',
@@ -2760,6 +2892,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Wash Away',
     filename: 'washaway',
+    id: 130,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2780,6 +2913,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Watch Tower',
     filename: 'watchtower',
+    id: 131,
     epic: false,
     supertype: BaseCardType.Structure,
     subtype: '',
@@ -2800,6 +2934,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Wave Mender',
     filename: 'wavemender',
+    id: 132,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Cleric',
@@ -2820,6 +2955,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Whispers in the Wind',
     filename: 'whispersinthewind',
+    id: 133,
     epic: false,
     supertype: BaseCardType.Event,
     subtype: '',
@@ -2840,6 +2976,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Wind Howler',
     filename: 'windhowler',
+    id: 134,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Shaman',
@@ -2860,6 +2997,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Wind Whisperer',
     filename: 'windwhisperer',
+    id: 135,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Shaman',
@@ -2880,6 +3018,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Wolf-Heart Shaman',
     filename: 'wolf-heartshaman',
+    id: 136,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Shaman',
@@ -2900,6 +3039,7 @@ export const baseCards: BaseCard[] = [
   {
     name: "X - True King's Sword",
     filename: 'xtruekingssword',
+    id: 137,
     epic: true,
     supertype: BaseCardType.Item,
     subtype: '',
@@ -2920,6 +3060,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Yawatarara Disciple',
     filename: 'yawataradisciple',
+    id: 138,
     epic: false,
     supertype: BaseCardType.Unit,
     subtype: 'Human Warrior',
@@ -2940,6 +3081,7 @@ export const baseCards: BaseCard[] = [
   {
     name: 'Zi Tapestry - Esoteric Lore',
     filename: 'zitapestryesotericlore',
+    id: 139,
     epic: true,
     supertype: BaseCardType.Item,
     subtype: '',

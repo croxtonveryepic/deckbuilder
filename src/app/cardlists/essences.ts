@@ -3,6 +3,7 @@ import { CardType } from '../components/card';
 export class Essence {
   name: string;
   filename: string;
+  id: number;
   cost: Element[];
   text: string;
   resources: Element[];
@@ -19,6 +20,7 @@ export const essences: Essence[] = [
   {
     name: 'Advanced Essence',
     filename: 'advancedessence-1',
+    id: 0,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.\n (C): +2 Initiative.',
     resources: [Element.Dark, Element.Earth],
@@ -35,6 +37,7 @@ export const essences: Essence[] = [
   {
     name: 'Air Essence',
     filename: 'airessence-1',
+    id: 1,
     cost: [],
     text: '',
     resources: [Element.Air],
@@ -51,6 +54,7 @@ export const essences: Essence[] = [
   {
     name: 'Blinding Essence',
     filename: 'blindingessence-1',
+    id: 2,
     cost: [],
     text: '',
     resources: [Element.Air],
@@ -67,6 +71,7 @@ export const essences: Essence[] = [
   {
     name: 'Brackish Essence',
     filename: 'brackishessence-1',
+    id: 3,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.\n (C): +2 Initiative.',
     resources: [Element.Water, Element.Dark],
@@ -83,6 +88,7 @@ export const essences: Essence[] = [
   {
     name: 'Bright Essence',
     filename: 'brightessence-1',
+    id: 4,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.',
     resources: [Element.Fire, Element.Light],
@@ -99,6 +105,7 @@ export const essences: Essence[] = [
   {
     name: 'Brisk Essence',
     filename: 'briskessence-1',
+    id: 5,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.',
     resources: [Element.Light, Element.Air],
@@ -115,6 +122,7 @@ export const essences: Essence[] = [
   {
     name: 'Burgeoning Essence',
     filename: 'burgeoningessence-1',
+    id: 6,
     cost: [],
     text: "(S): When this Card resolves, Surge 1.\n (S): When this Card resolves, move up to one target (D) Card to the bottom of its owner's deck.",
     resources: [Element.Earth],
@@ -131,6 +139,7 @@ export const essences: Essence[] = [
   {
     name: 'Chilled Essence',
     filename: 'chilledessence-1',
+    id: 7,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Air, Element.Water],
@@ -147,6 +156,7 @@ export const essences: Essence[] = [
   {
     name: 'Clandestine Essence',
     filename: 'clandestineessence-1',
+    id: 8,
     cost: [Element.Dark],
     text: '(C): Stealth 3.',
     resources: [Element.Dark],
@@ -163,6 +173,7 @@ export const essences: Essence[] = [
   {
     name: 'Clouded Essence',
     filename: 'cloudedessence-1',
+    id: 9,
     cost: [],
     text: '(S): When this Card resolves, draw a Card then discard a Card.',
     resources: [Element.Air],
@@ -179,6 +190,7 @@ export const essences: Essence[] = [
   {
     name: 'Compelling Essence',
     filename: 'compellingessence-1',
+    id: 10,
     cost: [Element.Water],
     text: '(S): This Card cannot be negated.',
     resources: [Element.Water],
@@ -195,6 +207,7 @@ export const essences: Essence[] = [
   {
     name: 'Dark Essence',
     filename: 'darkessence-1',
+    id: 11,
     cost: [],
     text: '',
     resources: [Element.Dark],
@@ -211,6 +224,7 @@ export const essences: Essence[] = [
   {
     name: 'Earth Essence',
     filename: 'earthessence-1',
+    id: 12,
     cost: [],
     text: '',
     resources: [Element.Earth],
@@ -227,6 +241,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Air and Dark',
     filename: 'essenceofairanddark-1',
+    id: 13,
     cost: [Element.Dark, Element.Air],
     text: '',
     resources: [Element.Dark, Element.Air],
@@ -243,6 +258,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Air and Earth',
     filename: 'essenceofairandearth-1',
+    id: 14,
     cost: [Element.Earth, Element.Air],
     text: '',
     resources: [Element.Earth, Element.Air],
@@ -259,6 +275,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Air and Light',
     filename: 'essenceofairandlight-1',
+    id: 15,
     cost: [Element.Light, Element.Air],
     text: '',
     resources: [Element.Light, Element.Air],
@@ -275,6 +292,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Combat',
     filename: 'essenceofcombat-1',
+    id: 16,
     cost: [Element.Fire],
     text: '',
     resources: [Element.Fire],
@@ -291,6 +309,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Dark and Fire',
     filename: 'essenceofdarkandfire-1',
+    id: 17,
     cost: [Element.Dark, Element.Fire],
     text: '',
     resources: [Element.Dark, Element.Fire],
@@ -307,6 +326,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Dark and Light',
     filename: 'essenceofdarkandlight-1',
+    id: 18,
     cost: [Element.Dark, Element.Light],
     text: '',
     resources: [Element.Dark, Element.Light],
@@ -323,6 +343,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Dark and Water',
     filename: 'essenceofdarkandwater-1',
+    id: 19,
     cost: [Element.Dark, Element.Water],
     text: '',
     resources: [Element.Dark, Element.Water],
@@ -339,6 +360,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Earth and Dark',
     filename: 'essenceofearthanddark-1',
+    id: 20,
     cost: [Element.Earth, Element.Dark],
     text: '',
     resources: [Element.Earth, Element.Dark],
@@ -355,6 +377,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Earth and Light',
     filename: 'essenceofearthandlight-1',
+    id: 21,
     cost: [Element.Earth, Element.Light],
     text: '',
     resources: [Element.Earth, Element.Light],
@@ -371,6 +394,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Eternity',
     filename: 'essenceofeternity-1',
+    id: 22,
     cost: [Element.Light],
     text: '(C): Regenerate 2.',
     resources: [Element.Light],
@@ -387,6 +411,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Evasion',
     filename: 'essenceofevasion-1',
+    id: 23,
     cost: [],
     text: '(S): Eventbound: Evasion 2.\n (C): Evasion 2.',
     resources: [Element.Water],
@@ -403,6 +428,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Fire and Air',
     filename: 'essenceoffireandair-1',
+    id: 24,
     cost: [Element.Fire, Element.Air],
     text: '',
     resources: [Element.Fire, Element.Air],
@@ -419,6 +445,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Fire and Earth',
     filename: 'essenceoffireandearth-1',
+    id: 25,
     cost: [Element.Fire, Element.Earth],
     text: '',
     resources: [Element.Fire, Element.Earth],
@@ -435,6 +462,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Fire and Water',
     filename: 'essenceoffireandwater-1',
+    id: 26,
     cost: [Element.Fire, Element.Water],
     text: '',
     resources: [Element.Fire, Element.Water],
@@ -451,6 +479,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Life',
     filename: 'essenceoflife-1',
+    id: 27,
     cost: [Element.Light],
     text: '',
     resources: [Element.Light],
@@ -467,6 +496,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Light and Fire',
     filename: 'essenceoflightandfire-1',
+    id: 28,
     cost: [Element.Light, Element.Fire],
     text: '',
     resources: [Element.Light, Element.Fire],
@@ -483,6 +513,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Light and Water',
     filename: 'essenceoflightandwater-1',
+    id: 29,
     cost: [Element.Light, Element.Water],
     text: '',
     resources: [Element.Light, Element.Water],
@@ -499,6 +530,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Might',
     filename: 'essenceofmight-1',
+    id: 30,
     cost: [Element.Fire],
     text: '',
     resources: [Element.Fire],
@@ -515,6 +547,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Opportunity',
     filename: 'essenceofopportunity-1',
+    id: 31,
     cost: [],
     text: '(C): +4 Initiative.',
     resources: [Element.Dark],
@@ -531,6 +564,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Precision',
     filename: 'essenceofprecision-1',
+    id: 32,
     cost: [],
     text: '(S)(C): Accuracy.',
     resources: [Element.Fire],
@@ -547,6 +581,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Stealth',
     filename: 'essenceofstealth-1',
+    id: 33,
     cost: [],
     text: '(C): Stealth 1.',
     resources: [Element.Water],
@@ -563,6 +598,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Surprise',
     filename: 'essenceofsurprise-1',
+    id: 34,
     cost: [],
     text: '(R): You may play this Card as the first action of the turn.',
     resources: [Element.Dark],
@@ -579,6 +615,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Swiftness',
     filename: 'essenceofswiftness-1',
+    id: 35,
     cost: [],
     text: '',
     resources: [Element.Air],
@@ -595,6 +632,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of the Bounty',
     filename: 'essenceofthebounty-1',
+    id: 36,
     cost: [],
     text: '(S): When this Card resolves, Surge 2.',
     resources: [Element.Earth],
@@ -611,6 +649,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of the Guardian',
     filename: 'essenceoftheguardian-1',
+    id: 37,
     cost: [],
     text: '(C): Armor 1.\n (C): While defending, this Card gains Armor 1.',
     resources: [Element.Earth],
@@ -627,6 +666,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Water and Air',
     filename: 'essenceofwaterandair-1',
+    id: 38,
     cost: [],
     text: '',
     resources: [Element.Water, Element.Air],
@@ -643,6 +683,7 @@ export const essences: Essence[] = [
   {
     name: 'Essence of Water and Earth',
     filename: 'essenceofwaterandearth-1',
+    id: 39,
     cost: [],
     text: '',
     resources: [Element.Water, Element.Earth],
@@ -659,6 +700,7 @@ export const essences: Essence[] = [
   {
     name: 'Fire Essence',
     filename: 'fireessence-1',
+    id: 40,
     cost: [],
     text: '',
     resources: [Element.Fire],
@@ -675,6 +717,7 @@ export const essences: Essence[] = [
   {
     name: 'Frenzied Essence',
     filename: 'frenziedessence-1',
+    id: 41,
     cost: [],
     text: 'This Card gains the subtype Barbarian. (C): When you discard a Card, this Card gains +1 Pwr until the end of turn.',
     resources: [Element.Air],
@@ -691,6 +734,7 @@ export const essences: Essence[] = [
   {
     name: 'Fresh Essence',
     filename: 'freshessence-1',
+    id: 42,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.',
     resources: [Element.Light, Element.Earth],
@@ -707,6 +751,7 @@ export const essences: Essence[] = [
   {
     name: 'Gloomy Essence',
     filename: 'gloomyessence-1',
+    id: 43,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (C): +2 Initiative.',
     resources: [Element.Dark, Element.Air],
@@ -723,6 +768,7 @@ export const essences: Essence[] = [
   {
     name: 'Hostile Essence',
     filename: 'hostileessence-1',
+    id: 44,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.',
     resources: [Element.Earth, Element.Fire],
@@ -739,6 +785,7 @@ export const essences: Essence[] = [
   {
     name: 'Infused Air Essence',
     filename: 'infusedairessence-1',
+    id: 45,
     cost: [],
     text: '',
     resources: [Element.Air],
@@ -755,6 +802,7 @@ export const essences: Essence[] = [
   {
     name: 'Infused Dark Essence',
     filename: 'infuseddarkessence-1',
+    id: 46,
     cost: [],
     text: '(C): +2 Initiative.',
     resources: [Element.Dark],
@@ -771,6 +819,7 @@ export const essences: Essence[] = [
   {
     name: 'Infused Earth Essence',
     filename: 'infusedearthessence-1',
+    id: 47,
     cost: [],
     text: '(S): When this Card resolves, Surge 1.',
     resources: [Element.Earth],
@@ -787,6 +836,7 @@ export const essences: Essence[] = [
   {
     name: 'Infused Fire Essence',
     filename: 'infusedfireessence-1',
+    id: 48,
     cost: [],
     text: '',
     resources: [Element.Fire],
@@ -803,6 +853,7 @@ export const essences: Essence[] = [
   {
     name: 'Infused Light Essence',
     filename: 'infusedlightessence-1',
+    id: 49,
     cost: [],
     text: '',
     resources: [Element.Light],
@@ -819,6 +870,7 @@ export const essences: Essence[] = [
   {
     name: 'Infused Water Essence',
     filename: 'infusedwateressence-1',
+    id: 50,
     cost: [],
     text: '(S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Water],
@@ -835,6 +887,7 @@ export const essences: Essence[] = [
   {
     name: 'Ingenious Essence',
     filename: 'ingeniousessence-1',
+    id: 51,
     cost: [],
     text: '',
     resources: [Element.Light],
@@ -854,6 +907,7 @@ export const essences: Essence[] = [
   {
     name: 'Light Essence',
     filename: 'lightessence-1',
+    id: 52,
     cost: [],
     text: '',
     resources: [Element.Light],
@@ -870,6 +924,7 @@ export const essences: Essence[] = [
   {
     name: 'Loyal Essence',
     filename: 'loyalessence-1',
+    id: 53,
     cost: [],
     text: 'This Card gains the subtype Knight.',
     resources: [Element.Earth],
@@ -886,6 +941,7 @@ export const essences: Essence[] = [
   {
     name: 'Martial Essence',
     filename: 'martialessence-1',
+    id: 54,
     cost: [],
     text: '(S): When this Card resolves, you may Link target (C) Item you control to target (C) Unit.',
     resources: [Element.Light],
@@ -902,6 +958,7 @@ export const essences: Essence[] = [
   {
     name: 'Pure Air Essence',
     filename: 'pureairessence-1',
+    id: 55,
     cost: [],
     text: '(S): When this Card resolves, you may discard a Card, if you do, exhaust target (C) Unit.',
     resources: [Element.Air],
@@ -918,6 +975,7 @@ export const essences: Essence[] = [
   {
     name: 'Pure Dark Essence',
     filename: 'puredarkessence-1',
+    id: 56,
     cost: [],
     text: '(S): When this Card resolves, if it was played as the first action of the turn, draw a Card.\n (C): +2 Initiative.',
     resources: [Element.Dark],
@@ -934,6 +992,7 @@ export const essences: Essence[] = [
   {
     name: 'Pure Earth Essence',
     filename: 'pureearthessence-1',
+    id: 57,
     cost: [],
     text: '(S): When this Card resolves, Surge 1.\n (C): When this Card is destroyed, place it into your resource zone exhausted.',
     resources: [Element.Earth],
@@ -950,6 +1009,7 @@ export const essences: Essence[] = [
   {
     name: 'Pure Fire Essence',
     filename: 'purefireessence-1',
+    id: 58,
     cost: [],
     text: '(S): When this Card resolves, deal 1 damage to target (C) Structure.',
     resources: [Element.Fire],
@@ -966,6 +1026,7 @@ export const essences: Essence[] = [
   {
     name: 'Pure Light Essence',
     filename: 'purelightessence-1',
+    id: 59,
     cost: [],
     text: '(S): When this Card resolves, heal 2 damage from target (C) Card.',
     resources: [Element.Light],
@@ -982,6 +1043,7 @@ export const essences: Essence[] = [
   {
     name: 'Pure Water Essence',
     filename: 'purewateressence',
+    id: 60,
     cost: [],
     text: "(S): Eventbound: Evasion 3 during your action.\n (C): Evasion 3 during opponents' actions.",
     resources: [Element.Water],
@@ -998,6 +1060,7 @@ export const essences: Essence[] = [
   {
     name: 'Razing Essence',
     filename: 'razingessence-1',
+    id: 61,
     cost: [],
     text: '(S)(C): Damage dealt to an Enemy Shrine by this Card is increased by 2.',
     resources: [Element.Fire],
@@ -1014,6 +1077,7 @@ export const essences: Essence[] = [
   {
     name: 'Rebellious Essence',
     filename: 'rebelliousessence-1',
+    id: 62,
     cost: [],
     text: '(C): Sworn Enemy Soldier: +1 Spd and +1 Pwr.',
     resources: [Element.Fire],
@@ -1030,6 +1094,7 @@ export const essences: Essence[] = [
   {
     name: 'Reflective Essence',
     filename: 'reflectiveessence-1',
+    id: 63,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Water, Element.Light],
@@ -1046,6 +1111,7 @@ export const essences: Essence[] = [
   {
     name: 'Rushing Essence',
     filename: 'rushingessence-1',
+    id: 64,
     cost: [Element.Water],
     text: '',
     resources: [Element.Water],
@@ -1062,6 +1128,7 @@ export const essences: Essence[] = [
   {
     name: 'Shadowy Essence',
     filename: 'shadowyessence-1',
+    id: 65,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (C): +2 Initiative.',
     resources: [Element.Light, Element.Dark],
@@ -1078,6 +1145,7 @@ export const essences: Essence[] = [
   {
     name: 'Slick Essence',
     filename: 'slickessence-1',
+    id: 66,
     cost: [],
     text: '(C): +1 Initiative.',
     resources: [Element.Dark],
@@ -1094,6 +1162,7 @@ export const essences: Essence[] = [
   {
     name: 'Smoldering Essence',
     filename: 'smolderingessence-1',
+    id: 67,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (C): +2 Initiative.',
     resources: [Element.Fire, Element.Dark],
@@ -1110,6 +1179,7 @@ export const essences: Essence[] = [
   {
     name: 'Soulful',
     filename: 'soulful-1',
+    id: 68,
     cost: [],
     text: 'This Essence is all Elements.\n (R): (tap): Produce a Soul that any other Card in your resource zone could produce.',
     resources: [],
@@ -1126,6 +1196,7 @@ export const essences: Essence[] = [
   {
     name: 'Soulless',
     filename: 'soulless-1',
+    id: 69,
     cost: [],
     text: 'This Card has no Element.\n (S): When this Card resolves, an opponent of your choice may draw a Card.',
     resources: [Element.Neutral],
@@ -1142,6 +1213,7 @@ export const essences: Essence[] = [
   {
     name: 'Staunch Essence',
     filename: 'staunchessence',
+    id: 70,
     cost: [],
     text: 'This Card gains the subtype Soldier.\n (C): Evasion 1.\n (C): When this Card is destroyed, you may deal 1 damage to target (C) Unit.',
     resources: [Element.Water],
@@ -1158,6 +1230,7 @@ export const essences: Essence[] = [
   {
     name: 'Steaming Essence',
     filename: 'steamingessence-1',
+    id: 71,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): Eventbound: Evasion 1.\n (C): Evasion 1.',
     resources: [Element.Water, Element.Fire],
@@ -1174,6 +1247,7 @@ export const essences: Essence[] = [
   {
     name: 'Thriving Essence',
     filename: 'thrivingessence-1',
+    id: 72,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.\n (S): Eventbound: Evasion 1.\n(C): Evasion 1.',
     resources: [Element.Earth, Element.Water],
@@ -1190,6 +1264,7 @@ export const essences: Essence[] = [
   {
     name: 'Timeworn Essence',
     filename: 'timewornessence-1',
+    id: 73,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.\n (S): When this Card resolves, Surge 1.',
     resources: [Element.Earth, Element.Air],
@@ -1206,6 +1281,7 @@ export const essences: Essence[] = [
   {
     name: 'Torrid Essence',
     filename: 'torridessence-1',
+    id: 74,
     cost: [Element.Neutral],
     text: '(R): Enters exhausted.',
     resources: [Element.Air, Element.Fire],
@@ -1222,6 +1298,7 @@ export const essences: Essence[] = [
   {
     name: 'Vehement Essence',
     filename: 'vehementessence-1',
+    id: 75,
     cost: [Element.Earth],
     text: '(S): When this Card resolves, recover up to one target (C) Unit.',
     resources: [Element.Earth],
@@ -1238,6 +1315,7 @@ export const essences: Essence[] = [
   {
     name: 'Warding Essence',
     filename: 'wardingessence-1',
+    id: 76,
     cost: [],
     text: '(C): This Card may defend as if it had Stealth 1.',
     resources: [Element.Light],
@@ -1254,6 +1332,7 @@ export const essences: Essence[] = [
   {
     name: 'Water Essence',
     filename: 'wateressence-1',
+    id: 77,
     cost: [],
     text: '',
     resources: [Element.Water],
@@ -1270,6 +1349,7 @@ export const essences: Essence[] = [
   {
     name: 'Whispering Essence',
     filename: 'whisperingessence-1',
+    id: 78,
     cost: [Element.Air],
     text: '(S): When this Card resolves, draw a Card.',
     resources: [Element.Air],
@@ -1286,6 +1366,7 @@ export const essences: Essence[] = [
   {
     name: 'Wicked Essence',
     filename: 'wickedessence-1',
+    id: 79,
     cost: [],
     text: '',
     resources: [Element.Dark],

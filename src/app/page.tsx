@@ -43,7 +43,14 @@ import Image from 'next/image';
 import { DndContext } from '@dnd-kit/core';
 import { PipButtons } from './components/pip-button';
 import { ElementButtons } from './components/element-buttons';
-import { HighlightOff } from '@mui/icons-material';
+import { HighlightOff, SaveAs } from '@mui/icons-material';
+import {
+  ImportExportDeckModal,
+  SaveDeckModal,
+  useLocalStorageDeck,
+  useLocalStorageShrine,
+} from './components/deck-encoder';
+import { useEffect } from 'react';
 
 export class ShrineSlot {
   shrine: Shrine | null;
@@ -78,8 +85,8 @@ const newId = idGenerator();
 //     query?: string;
 export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
-  const [shrine, setShrine] = useState(new ShrineSlot(null, null));
-  const [deck, setDeck] = useState(new Array<DeckSlot>());
+  const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
+  const [deck, setDeck] = useLocalStorageDeck();
   const [sElements, setSElements] = useState([] as Element[]);
   const [bcType, setBcType] = useState(BaseCardType.Any);
   const [bcRarity, setBcRarity] = useState(Rarity.Any);
@@ -89,6 +96,19 @@ export default function Home() {
   const [bcCostValTwo, setBcCostValTwo] = useState(NaN);
   const [bcCostOperator, setBcCostOperator] = useState('=');
   const [bcQuery, setBcQuery] = useState('');
+  const [deckDataModal, setDeckDataModal] = useState(false);
+  const [saveDeckModal, setSaveDeckModal] = useState(false);
+
+  // useEffect(() => {
+  //   setShrine(decodeShrine('tempDeck'));
+  // }, []);
+
+  // useEffect(() => {
+  //   window.localStorage.setItem(
+  //     'tempDeck',
+  //     encode({ shrineSlot: shrine, deck: deck })
+  //   );
+  // }, [deck, shrine]);
 
   function addBaseCard(card: BaseCard) {
     setDeck([...deck, new DeckSlot(card, null)]);
@@ -223,12 +243,36 @@ export default function Home() {
     );
   }
 
+  function toggleDeckDataModal() {
+    setDeckDataModal(!deckDataModal);
+  }
+
+  function toggleSaveDeckModal() {
+    setSaveDeckModal(!saveDeckModal);
+  }
+
   return (
     <Box>
       <DndContext>
         <Container className="deck-container">
           <Container className="deck-widget-container">
             <button onClick={toggleShrineMode}>Toggle Shrine Mode</button>
+            <IconButton onClick={toggleSaveDeckModal}>
+              <SaveAs></SaveAs>
+            </IconButton>
+            <SaveDeckModal
+              open={saveDeckModal}
+              toggle={toggleSaveDeckModal}
+              deck={deck}
+              shrine={shrine}
+            ></SaveDeckModal>
+            <button onClick={toggleDeckDataModal}>
+              Toggle Deck Data Modal
+            </button>
+            <ImportExportDeckModal
+              open={deckDataModal}
+              toggle={toggleDeckDataModal}
+            ></ImportExportDeckModal>
           </Container>
           <Deck
             shrineSlot={shrine}

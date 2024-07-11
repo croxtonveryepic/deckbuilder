@@ -11,7 +11,8 @@ time worked
 7/5: 5 hours (more refactoring and cleaing up base card data)
 7/6: 6 hours (clean up essence, shrine, and improvement data, isValid funcs)
 7/7: 10 hours (fixed refactoring bugs & touching up, added components for filtering base cards by query string, type, rarity, identity, and cost)
-
+7/8: 4 hours (deck encoder/decoder)
+7/10: 4 hours (added automatic deck temporary saving, and preparing for save/load/export/import)
 todo:
 sorting
 legality of dragging
