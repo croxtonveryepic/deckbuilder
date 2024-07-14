@@ -1,0 +1,86 @@
+{
+  "name": "blue deck",
+  "shrine": {
+    "shrine": {
+      "name": "Unseen City - D'Marque Control",
+      "filename": "unseencitydmarquecontrol",
+      "id": 5,
+      "identity": 5,
+      "hp": 20,
+      "power": 0,
+      "speed": 0,
+      "text": "When a Water Unit with Stealth enters your combat zone for the first time each turn, you may deal 1 damage to target Unit.",
+      "artist": "James McCully",
+      "rarity": 3,
+      "type": "shrines"
+    },
+    "shrineImprovement": {
+      "name": "Gardens",
+      "filename": "gardens-1",
+      "id": 1,
+      "text": "(Combat): (Exhaust): Surge 1.",
+      "hp": 0,
+      "power": 0,
+      "speed": 0,
+      "type": "shrine-improvements"
+    }
+  },
+  "deck": [
+    {
+      "essence": {
+        "name": "Essence of Dark and Water",
+        "filename": "essenceofdarkandwater-1",
+        "id": 19,
+        "cost": [1, 5],
+        "text": "",
+        "resources": [1, 5],
+        "unlimited": false,
+        "ccc": 3,
+        "hp": 0,
+        "power": 0,
+        "speed": 0,
+        "type": "essences"
+      },
+      "id": 3
+    },
+    {
+      "essence": {
+        "name": "Essence of Dark and Water",
+        "filename": "essenceofdarkandwater-1",
+        "id": 19,
+        "cost": [1, 5],
+        "text": "",
+        "resources": [1, 5],
+        "unlimited": false,
+        "ccc": 3,
+        "hp": 0,
+        "power": 0,
+        "speed": 0,
+        "type": "essences"
+      },
+      "id": 4
+    },
+    {
+      "baseCard": {
+        "name": "Absorb Magic",
+        "filename": "absorbmagic",
+        "id": 0,
+        "epic": false,
+        "supertype": 1,
+        "subtype": "",
+        "cost": 2,
+        "pips": [2, 2],
+        "hp": 0,
+        "power": 0,
+        "speed": 4,
+        "text": "Negate target (Stack) Event.",
+        "ccc": 2,
+        "artist": "J.C. Grande",
+        "rarity": 1,
+        "type": "base-cards"
+      },
+      "essence": null,
+      "id": 5
+    }
+  ]
+}

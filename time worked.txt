@@ -13,6 +13,7 @@ time worked
 7/7: 10 hours (fixed refactoring bugs & touching up, added components for filtering base cards by query string, type, rarity, identity, and cost)
 7/8: 4 hours (deck encoder/decoder)
 7/10: 4 hours (added automatic deck temporary saving, and preparing for save/load/export/import)
+7/13: 4 hours (bug fixes with load deck from code, added resource tracker)
 todo:
 sorting
 legality of dragging

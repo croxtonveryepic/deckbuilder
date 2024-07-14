@@ -13,6 +13,7 @@ import {
   Icon,
   TextField,
   Paper,
+  Button,
 } from '@mui/material';
 import {
   ShrineList,
@@ -43,14 +44,16 @@ import Image from 'next/image';
 import { DndContext } from '@dnd-kit/core';
 import { PipButtons } from './components/pip-button';
 import { ElementButtons } from './components/element-buttons';
-import { HighlightOff, SaveAs } from '@mui/icons-material';
+import { HighlightOff, SaveAs, LibraryBooks } from '@mui/icons-material';
 import {
   ImportExportDeckModal,
+  LoadDeckModal,
   SaveDeckModal,
   useLocalStorageDeck,
   useLocalStorageShrine,
 } from './components/deck-encoder';
 import { useEffect } from 'react';
+import { ResourceTracker } from './components/resource-tracker';
 
 export class ShrineSlot {
   shrine: Shrine | null;
@@ -98,6 +101,7 @@ export default function Home() {
   const [bcQuery, setBcQuery] = useState('');
   const [deckDataModal, setDeckDataModal] = useState(false);
   const [saveDeckModal, setSaveDeckModal] = useState(false);
+  const [loadDeckModal, setLoadDeckModal] = useState(false);
 
   // useEffect(() => {
   //   setShrine(decodeShrine('tempDeck'));
@@ -251,28 +255,56 @@ export default function Home() {
     setSaveDeckModal(!saveDeckModal);
   }
 
+  function toggleLoadDeckModal() {
+    setLoadDeckModal(!loadDeckModal);
+  }
+
   return (
     <Box>
       <DndContext>
         <Container className="deck-container">
           <Container className="deck-widget-container">
-            <button onClick={toggleShrineMode}>Toggle Shrine Mode</button>
-            <IconButton onClick={toggleSaveDeckModal}>
-              <SaveAs></SaveAs>
-            </IconButton>
-            <SaveDeckModal
-              open={saveDeckModal}
-              toggle={toggleSaveDeckModal}
+            <div>
+              <Button onClick={toggleShrineMode}>Toggle Shrine Mode</Button>
+              {/* save deck */}
+              <IconButton onClick={toggleSaveDeckModal}>
+                <SaveAs></SaveAs>
+              </IconButton>
+              <SaveDeckModal
+                open={saveDeckModal}
+                toggle={toggleSaveDeckModal}
+                deck={deck}
+                shrine={shrine}
+              ></SaveDeckModal>
+              {/* load deck */}
+              <IconButton onClick={toggleLoadDeckModal}>
+                <LibraryBooks></LibraryBooks>
+              </IconButton>
+              <LoadDeckModal
+                open={loadDeckModal}
+                toggle={toggleLoadDeckModal}
+                setShrineAndDeck={(ss, ds) => {
+                  // console.log(ss);
+                  setShrine(ss);
+                  // console.log(shrine);
+                  // console.log(ds);
+                  setDeck(ds);
+                  // console.log(deck);
+                }}
+              ></LoadDeckModal>
+              {/* import/export */}
+              <Button onClick={toggleDeckDataModal}>
+                Toggle Deck Data Modal
+              </Button>
+              <ImportExportDeckModal
+                open={deckDataModal}
+                toggle={toggleDeckDataModal}
+              ></ImportExportDeckModal>
+            </div>
+            <ResourceTracker
               deck={deck}
-              shrine={shrine}
-            ></SaveDeckModal>
-            <button onClick={toggleDeckDataModal}>
-              Toggle Deck Data Modal
-            </button>
-            <ImportExportDeckModal
-              open={deckDataModal}
-              toggle={toggleDeckDataModal}
-            ></ImportExportDeckModal>
+              shrine={shrine.shrine}
+            ></ResourceTracker>
           </Container>
           <Deck
             shrineSlot={shrine}

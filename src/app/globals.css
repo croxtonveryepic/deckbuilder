@@ -8,13 +8,13 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 50, 50, 50;
+    --background-end-rgb: 255, 255, 255;
   }
-} */
+}
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -75,7 +75,37 @@ body {
   right: 0;
   max-width: none;
   padding: 0;
+  display: flex;
+  flex-direction: row;
 }
+
+.deck-widget-container .resource-tracker {
+  display: flex;
+  flex-direction: row;
+}
+
+.deck-widget-container .resource-tracker .color-display {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  /* padding-right: 20%; */
+  /* padding-left: 20%; */
+  padding: 0%;
+}
+.deck-widget-container .resource-tracker .color-display .title {
+  padding-bottom: 5%;
+}
+
+.deck-widget-container .resource-tracker .color-display .color-tracker-icons {
+  display: flex;
+  flex-direction: row;
+  /* margin-right: 30%; */
+}
+
+/* .deck-widget-container .resource-tracker .color-display span {
+  display: flex;
+  flex-direction: row;
+} */
 
 .base-card-container {
   position: fixed;

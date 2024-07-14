@@ -4,10 +4,19 @@ import { shrineImprovements } from '../cardlists/shrine-improvements';
 import { baseCards } from '../cardlists/base-cards';
 import { essences } from '../cardlists/essences';
 import { useState, useEffect } from 'react';
-import { Modal, Paper, TextField } from '@mui/material';
-import { ClickAwayListener } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Modal,
+  Paper,
+  TextField,
+} from '@mui/material';
+import { ClickAwayListener, Button } from '@mui/material';
 import { checkOrX } from './check-or-x';
-import { Check } from '@mui/icons-material';
+import { Check, Toll } from '@mui/icons-material';
+import { json } from 'stream/consumers';
 const BASE = 92;
 const OFFSET = 35;
 const EMPTY = '"" ';
@@ -164,8 +173,27 @@ export function SaveDeckModal({
   shrine: ShrineSlot;
   deck: DeckSlot[];
 }) {
-  function handleSubmit() {
-    console.log('blep');
+  const [warnModal, setWarnModal] = useState({
+    open: false,
+    name: '',
+    decks: {} as any,
+  });
+
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    let name = e.target.deckname.value;
+    let decks = JSON.parse(localStorage.getItem('decks') || '{}');
+    if (decks[name]) {
+      setWarnModal({ open: true, name: name, decks: decks });
+    } else {
+      onConfirm(name, decks);
+      toggle();
+    }
+  }
+
+  function onConfirm(name: string, decks: any) {
+    decks[name] = encodeShrine(shrine) + ' ' + encodeDeck(deck);
+    localStorage.setItem('decks', JSON.stringify(decks));
   }
 
   const essences = deck.reduce((sum, ds) => {
@@ -174,7 +202,6 @@ export function SaveDeckModal({
 
   return (
     <Modal open={open}>
-      {/* <ClickAwayListener onClickAway={toggle}> */}
       <div
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
@@ -182,6 +209,30 @@ export function SaveDeckModal({
           }
         }}
       >
+        <Modal open={warnModal.open}>
+          <Paper>
+            <span>
+              Deck '{warnModal.name}' already exists. Would you like to replace
+              it?
+            </span>
+            <span>
+              <Button
+                onClick={() => {
+                  onConfirm(warnModal.name, warnModal.decks);
+                  setWarnModal({ ...warnModal, open: false });
+                  toggle();
+                }}
+              >
+                Confirm
+              </Button>
+              <Button
+                onClick={() => setWarnModal({ ...warnModal, open: false })}
+              >
+                Cancel
+              </Button>
+            </span>
+          </Paper>
+        </Modal>
         <Paper>
           Deck Legality: <br></br>Shrine and Shrine Improvement present:
           {checkOrX(
@@ -195,12 +246,133 @@ export function SaveDeckModal({
           {checkOrX(essences === 50, `${deck.length - essences} missing`)}
           <br></br>
           <form onSubmit={handleSubmit}>
-            <TextField></TextField>
+            <TextField label="Deck Name" name="deckname"></TextField>
             <button type="submit">Submit</button>
           </form>
         </Paper>
       </div>
-      {/* </ClickAwayListener> */}
+    </Modal>
+  );
+}
+
+class Deck {
+  name: string;
+  shrine: ShrineSlot;
+  deck: DeckSlot[];
+}
+
+function decodeFullDeckCode(name: string, code: string): Deck {
+  // console.log('deck code: ' + code);
+  let ss = decodeShrine(code);
+  // console.log('deck substring: ' + code.substring(7));
+  let deck = decodeDeck(code.substring(7));
+  // console.log(ss);
+  // console.log(deck);
+  return { name: name, shrine: ss, deck: deck };
+}
+
+export function LoadDeckModal({
+  open,
+  toggle,
+  setShrineAndDeck,
+}: {
+  open: boolean;
+  toggle: () => void;
+  setShrineAndDeck: (ss: ShrineSlot, ds: DeckSlot[]) => void;
+}) {
+  const [decks, setDecks] = useState(new Array<Deck>());
+
+  useEffect(() => {
+    let deckCodes = JSON.parse(localStorage.getItem('decks') || '{}');
+    let deckObjects = [] as Deck[];
+    // console.log(deckCodes);
+    for (const [key, value] of Object.entries(deckCodes)) {
+      // console.log(key);
+      // console.log(value);
+      let cards = decodeFullDeckCode(key, value as string);
+      // console.log(cards);
+      deckObjects.push(cards);
+    }
+    // console.log(deckObjects);
+    setDecks(deckObjects);
+  }, []);
+
+  let cards = decks.map((deck) => {
+    let src, media;
+    if (deck.shrine.shrine?.filename) {
+      src = `/assets/shrines/${deck.shrine.shrine?.filename}.png`;
+    } else if (deck.shrine.shrine?.filename) {
+      src = `/assets/base-card/${deck.shrine.shrine?.filename}.png`;
+    }
+    if (src) {
+      media = <img src={src}></img>;
+    }
+
+    return (
+      <button
+        onClick={() => {
+          // console.log(JSON.stringify(deck));
+          // console.log(deck);
+          // console.log(deck.shrine);
+          // console.log(deck.deck);
+          setShrineAndDeck(deck.shrine, deck.deck);
+          toggle();
+        }}
+        key={deck.name}
+      >
+        <Card>
+          <CardHeader>{deck.name}</CardHeader>
+          {media}
+        </Card>
+      </button>
+    );
+  });
+
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    let name = e.target.deckname.value;
+  }
+
+  return (
+    <Modal open={open}>
+      <div
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            toggle();
+          }
+        }}
+      >
+        {/* <Modal open={warnModal.open}>
+          <Paper>
+            <span>
+              Deck '{warnModal.name}' already exists. Would you like to replace
+              it?
+            </span>
+            <span>
+              <Button
+                onClick={() => {
+                  onConfirm(warnModal.name, warnModal.decks);
+                  setWarnModal({ ...warnModal, open: false });
+                  toggle();
+                }}
+              >
+                Confirm
+              </Button>
+              <Button
+                onClick={() => setWarnModal({ ...warnModal, open: false })}
+              >
+                Cancel
+              </Button>
+            </span>
+          </Paper>
+        </Modal> */}
+        <Paper>
+          <span>Load deck from browser storage</span>
+          <span className="warn">This will overwrite your current deck.</span>
+          <br></br>
+          {cards}
+        </Paper>
+      </div>
     </Modal>
   );
 }
