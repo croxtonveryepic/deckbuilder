@@ -14,6 +14,7 @@ time worked
 7/8: 4 hours (deck encoder/decoder)
 7/10: 4 hours (added automatic deck temporary saving, and preparing for save/load/export/import)
 7/13: 4 hours (bug fixes with load deck from code, added resource tracker)
+7/17: 5 hours (various style fixes)
 todo:
 sorting
 legality of dragging

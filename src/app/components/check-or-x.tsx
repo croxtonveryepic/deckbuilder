@@ -4,8 +4,8 @@ export function checkOrX(bool: boolean, errorMessage?: string) {
   return bool ? (
     <Check></Check>
   ) : (
-    <span>
+    <p>
       <Close></Close> ({errorMessage})
-    </span>
+    </p>
   );
 }

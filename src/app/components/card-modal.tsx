@@ -22,6 +22,8 @@ export function CardModal({
   setActiveCard: (arg0: number) => void;
   onEnter?: (card: any) => void;
 }) {
+  const [translucent, setTranslucent] = useState(false);
+
   function moveLeft() {
     setActiveCard(activeCard - 1);
   }
@@ -34,10 +36,14 @@ export function CardModal({
     setActiveCard(-1);
   }
 
+  let className = translucent
+    ? 'modal-parent translucent'
+    : 'modal-parent opaque';
+
   return (
     <Modal open={activeCard >= 0}>
       <div
-        className="modal-parent"
+        className={className}
         onClick={close}
         onKeyDown={(e) => {
           switch (e.key) {
@@ -53,10 +59,16 @@ export function CardModal({
               if (activeCard < list.length - 1) moveRight();
               break;
             case ' ':
+              setTranslucent(true);
               break;
             case 'Enter':
               onEnter && onEnter(list[activeCard]);
               break;
+          }
+        }}
+        onKeyUp={(e) => {
+          if (e.key === ' ') {
+            setTranslucent(false);
           }
         }}
       >
@@ -102,6 +114,8 @@ export function CardModal({
   );
 }
 
+// function
+
 export function DeckModal({
   shrineSlot,
   mainDeck,
@@ -113,6 +127,8 @@ export function DeckModal({
   activeCard: number;
   setActiveCard: (arg0: number) => void;
 }) {
+  const [translucent, setTranslucent] = useState(false);
+
   function moveLeft() {
     setActiveCard(activeCard - 1);
   }
@@ -239,15 +255,22 @@ export function DeckModal({
     }
   }
 
+  let className = translucent
+    ? 'modal-parent translucent'
+    : 'modal-parent opaque';
+
   return (
     <Modal open={activeCard >= -1}>
       <div
-        className="modal-parent"
+        className={className}
         onClick={close}
         onKeyDown={(e) => {
           switch (e.key) {
             case 'Escape':
               close();
+              break;
+            case ' ':
+              setTranslucent(true);
               break;
             case 'ArrowLeft':
             case 'Left':
@@ -257,6 +280,11 @@ export function DeckModal({
             case 'Right':
               if (activeCard < mainDeck.length - 1) moveRight();
               break;
+          }
+        }}
+        onKeyUp={(e) => {
+          if (e.key === ' ') {
+            setTranslucent(false);
           }
         }}
       >

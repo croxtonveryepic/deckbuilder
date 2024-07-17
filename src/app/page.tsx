@@ -14,6 +14,8 @@ import {
   TextField,
   Paper,
   Button,
+  InputAdornment,
+  InputLabel,
 } from '@mui/material';
 import {
   ShrineList,
@@ -44,9 +46,14 @@ import Image from 'next/image';
 import { DndContext } from '@dnd-kit/core';
 import { PipButtons } from './components/pip-button';
 import { ElementButtons } from './components/element-buttons';
-import { HighlightOff, SaveAs, LibraryBooks } from '@mui/icons-material';
 import {
-  ImportExportDeckModal,
+  HighlightOff,
+  SaveAs,
+  LibraryBooks,
+  Search,
+  ImportExport,
+} from '@mui/icons-material';
+import {
   LoadDeckModal,
   SaveDeckModal,
   useLocalStorageDeck,
@@ -264,43 +271,37 @@ export default function Home() {
       <DndContext>
         <Container className="deck-container">
           <Container className="deck-widget-container">
-            <div>
-              <Button onClick={toggleShrineMode}>Toggle Shrine Mode</Button>
-              {/* save deck */}
-              <IconButton onClick={toggleSaveDeckModal}>
-                <SaveAs></SaveAs>
-              </IconButton>
-              <SaveDeckModal
-                open={saveDeckModal}
-                toggle={toggleSaveDeckModal}
-                deck={deck}
-                shrine={shrine}
-              ></SaveDeckModal>
-              {/* load deck */}
-              <IconButton onClick={toggleLoadDeckModal}>
-                <LibraryBooks></LibraryBooks>
-              </IconButton>
-              <LoadDeckModal
-                open={loadDeckModal}
-                toggle={toggleLoadDeckModal}
-                setShrineAndDeck={(ss, ds) => {
-                  // console.log(ss);
-                  setShrine(ss);
-                  // console.log(shrine);
-                  // console.log(ds);
-                  setDeck(ds);
-                  // console.log(deck);
-                }}
-              ></LoadDeckModal>
-              {/* import/export */}
-              <Button onClick={toggleDeckDataModal}>
-                Toggle Deck Data Modal
-              </Button>
-              <ImportExportDeckModal
-                open={deckDataModal}
-                toggle={toggleDeckDataModal}
-              ></ImportExportDeckModal>
-            </div>
+            <Stack direction="row" alignItems="center">
+              <Typography>Shrine</Typography>
+              <Switch checked={!shrineMode} onChange={toggleShrineMode} />
+              <Typography>Deck</Typography>
+            </Stack>
+            {/* save deck */}
+            <IconButton onClick={toggleSaveDeckModal}>
+              <SaveAs></SaveAs>
+            </IconButton>
+            <SaveDeckModal
+              open={saveDeckModal}
+              toggle={toggleSaveDeckModal}
+              deck={deck}
+              shrine={shrine}
+            ></SaveDeckModal>
+            {/* load deck */}
+            <IconButton onClick={toggleLoadDeckModal}>
+              <LibraryBooks></LibraryBooks>
+            </IconButton>
+            <LoadDeckModal
+              open={loadDeckModal}
+              toggle={toggleLoadDeckModal}
+              setShrineAndDeck={(ss, ds) => {
+                // console.log(ss);
+                setShrine(ss);
+                // console.log(shrine);
+                // console.log(ds);
+                setDeck(ds);
+                // console.log(deck);
+              }}
+            ></LoadDeckModal>
             <ResourceTracker
               deck={deck}
               shrine={shrine.shrine}
@@ -330,7 +331,7 @@ export default function Home() {
           ></Deck>
         </Container>
         <Container className="base-card-container">
-          <Container className="base-card-widget-container">
+          <div className="base-card-widget-container">
             {/* <FormGroup>
               <FormControlLabel label={} control={<Switch></Switch>}>
                 
@@ -352,6 +353,14 @@ export default function Home() {
                       value={bcQuery}
                       onChange={(e) => setBcQuery(e.target.value)}
                       className="query"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search />
+                          </InputAdornment>
+                        ),
+                      }}
+                      color="secondary"
                     ></TextField>
                     <IconButton onClick={() => setBcQuery('')}>
                       <HighlightOff></HighlightOff>
@@ -386,6 +395,7 @@ export default function Home() {
                         setBcRarity(e.target.value as Rarity);
                       }}
                     >
+                      <InputLabel>Rarity</InputLabel>
                       <MenuItem value={Rarity.Any}>Any</MenuItem>
                       <MenuItem value={Rarity.Common}>Common</MenuItem>
                       <MenuItem value={Rarity.Uncommon}>Uncommon</MenuItem>
@@ -399,7 +409,11 @@ export default function Home() {
                     selected={bcElements}
                     onElementClicked={handleBaseCardElementFilterClicked}
                   ></ElementButtons>
-                  <Stack direction="row" alignItems="center">
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    sx={{ marginLeft: '5px' }}
+                  >
                     <Typography>Or</Typography>
                     <Switch
                       checked={bcElementAnd}
@@ -434,7 +448,7 @@ export default function Home() {
                 </FormGroup>
               </div>
             )}
-          </Container>
+          </div>
           {shrineMode ? (
             <ShrineList
               shrines={filteredAndSortedShrines()}

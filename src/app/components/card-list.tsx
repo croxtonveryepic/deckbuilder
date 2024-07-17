@@ -73,7 +73,7 @@ export function ShrineImprovementList({
   ));
 
   return (
-    <Container>
+    <Container className="overlays">
       <CardModal
         cardType={CardType.ShrineImprovement}
         list={shrineImprovements}
@@ -136,7 +136,7 @@ export function EssenceList({ essences }: { essences: Essence[] }) {
   ));
 
   return (
-    <Container>
+    <Container className="overlays">
       <CardModal
         cardType={CardType.Essence}
         list={essences}
@@ -240,6 +240,7 @@ export function Deck({
 
   return (
     <Container
+      className="main-deck"
       onDrop={(e) => {
         e.preventDefault();
         const t = e.dataTransfer.getData('type');

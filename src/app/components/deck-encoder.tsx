@@ -9,6 +9,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Container,
   Modal,
   Paper,
   TextField,
@@ -131,35 +132,8 @@ export function useLocalStorageDeck() {
   return [value, setValue] as const;
 }
 
-export function ImportExportDeckModal({
-  open,
-  toggle,
-}: {
-  open: boolean;
-  toggle: () => void;
-}) {
-  function saveDeck(name: string) {}
-
-  return (
-    <Modal open={open}>
-      <ClickAwayListener onClickAway={toggle}>
-        <div
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') {
-              toggle();
-            }
-          }}
-        >
-          <Paper>
-            <button>Save Deck</button>
-            <button>Load Deck</button>
-            <button>Import Deck</button>
-            <button>Export Deck</button>
-          </Paper>
-        </div>
-      </ClickAwayListener>
-    </Modal>
-  );
+function encodeFullDeckCode(ss: ShrineSlot, deck: DeckSlot[]): string {
+  return encodeShrine(ss) + encodeDeck(deck);
 }
 
 export function SaveDeckModal({
@@ -201,7 +175,7 @@ export function SaveDeckModal({
   }, 0);
 
   return (
-    <Modal open={open}>
+    <Modal open={open} className="modal-parent">
       <div
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
@@ -210,7 +184,7 @@ export function SaveDeckModal({
         }}
       >
         <Modal open={warnModal.open}>
-          <Paper>
+          <Container className="modal-center">
             <span>
               Deck '{warnModal.name}' already exists. Would you like to replace
               it?
@@ -231,10 +205,11 @@ export function SaveDeckModal({
                 Cancel
               </Button>
             </span>
-          </Paper>
+          </Container>
         </Modal>
-        <Paper>
-          Deck Legality: <br></br>Shrine and Shrine Improvement present:
+        <Container className="modal thin-bg">
+          Deck Legality:
+          <br></br>Shrine and Shrine Improvement present:
           {checkOrX(
             shrine.shrine !== null && shrine.shrineImprovement !== null
           )}
@@ -249,7 +224,7 @@ export function SaveDeckModal({
             <TextField label="Deck Name" name="deckname"></TextField>
             <button type="submit">Submit</button>
           </form>
-        </Paper>
+        </Container>
       </div>
     </Modal>
   );
@@ -262,12 +237,8 @@ class Deck {
 }
 
 function decodeFullDeckCode(name: string, code: string): Deck {
-  // console.log('deck code: ' + code);
   let ss = decodeShrine(code);
-  // console.log('deck substring: ' + code.substring(7));
   let deck = decodeDeck(code.substring(7));
-  // console.log(ss);
-  // console.log(deck);
   return { name: name, shrine: ss, deck: deck };
 }
 
@@ -285,15 +256,10 @@ export function LoadDeckModal({
   useEffect(() => {
     let deckCodes = JSON.parse(localStorage.getItem('decks') || '{}');
     let deckObjects = [] as Deck[];
-    // console.log(deckCodes);
     for (const [key, value] of Object.entries(deckCodes)) {
-      // console.log(key);
-      // console.log(value);
       let cards = decodeFullDeckCode(key, value as string);
-      // console.log(cards);
       deckObjects.push(cards);
     }
-    // console.log(deckObjects);
     setDecks(deckObjects);
   }, []);
 
@@ -311,10 +277,6 @@ export function LoadDeckModal({
     return (
       <button
         onClick={() => {
-          // console.log(JSON.stringify(deck));
-          // console.log(deck);
-          // console.log(deck.shrine);
-          // console.log(deck.deck);
           setShrineAndDeck(deck.shrine, deck.deck);
           toggle();
         }}
@@ -342,30 +304,6 @@ export function LoadDeckModal({
           }
         }}
       >
-        {/* <Modal open={warnModal.open}>
-          <Paper>
-            <span>
-              Deck '{warnModal.name}' already exists. Would you like to replace
-              it?
-            </span>
-            <span>
-              <Button
-                onClick={() => {
-                  onConfirm(warnModal.name, warnModal.decks);
-                  setWarnModal({ ...warnModal, open: false });
-                  toggle();
-                }}
-              >
-                Confirm
-              </Button>
-              <Button
-                onClick={() => setWarnModal({ ...warnModal, open: false })}
-              >
-                Cancel
-              </Button>
-            </span>
-          </Paper>
-        </Modal> */}
         <Paper>
           <span>Load deck from browser storage</span>
           <span className="warn">This will overwrite your current deck.</span>
