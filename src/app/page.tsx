@@ -164,6 +164,18 @@ export default function Home() {
     });
   }
 
+  function sortedDeck() {
+    return Array.from(deck).sort((a, b) => {
+      let ac = a.baseCard;
+      let bc = b.baseCard;
+      return (
+        a.baseCard.supertype - b.baseCard.supertype ||
+        ac.cost + ac.pips.length - (bc.cost + bc.pips.length) ||
+        ac.name.localeCompare(bc.name)
+      );
+    });
+  }
+
   function handleShrineElementFilterClicked(e: Element) {
     if (sElements.includes(e)) {
       setSElements(sElements.filter((el) => el !== e));
@@ -309,7 +321,7 @@ export default function Home() {
           </Container>
           <Deck
             shrineSlot={shrine}
-            mainDeck={deck}
+            mainDeck={sortedDeck()}
             onClickDeckSlot={removeLayer}
             applyEssence={applyEssence}
             setShrine={(s) =>

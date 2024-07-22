@@ -14,11 +14,13 @@ time worked
 7/8: 4 hours (deck encoder/decoder)
 7/10: 4 hours (added automatic deck temporary saving, and preparing for save/load/export/import)
 7/13: 4 hours (bug fixes with load deck from code, added resource tracker)
-7/17: 5 hours (various style fixes)
+7/17: 5 hours (various style fixes, modal peeking)
+7/21: 4 hours (deck sorting, card overlapping, start curve tracking)
+
 todo:
-sorting
 legality of dragging
-modal peeking
+curve
+fix overlapping element size
 code for soulful and soulless
 modify the deck modal to allow browsing overlay cards
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity

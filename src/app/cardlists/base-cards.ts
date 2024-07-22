@@ -1,12 +1,12 @@
 import { CardType } from '../components/card';
 import { Essence } from './essences';
 export enum BaseCardType {
-  Unit,
-  Event,
-  ContinuousEvent,
-  Item,
-  Structure,
-  Any,
+  Unit = 1,
+  Event = 2,
+  ContinuousEvent = 3,
+  Item = 4,
+  Structure = 5,
+  Any = 6,
 }
 
 export enum Element {

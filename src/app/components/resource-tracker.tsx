@@ -132,29 +132,117 @@ export function ResourceTracker({
   deck: DeckSlot[];
 }) {
   let resources = new Colors();
-  let costs = new Colors();
+  let souls = new Colors();
   let identities = new Colors();
+  let costs = new Array<number>();
 
   for (const ds of deck) {
-    let r, c, i;
-    c = [...ds.baseCard.pips];
+    let r, s, i;
+    s = [...ds.baseCard.pips];
     if (ds.essence) {
       r = ds.essence.resources;
-      c.push(...ds.essence.cost);
+      s.push(...ds.essence.cost);
     } else {
       r = [] as Element[];
     }
-    i = [...new Set(c)];
+    i = [...new Set(s)];
     resources.record(r);
-    costs.record(c);
+    souls.record(s);
     identities.record(i);
+    costs.push(
+      ds.baseCard.pips.length +
+        ds.baseCard.cost +
+        (ds.essence?.cost.length || 0)
+    );
   }
 
   return (
     <div className="resource-tracker">
-      <ColorDisplay title="Costs" colors={costs}></ColorDisplay>
-      <ColorDisplay title="Resources" colors={resources}></ColorDisplay>
-      <ColorDisplay title="Identities" colors={identities}></ColorDisplay>
+      <ColorDisplay
+        title="Souls (Total resource pips in the costs of cards)"
+        colors={souls}
+      ></ColorDisplay>
+      <ColorDisplay
+        title="Resources (Number of Essences that provide each resources; multicolor counts for both)"
+        colors={resources}
+      ></ColorDisplay>
+      <ColorDisplay
+        title="Identities (Color identity of all "
+        colors={identities}
+      ></ColorDisplay>
+      {/* <Tooltip title="Curve">
+        <Container className="color-display">
+          <Box className="circle letter">{title.substring(0, 1)}</Box>
+          <Container className="color-tracker-icons">
+            {colors.air > 0 && (
+              <span style={{ order: -colors.air }}>
+                <Image
+                  src="/assets/misc/airwhiteongrey.png"
+                  alt="Air Icon"
+                  width={wh}
+                  height={wh}
+                ></Image>
+                {colors.air}
+              </span>
+            )}
+            {colors.dark > 0 && (
+              <span style={{ order: -colors.dark }}>
+                <Image
+                  src="/assets/misc/darkwhiteonpurple.png"
+                  alt="Dark Icon"
+                  width={wh}
+                  height={wh}
+                ></Image>
+                {colors.dark}
+              </span>
+            )}
+            {colors.earth > 0 && (
+              <span style={{ order: -colors.earth }}>
+                <Image
+                  src="/assets/misc/earth2whiteongreen.png"
+                  alt="Earth Icon"
+                  width={wh}
+                  height={wh}
+                ></Image>
+                {colors.earth}
+              </span>
+            )}
+            {colors.fire > 0 && (
+              <span style={{ order: -colors.fire }}>
+                <Image
+                  src="/assets/misc/firewhiteonred.png"
+                  alt="Fire Icon"
+                  width={wh}
+                  height={wh}
+                ></Image>
+                {colors.fire}
+              </span>
+            )}
+            {colors.light > 0 && (
+              <span style={{ order: -colors.light }}>
+                <Image
+                  src="/assets/misc/lightwhiteonyellow.png"
+                  alt="Light Icon"
+                  width={wh}
+                  height={wh}
+                ></Image>
+                {colors.light}
+              </span>
+            )}
+            {colors.water > 0 && (
+              <span style={{ order: -colors.water }}>
+                <Image
+                  src="/assets/misc/waterwhiteonblue.png"
+                  alt="Water Icon"
+                  width={wh}
+                  height={wh}
+                ></Image>
+                {colors.water}
+              </span>
+            )}
+          </Container>
+        </Container>
+      </Tooltip> */}
     </div>
   );
 }

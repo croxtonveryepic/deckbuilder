@@ -37,6 +37,29 @@ body {
   position: relative;
 }
 
+.card-cluster {
+  display: flex;
+  /* flex-direction: row; */
+  margin-right: 0;
+  padding-right: 0;
+}
+.card-cluster .card {
+  /* flex-grow: 0; */
+  /* display: inline-block; */
+  /* width: 100%; */
+}
+
+.card-cluster .overlap-same-name {
+  /* width: 100%; */
+  margin-left: -15%;
+  /* margin-right: -25%; */
+  padding: 0;
+  /* float: left; */
+  /* padding-left: 0px !important; */
+  /* transform: translateX(-40%); */
+  /* position: relative; */
+}
+
 .card .overlay {
   top: 0%;
   position: absolute;
@@ -330,9 +353,17 @@ body {
   padding-left: 0%;
 }
 
+.card-cluster .card img {
+  border-color: black;
+  border-width: 1px;
+  border-radius: 5%;
+  /* z-index: 2; */
+}
+
 .card img {
   width: 7.55vw;
   height: 10.57vw;
+
   /* max-width: none; */
 }
 

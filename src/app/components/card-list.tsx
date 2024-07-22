@@ -173,40 +173,92 @@ export function Deck({
     });
   }
 
-  const deck = mainDeck.map((c) => (
-    <Grid
-      item
-      key={c.id}
-      onDrop={(e) => {
-        e.preventDefault();
-        if (e.dataTransfer.getData('type') === CardType.Essence) {
-          applyEssence(c.id, e.dataTransfer.getData('card'));
-        }
-      }}
-      onDragOver={(e) => {
-        e.preventDefault();
-      }}
-    >
-      {c.essence ? (
-        <ImbuedCard
-          card={c.baseCard}
-          essence={c.essence}
-          onClick={() => onClickDeckSlot(c.id)}
-          onContextMenu={() => {
-            setModalCard(getIndex(c.id));
-          }}
-        ></ImbuedCard>
-      ) : (
-        <Card
-          card={c.baseCard}
-          onClick={() => onClickDeckSlot(c.id)}
-          onContextMenu={(s) => {
-            setModalCard(getIndex(c.id));
-          }}
-        ></Card>
-      )}
-    </Grid>
-  ));
+  let deck = [];
+
+  for (let i = 0; i < mainDeck.length; i++) {
+    let c = mainDeck[i];
+    let dupes = [];
+    while (mainDeck[i + 1]?.baseCard.id === c.baseCard.id) {
+      i++;
+      let dupe = mainDeck[i];
+      dupes.push(
+        dupe.essence ? (
+          <ImbuedCard
+            className="overlap-same-name"
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.getData('type') === CardType.Essence) {
+                applyEssence(dupe.id, e.dataTransfer.getData('card'));
+              }
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+            }}
+            card={dupe.baseCard}
+            essence={dupe.essence}
+            onClick={() => onClickDeckSlot(dupe.id)}
+            onContextMenu={() => {
+              setModalCard(getIndex(dupe.id));
+            }}
+          ></ImbuedCard>
+        ) : (
+          <Card
+            className="overlap-same-name"
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.getData('type') === CardType.Essence) {
+                applyEssence(dupe.id, e.dataTransfer.getData('card'));
+              }
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+            }}
+            card={dupe.baseCard}
+            onClick={() => onClickDeckSlot(dupe.id)}
+            onContextMenu={(s) => {
+              setModalCard(getIndex(dupe.id));
+            }}
+          ></Card>
+        )
+      );
+    }
+    deck.push(
+      <Grid
+        item
+        className="card-cluster"
+        key={c.id}
+        onDrop={(e) => {
+          e.preventDefault();
+          if (e.dataTransfer.getData('type') === CardType.Essence) {
+            applyEssence(c.id, e.dataTransfer.getData('card'));
+          }
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+      >
+        {c.essence ? (
+          <ImbuedCard
+            card={c.baseCard}
+            essence={c.essence}
+            onClick={() => onClickDeckSlot(c.id)}
+            onContextMenu={() => {
+              setModalCard(getIndex(c.id));
+            }}
+          ></ImbuedCard>
+        ) : (
+          <Card
+            card={c.baseCard}
+            onClick={() => onClickDeckSlot(c.id)}
+            onContextMenu={(s) => {
+              setModalCard(getIndex(c.id));
+            }}
+          ></Card>
+        )}
+        {dupes}
+      </Grid>
+    );
+  }
 
   let shrine;
   if (shrineSlot.shrine) {
