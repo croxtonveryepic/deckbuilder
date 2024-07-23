@@ -164,7 +164,7 @@ export default function Home() {
     });
   }
 
-  function sortedDeck() {
+  function sortDeck() {
     return Array.from(deck).sort((a, b) => {
       let ac = a.baseCard;
       let bc = b.baseCard;
@@ -175,6 +175,8 @@ export default function Home() {
       );
     });
   }
+
+  let sortedDeck = sortDeck();
 
   function handleShrineElementFilterClicked(e: Element) {
     if (sElements.includes(e)) {
@@ -295,7 +297,7 @@ export default function Home() {
             <SaveDeckModal
               open={saveDeckModal}
               toggle={toggleSaveDeckModal}
-              deck={deck}
+              deck={sortedDeck}
               shrine={shrine}
             ></SaveDeckModal>
             {/* load deck */}
@@ -321,7 +323,7 @@ export default function Home() {
           </Container>
           <Deck
             shrineSlot={shrine}
-            mainDeck={sortedDeck()}
+            mainDeck={sortedDeck}
             onClickDeckSlot={removeLayer}
             applyEssence={applyEssence}
             setShrine={(s) =>

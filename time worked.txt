@@ -16,11 +16,11 @@ time worked
 7/13: 4 hours (bug fixes with load deck from code, added resource tracker)
 7/17: 5 hours (various style fixes, modal peeking)
 7/21: 4 hours (deck sorting, card overlapping, start curve tracking)
+7/22: 5 hours (perfecting same-card overlap, mana curve)
 
 todo:
 legality of dragging
-curve
-fix overlapping element size
+fix deck modal inconsistency with sorting
 code for soulful and soulless
 modify the deck modal to allow browsing overlay cards
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity

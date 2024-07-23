@@ -155,7 +155,26 @@ body {
   padding-right: 5%;
 }
 
+.deck-widget-container .resource-tracker .curve-display {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: center;
+  /* padding-right: 20%; */
+  /* padding-left: 20%; */
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
 .deck-widget-container .resource-tracker .color-display .color-tracker-icons {
+  display: flex;
+  flex-direction: row;
+  /* margin-right: 30%; */
+  flex-shrink: 0;
+  padding-left: 18px;
+}
+
+.deck-widget-container .resource-tracker .curve-display .curve-tracker-icons {
   display: flex;
   flex-direction: row;
   /* margin-right: 30%; */
@@ -172,6 +191,26 @@ body {
   margin-right: 2px;
   display: grid;
   justify-items: center;
+}
+
+.deck-widget-container
+  .resource-tracker
+  .curve-display
+  .curve-tracker-icons
+  span {
+  margin-left: 3px;
+  margin-right: 2px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+}
+
+.deck-widget-container .mana-pip.circle {
+  display: grid;
+  justify-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: grey;
 }
 
 /* .deck-widget-container .resource-tracker .color-display span {

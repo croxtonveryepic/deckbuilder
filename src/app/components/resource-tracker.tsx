@@ -124,6 +124,10 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
   );
 }
 
+function manaCircle(num: number) {
+  return <Box className="mana-pip circle">{num}</Box>;
+}
+
 export function ResourceTracker({
   shrine,
   deck,
@@ -134,7 +138,7 @@ export function ResourceTracker({
   let resources = new Colors();
   let souls = new Colors();
   let identities = new Colors();
-  let costs = new Array<number>();
+  let costs = [0, 0, 0, 0, 0, 0, 0, 0];
 
   for (const ds of deck) {
     let r, s, i;
@@ -149,12 +153,17 @@ export function ResourceTracker({
     resources.record(r);
     souls.record(s);
     identities.record(i);
-    costs.push(
-      ds.baseCard.pips.length +
-        ds.baseCard.cost +
-        (ds.essence?.cost.length || 0)
-    );
+    costs[ds.baseCard.cost + (ds.essence?.cost.length || 0) - 1] += 1;
   }
+
+  const costDisplay = costs.map((val, index) => {
+    return (
+      <span>
+        {manaCircle(index + 1)}
+        {val}
+      </span>
+    );
+  });
 
   return (
     <div className="resource-tracker">
@@ -167,82 +176,15 @@ export function ResourceTracker({
         colors={resources}
       ></ColorDisplay>
       <ColorDisplay
-        title="Identities (Color identity of all "
+        title="Identities (For each Element, number of cards having that color identity, after Essence cost increases)"
         colors={identities}
       ></ColorDisplay>
-      {/* <Tooltip title="Curve">
-        <Container className="color-display">
-          <Box className="circle letter">{title.substring(0, 1)}</Box>
-          <Container className="color-tracker-icons">
-            {colors.air > 0 && (
-              <span style={{ order: -colors.air }}>
-                <Image
-                  src="/assets/misc/airwhiteongrey.png"
-                  alt="Air Icon"
-                  width={wh}
-                  height={wh}
-                ></Image>
-                {colors.air}
-              </span>
-            )}
-            {colors.dark > 0 && (
-              <span style={{ order: -colors.dark }}>
-                <Image
-                  src="/assets/misc/darkwhiteonpurple.png"
-                  alt="Dark Icon"
-                  width={wh}
-                  height={wh}
-                ></Image>
-                {colors.dark}
-              </span>
-            )}
-            {colors.earth > 0 && (
-              <span style={{ order: -colors.earth }}>
-                <Image
-                  src="/assets/misc/earth2whiteongreen.png"
-                  alt="Earth Icon"
-                  width={wh}
-                  height={wh}
-                ></Image>
-                {colors.earth}
-              </span>
-            )}
-            {colors.fire > 0 && (
-              <span style={{ order: -colors.fire }}>
-                <Image
-                  src="/assets/misc/firewhiteonred.png"
-                  alt="Fire Icon"
-                  width={wh}
-                  height={wh}
-                ></Image>
-                {colors.fire}
-              </span>
-            )}
-            {colors.light > 0 && (
-              <span style={{ order: -colors.light }}>
-                <Image
-                  src="/assets/misc/lightwhiteonyellow.png"
-                  alt="Light Icon"
-                  width={wh}
-                  height={wh}
-                ></Image>
-                {colors.light}
-              </span>
-            )}
-            {colors.water > 0 && (
-              <span style={{ order: -colors.water }}>
-                <Image
-                  src="/assets/misc/waterwhiteonblue.png"
-                  alt="Water Icon"
-                  width={wh}
-                  height={wh}
-                ></Image>
-                {colors.water}
-              </span>
-            )}
-          </Container>
+      <Tooltip title="Curve (Numerical costs of cards)">
+        <Container className="curve-display">
+          <Box className="circle letter">C</Box>
+          <Container className="curve-tracker-icons">{costDisplay}</Container>
         </Container>
-      </Tooltip> */}
+      </Tooltip>
     </div>
   );
 }
