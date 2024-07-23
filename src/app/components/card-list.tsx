@@ -181,10 +181,12 @@ export function Deck({
     while (mainDeck[i + 1]?.baseCard.id === c.baseCard.id) {
       i++;
       let dupe = mainDeck[i];
+      let style = {}; //{ transform: `translateX(-${(dupes.length + 1) * 75}%)` };
       dupes.push(
         dupe.essence ? (
           <ImbuedCard
-            className="overlap-same-name"
+            className="overlapped"
+            style={style}
             onDrop={(e) => {
               e.preventDefault();
               if (e.dataTransfer.getData('type') === CardType.Essence) {
@@ -194,6 +196,7 @@ export function Deck({
             onDragOver={(e) => {
               e.preventDefault();
             }}
+            // ondra
             card={dupe.baseCard}
             essence={dupe.essence}
             onClick={() => onClickDeckSlot(dupe.id)}
@@ -203,7 +206,8 @@ export function Deck({
           ></ImbuedCard>
         ) : (
           <Card
-            className="overlap-same-name"
+            className="overlapped"
+            style={style}
             onDrop={(e) => {
               e.preventDefault();
               if (e.dataTransfer.getData('type') === CardType.Essence) {
@@ -226,6 +230,7 @@ export function Deck({
       <Grid
         item
         className="card-cluster"
+        style={{ width: 7.55 + 5.66 * dupes.length + 'vw' }}
         key={c.id}
         onDrop={(e) => {
           e.preventDefault();
@@ -237,8 +242,10 @@ export function Deck({
           e.preventDefault();
         }}
       >
+        {dupes}
         {c.essence ? (
           <ImbuedCard
+            className="last"
             card={c.baseCard}
             essence={c.essence}
             onClick={() => onClickDeckSlot(c.id)}
@@ -248,6 +255,7 @@ export function Deck({
           ></ImbuedCard>
         ) : (
           <Card
+            className="last"
             card={c.baseCard}
             onClick={() => onClickDeckSlot(c.id)}
             onContextMenu={(s) => {
@@ -255,7 +263,6 @@ export function Deck({
             }}
           ></Card>
         )}
-        {dupes}
       </Grid>
     );
   }

@@ -40,24 +40,40 @@ body {
 .card-cluster {
   display: flex;
   /* flex-direction: row; */
-  margin-right: 0;
-  padding-right: 0;
+  margin-right: 32px;
+  /* padding-right: 0; */
+  /* flex-grow: 0; */
+  /* overflow: hidden; */
 }
-.card-cluster .card {
+.card-cluster .card:hover {
   /* flex-grow: 0; */
   /* display: inline-block; */
   /* width: 100%; */
+  z-index: 1;
 }
 
-.card-cluster .overlap-same-name {
+.card-cluster img {
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+  min-width: 7.55vw;
+}
+.card-cluster .overlapped {
+  /* overflow: visible; */
+  max-width: 5.66vw;
   /* width: 100%; */
-  margin-left: -15%;
+  /* margin-left: -15%; */
   /* margin-right: -25%; */
-  padding: 0;
+  /* padding: 0; */
+  /* flex: 0 0 50px; */
+  /* transform: translateX(-10px); */
   /* float: left; */
   /* padding-left: 0px !important; */
   /* transform: translateX(-40%); */
   /* position: relative; */
+}
+.card-cluster .last {
+  width: 7.55vw;
 }
 
 .card .overlay {
