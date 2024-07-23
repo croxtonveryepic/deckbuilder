@@ -232,19 +232,19 @@ export function Deck({
         className="card-cluster"
         style={{ width: 7.55 + 5.66 * dupes.length + 'vw' }}
         key={c.id}
-        onDrop={(e) => {
-          e.preventDefault();
-          if (e.dataTransfer.getData('type') === CardType.Essence) {
-            applyEssence(c.id, e.dataTransfer.getData('card'));
-          }
-        }}
-        onDragOver={(e) => {
-          e.preventDefault();
-        }}
       >
         {dupes}
         {c.essence ? (
           <ImbuedCard
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.getData('type') === CardType.Essence) {
+                applyEssence(c.id, e.dataTransfer.getData('card'));
+              }
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+            }}
             className="last"
             card={c.baseCard}
             essence={c.essence}
@@ -255,6 +255,15 @@ export function Deck({
           ></ImbuedCard>
         ) : (
           <Card
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.getData('type') === CardType.Essence) {
+                applyEssence(c.id, e.dataTransfer.getData('card'));
+              }
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+            }}
             className="last"
             card={c.baseCard}
             onClick={() => onClickDeckSlot(c.id)}
