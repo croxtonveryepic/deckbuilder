@@ -45,12 +45,12 @@ export function Card({
 
   let path, alt, cn, priority;
   if (card.type === CardType.Placeholder) {
-    path = '/assets/misc/card-shaped-logo.png';
+    path = '/deckbuilder/assets/misc/card-shaped-logo.png';
     alt = 'placeholder';
     cn = 'card unbacked-overlay';
     priority = true;
   } else {
-    path = '/assets/' + card.type + '/' + card.filename + '.png';
+    path = '/deckbuilder/assets/' + card.type + '/' + card.filename + '.png';
     alt = card.name;
     cn =
       card.type === CardType.Essence || card.type === CardType.ShrineImprovement
@@ -105,7 +105,11 @@ export function ImprovedShrine({
       <div>
         <Image
           className="base-card"
-          src={'/assets/shrines/' + shrineSlot.shrine?.filename + '.png'}
+          src={
+            '/deckbuilder/assets/shrines/' +
+            shrineSlot.shrine?.filename +
+            '.png'
+          }
           alt={shrineSlot.shrine?.name || ''}
           width="145"
           height="203"
@@ -126,7 +130,7 @@ export function ImprovedShrine({
         <Image
           className="overlay"
           src={
-            '/assets/shrine-improvements/' +
+            '/deckbuilder/assets/shrine-improvements/' +
             shrineSlot.shrineImprovement?.filename +
             '.png'
           }
@@ -168,14 +172,14 @@ export function ImbuedCard({
     <Container className={className} {...rest}>
       <Image
         className="base-card"
-        src={'/assets/base-cards/' + card.filename + '.png'}
+        src={'/deckbuilder/assets/base-cards/' + card.filename + '.png'}
         alt={card.name}
         width="145"
         height="203"
       />
       <Image
         className="overlay"
-        src={'/assets/essences/' + essence.filename + '.png'}
+        src={'/deckbuilder/assets/essences/' + essence.filename + '.png'}
         alt={essence.name}
         width="145"
         height="203"
