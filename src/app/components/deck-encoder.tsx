@@ -186,8 +186,8 @@ export function SaveDeckModal({
         <Modal open={warnModal.open}>
           <Container className="modal-center">
             <span>
-              Deck '{warnModal.name}' already exists. Would you like to replace
-              it?
+              Deck &apos;{warnModal.name}&apos; already exists. Would you like
+              to replace it?
             </span>
             <span>
               <Button

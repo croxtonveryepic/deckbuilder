@@ -158,7 +158,7 @@ export function ResourceTracker({
 
   const costDisplay = costs.map((val, index) => {
     return (
-      <span>
+      <span key={val}>
         {manaCircle(index + 1)}
         {val}
       </span>
