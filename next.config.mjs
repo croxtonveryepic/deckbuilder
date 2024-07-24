@@ -2,7 +2,7 @@
 // const basePath = process.env.NODE_ENV === 'production' ? '/deckbuilder' : '';
 const nextConfig = {
   output: 'export',
-  // images: { unoptimized: true },
+  images: { unoptimized: true },
   basePath: '/deckbuilder',
   assetPrefix: '/deckbuilder/',
   typescript: {
