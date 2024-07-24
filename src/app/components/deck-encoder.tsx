@@ -266,9 +266,9 @@ export function LoadDeckModal({
   let cards = decks.map((deck) => {
     let src, media;
     if (deck.shrine.shrine?.filename) {
-      src = `/assets/shrines/${deck.shrine.shrine?.filename}.png`;
+      src = `/deckbuilder/assets/shrines/${deck.shrine.shrine?.filename}.png`;
     } else if (deck.shrine.shrine?.filename) {
-      src = `/assets/base-card/${deck.shrine.shrine?.filename}.png`;
+      src = `/deckbuilder/assets/base-card/${deck.shrine.shrine?.filename}.png`;
     }
     if (src) {
       media = <img src={src}></img>;

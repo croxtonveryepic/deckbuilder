@@ -89,7 +89,7 @@ export function CardModal({
         >
           <Image
             src={
-              '/assets/' +
+              '/deckbuilder/assets/' +
               cardType +
               '/' +
               (list[activeCard]?.filename || '') +
@@ -152,7 +152,7 @@ export function DeckModal({
           <div className="overlayed-modal">
             <Image
               src={
-                '/assets/' +
+                '/deckbuilder/assets/' +
                 CardType.Shrine +
                 '/' +
                 shrineSlot.shrine.filename +
@@ -164,7 +164,7 @@ export function DeckModal({
             />
             <Image
               src={
-                '/assets/' +
+                '/deckbuilder/assets/' +
                 CardType.ShrineImprovement +
                 '/' +
                 shrineSlot.shrineImprovement.filename +
@@ -180,7 +180,7 @@ export function DeckModal({
           <Image
             className="unbacked-overlay"
             src={
-              '/assets/' +
+              '/deckbuilder/assets/' +
               CardType.ShrineImprovement +
               '/' +
               shrineSlot.shrineImprovement.filename +
@@ -195,7 +195,7 @@ export function DeckModal({
         image = shrineSlot.shrine ? (
           <Image
             src={
-              '/assets/' +
+              '/deckbuilder/assets/' +
               CardType.Shrine +
               '/' +
               shrineSlot.shrine.filename +
@@ -208,7 +208,7 @@ export function DeckModal({
         ) : (
           <Image
             className="logo-card"
-            src="/assets/misc/card-shaped-logo.png"
+            src="/deckbuilder/assets/misc/card-shaped-logo.png"
             alt="placeholder"
             width="739"
             height="1035"
@@ -222,7 +222,7 @@ export function DeckModal({
         <div className="overlayed-modal">
           <Image
             src={
-              '/assets/' +
+              '/deckbuilder/assets/' +
               CardType.BaseCard +
               '/' +
               c.baseCard.filename +
@@ -234,7 +234,11 @@ export function DeckModal({
           />
           <Image
             src={
-              '/assets/' + CardType.Essence + '/' + c.essence.filename + '.png'
+              '/deckbuilder/assets/' +
+              CardType.Essence +
+              '/' +
+              c.essence.filename +
+              '.png'
             }
             alt={c.essence.name}
             width="739"
@@ -245,7 +249,11 @@ export function DeckModal({
       ) : (
         <Image
           src={
-            '/assets/' + CardType.BaseCard + '/' + c.baseCard.filename + '.png'
+            '/deckbuilder/assets/' +
+            CardType.BaseCard +
+            '/' +
+            c.baseCard.filename +
+            '.png'
           }
           alt={c.baseCard.name}
           width="739"
