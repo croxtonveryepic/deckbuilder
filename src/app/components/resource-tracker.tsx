@@ -138,7 +138,14 @@ export function ResourceTracker({
   let resources = new Colors();
   let souls = new Colors();
   let identities = new Colors();
-  let costs = [0, 0, 0, 0, 0, 0, 0, 0];
+  let costs = new Map<number, number>([
+    [1, 0],
+    [2, 0],
+    [3, 0],
+    [4, 0],
+    [5, 0],
+    [6, 0],
+  ]);
 
   for (const ds of deck) {
     let r, s, i;
@@ -153,14 +160,17 @@ export function ResourceTracker({
     resources.record(r);
     souls.record(s);
     identities.record(i);
-    costs[ds.baseCard.cost + (ds.essence?.cost.length || 0) - 1] += 1;
+    const cost = ds.baseCard.cost + (ds.essence?.cost.length || 0);
+    costs.set(cost, (costs.get(cost) as any as number) + 1);
   }
 
-  const costDisplay = costs.map((val, index) => {
-    return (
-      <span key={val}>
-        {manaCircle(index + 1)}
-        {val}
+  console.log(costs);
+  const costDisplay = [] as any;
+  costs.forEach((count, cost) => {
+    costDisplay.push(
+      <span key={cost}>
+        {manaCircle(cost)}
+        {count}
       </span>
     );
   });

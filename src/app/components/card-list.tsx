@@ -42,9 +42,7 @@ export function ShrineList({
         setActiveCard={setModalCard}
         onEnter={onClickShrine}
       ></CardModal>
-      <Grid container spacing={4}>
-        {images}
-      </Grid>
+      <Grid container>{images}</Grid>
     </Container>
   );
 }
@@ -80,7 +78,7 @@ export function ShrineImprovementList({
         activeCard={modalCard}
         setActiveCard={setModalCard}
       ></CardModal>
-      <Grid container spacing={4} className="overlay-grid">
+      <Grid container className="overlay-grid">
         {images}
       </Grid>
     </Container>
@@ -115,9 +113,7 @@ export function BaseCardList({
         setActiveCard={setModalCard}
         onEnter={onClickBaseCard}
       ></CardModal>
-      <Grid container spacing={4}>
-        {images}
-      </Grid>
+      <Grid container>{images}</Grid>
     </Container>
   );
 }
@@ -143,7 +139,7 @@ export function EssenceList({ essences }: { essences: Essence[] }) {
         activeCard={modalCard}
         setActiveCard={setModalCard}
       ></CardModal>
-      <Grid container spacing={4} className="overlay-grid">
+      <Grid container className="overlay-grid">
         {images}
       </Grid>
     </Container>
@@ -328,7 +324,7 @@ export function Deck({
         activeCard={modalCard}
         setActiveCard={setModalCard}
       ></DeckModal>
-      <Grid container spacing={4}>
+      <Grid container>
         <Grid item>{shrine}</Grid>
         {deck}
       </Grid>

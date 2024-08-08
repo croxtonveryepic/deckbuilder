@@ -84,7 +84,7 @@ export class BaseCardFilters {
         case '>=':
           this.cost = (cost: number) => cost >= costChoiceOne;
           break;
-        case '<>':
+        case '<=>':
           if (costChoiceTwo) {
             this.cost = (cost: number) => {
               const diff = Math.abs(costChoiceOne - costChoiceTwo);
