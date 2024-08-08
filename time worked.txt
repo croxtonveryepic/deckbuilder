@@ -17,10 +17,17 @@ time worked
 7/17: 5 hours (various style fixes, modal peeking)
 7/21: 4 hours (deck sorting, card overlapping, start curve tracking)
 7/22: 5 hours (perfecting same-card overlap, mana curve)
+7/23: 4 hours (deploy to github.io)
+8/7: 3 hours (remove any absolute pixel styles, swap element buttons to be more thematic, fix cost tracker, adjust "between" cost filter icon to <=>)
 
 todo:
+fix pathing to be build env agnostic
 legality of dragging
-fix deck modal inconsistency with sorting
+when dragging an essence, grey out the illegal cards
+fix deck modal inconsistency (essence-d cards sort right in clusters but in modal they appear to be on the left)
+polish dark mode (cannot read filter dropdowns, some modals weird)
+polish modals (legible and styled reasonably, sections for click-to-copy deck code and traditional deck list)
+filter dropdowns: instead of default `Any` value, display the name of the filter
 code for soulful and soulless
 modify the deck modal to allow browsing overlay cards
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity
@@ -31,17 +38,11 @@ essence filters
     limited/infinite
 deck zone indicators
     cards in deck
-    number of cards matching shrine's color
-    number of each color appearing on essences
     number of creatures, spells, locations, and weapons
 
-add some basic validation for deck legality
-options to sort the deck
-when dragging an essence, grey out the cards that would exceed 6 ccc
+low priority:
+manual dark mode switch
+proxies
+options for how to sort the deck
 deck codes, saving and importing features
-
-styling:
-add dark mode support... manual or match system theme, and fix how modal buttons and essence backgrounds look in dark mode
 change background to something flawed themed
-
-map keyboard inputs to navigation (arrows, pageup, pagedown, home, end)

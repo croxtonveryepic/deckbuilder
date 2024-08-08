@@ -195,7 +195,7 @@ export default function Home() {
   }
 
   function handleCostFilterClicked(x: number) {
-    if (bcCostOperator === '<>') {
+    if (bcCostOperator === '<=>') {
       if (!bcCostValOne) {
         setBcCostValOne(x);
       } else if (bcCostValOne === x) {
@@ -441,7 +441,7 @@ export default function Home() {
                     value={bcCostOperator}
                     onChange={(e) => {
                       let val = e.target.value;
-                      if (bcCostOperator === '<>') {
+                      if (bcCostOperator === '<=>') {
                         setBcCostValTwo(NaN);
                       }
                       setBcCostOperator(val);
@@ -451,10 +451,10 @@ export default function Home() {
                     <MenuItem value={'='}>=</MenuItem>
                     <MenuItem value={'<='}>&lt;=</MenuItem>
                     <MenuItem value={'>='}>&gt;=</MenuItem>
-                    <MenuItem value={'<>'}>&lt;&gt;</MenuItem>
+                    <MenuItem value={'<=>'}>&lt;=&gt;</MenuItem>
                   </Select>
                   <PipButtons
-                    count={8}
+                    count={7}
                     selectedOne={bcCostValOne}
                     selectedTwo={bcCostValTwo}
                     onClick={handleCostFilterClicked}

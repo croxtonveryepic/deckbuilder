@@ -58,23 +58,23 @@ export function ElementButtons({
         ></Image>
       </button>
       <button
-        className={earthClass}
-        onClick={() => onElementClicked(Element.Earth)}
-      >
-        <Image
-          src="/assets/misc/earth2whiteongreen.png"
-          alt="Earth Icon"
-          width={wh}
-          height={wh}
-        ></Image>
-      </button>
-      <button
         className={fireClass}
         onClick={() => onElementClicked(Element.Fire)}
       >
         <Image
           src="/assets/misc/firewhiteonred.png"
           alt="Fire Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      </button>
+      <button
+        className={earthClass}
+        onClick={() => onElementClicked(Element.Earth)}
+      >
+        <Image
+          src="/assets/misc/earth2whiteongreen.png"
+          alt="Earth Icon"
           width={wh}
           height={wh}
         ></Image>
