@@ -1,14 +1,24 @@
 import { Container, Grid } from '@mui/material';
-import Card from './card';
+import Card, { DisplayData } from './card';
 import { CardType } from './card';
 import { ImprovedShrine, ImbuedCard } from './card';
-import { DeckSlot, ShrineSlot } from '../page';
+import { DeckSlot } from '../page';
+import { ShrineSlot } from '../cardlists/shrines';
 import { CardModal, DeckModal } from './card-modal';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Shrine } from '../cardlists/shrines';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
+import {
+  AlertPickup,
+  AnyCard,
+  disam,
+  HeldCard,
+  Placeholder,
+} from './drag-context';
+import { ConditionalDroppable } from './conditional-droppable';
+import { DeckContext, DecklistContext } from './decklist-context';
 
 export function ShrineList({
   shrines,
@@ -93,16 +103,27 @@ export function BaseCardList({
   onClickBaseCard: (arg0: BaseCard) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
+  const decklistContext = useContext(DeckContext);
 
   function openModal(card: BaseCard) {
     setModalCard(cards.indexOf(card));
   }
 
-  const images = cards.map((c) => (
-    <Grid item key={c.filename}>
-      <Card card={c} onClick={onClickBaseCard} onContextMenu={openModal}></Card>
-    </Grid>
-  ));
+  const images = cards.map((c) => {
+    let count = decklistContext.cards.get(c.id) || 0;
+    let atMax = c.epic ? count === 1 : count === 3;
+    // atMax = false;
+    return (
+      <Grid item key={c.filename}>
+        <Card
+          card={c}
+          onClick={onClickBaseCard}
+          onContextMenu={openModal}
+          disabled={atMax}
+        ></Card>
+      </Grid>
+    );
+  });
 
   return (
     <Container className="base-card-list-container">
@@ -120,16 +141,20 @@ export function BaseCardList({
 
 export function EssenceList({ essences }: { essences: Essence[] }) {
   const [modalCard, setModalCard] = useState(-1);
+  const decklistContext = useContext(DeckContext);
 
   function openModal(essence: Essence) {
     setModalCard(essences.indexOf(essence));
   }
 
-  const images = essences.map((e) => (
-    <Grid className="unbacked-overlay" item key={e.filename}>
-      <Card card={e} onContextMenu={openModal}></Card>
-    </Grid>
-  ));
+  const images = essences.map((e) => {
+    let atMax = (decklistContext.essences.get(e.id) || 0) === 3 && !e.unlimited;
+    return (
+      <Grid className="unbacked-overlay" item key={e.filename}>
+        <Card card={e} onContextMenu={openModal} disabled={atMax}></Card>
+      </Grid>
+    );
+  });
 
   return (
     <Container className="overlays">
@@ -149,6 +174,7 @@ export function EssenceList({ essences }: { essences: Essence[] }) {
 export function Deck({
   shrineSlot,
   mainDeck,
+  heldCard,
   onClickDeckSlot,
   applyEssence,
   setShrine,
@@ -156,12 +182,14 @@ export function Deck({
 }: {
   shrineSlot: ShrineSlot;
   mainDeck: DeckSlot[];
+  heldCard: HeldCard;
   onClickDeckSlot: (id: number) => void;
   applyEssence: (id: number, essence: string) => void;
   setShrine: (shrine: string) => void;
   setShrineImprovement: (shrineImprovement: string) => void;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
+  const pickup = useContext(AlertPickup);
 
   function getIndex(id: number) {
     return mainDeck.findIndex((slot) => {
@@ -174,25 +202,35 @@ export function Deck({
   for (let i = 0; i < mainDeck.length; i++) {
     let c = mainDeck[i];
     let dupes = [];
+    let className = '';
+    let droppable = false;
+    let holdingEssence;
+    if (heldCard?.type === CardType.Essence) {
+      let e = heldCard as Essence;
+      holdingEssence = true;
+      droppable =
+        c.baseCard.ccc + e.ccc <= 6 &&
+        c.baseCard.isValidEssence(e) &&
+        e.isValidBase(c.baseCard);
+      className = droppable ? ' valid' : ' invalid';
+    }
+    let dropProps;
     while (mainDeck[i + 1]?.baseCard.id === c.baseCard.id) {
-      i++;
       let dupe = mainDeck[i];
-      let style = {}; //{ transform: `translateX(-${(dupes.length + 1) * 75}%)` };
+      i++;
+      dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
+        e.preventDefault();
+        if (e.dataTransfer.getData('type') === CardType.Essence) {
+          applyEssence(dupe.id, e.dataTransfer.getData('card'));
+        }
+      });
       dupes.push(
         dupe.essence ? (
           <ImbuedCard
-            className="overlapped"
-            style={style}
-            onDrop={(e) => {
-              e.preventDefault();
-              if (e.dataTransfer.getData('type') === CardType.Essence) {
-                applyEssence(dupe.id, e.dataTransfer.getData('card'));
-              }
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-            }}
-            // ondra
+            key={i}
+            className={'overlapped' + className + ' has-essence'}
+            // style={style}
+            {...dropProps}
             card={dupe.baseCard}
             essence={dupe.essence}
             onClick={() => onClickDeckSlot(dupe.id)}
@@ -202,17 +240,10 @@ export function Deck({
           ></ImbuedCard>
         ) : (
           <Card
-            className="overlapped"
-            style={style}
-            onDrop={(e) => {
-              e.preventDefault();
-              if (e.dataTransfer.getData('type') === CardType.Essence) {
-                applyEssence(dupe.id, e.dataTransfer.getData('card'));
-              }
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-            }}
+            key={i}
+            className={'overlapped' + className}
+            // style={style}
+            {...dropProps}
             card={dupe.baseCard}
             onClick={() => onClickDeckSlot(dupe.id)}
             onContextMenu={(s) => {
@@ -222,6 +253,13 @@ export function Deck({
         )
       );
     }
+    c = mainDeck[i];
+    dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
+      e.preventDefault();
+      if (e.dataTransfer.getData('type') === CardType.Essence) {
+        applyEssence(c.id, e.dataTransfer.getData('card'));
+      }
+    });
     deck.push(
       <Grid
         item
@@ -232,16 +270,9 @@ export function Deck({
         {dupes}
         {c.essence ? (
           <ImbuedCard
-            onDrop={(e) => {
-              e.preventDefault();
-              if (e.dataTransfer.getData('type') === CardType.Essence) {
-                applyEssence(c.id, e.dataTransfer.getData('card'));
-              }
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-            }}
-            className="last"
+            key={i}
+            {...dropProps}
+            className={'last' + className + ' has-essence'}
             card={c.baseCard}
             essence={c.essence}
             onClick={() => onClickDeckSlot(c.id)}
@@ -251,16 +282,9 @@ export function Deck({
           ></ImbuedCard>
         ) : (
           <Card
-            onDrop={(e) => {
-              e.preventDefault();
-              if (e.dataTransfer.getData('type') === CardType.Essence) {
-                applyEssence(c.id, e.dataTransfer.getData('card'));
-              }
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-            }}
-            className="last"
+            key={i}
+            {...dropProps}
+            className={'last' + className}
             card={c.baseCard}
             onClick={() => onClickDeckSlot(c.id)}
             onContextMenu={(s) => {
@@ -296,28 +320,30 @@ export function Deck({
       ></Card>
     ) : (
       <Card
-        card={{ name: '', filename: '', type: CardType.Placeholder }}
+        card={new Placeholder()}
         onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
       ></Card>
     );
   }
+  const deckDroppable = new ConditionalDroppable(
+    heldCard?.type === CardType.BaseCard,
+    (e) => {
+      e.preventDefault();
+      const t = e.dataTransfer.getData('type');
+      if (t === CardType.Shrine) {
+        setShrine(e.dataTransfer.getData('card'));
+      } else if (t === CardType.ShrineImprovement) {
+        setShrineImprovement(e.dataTransfer.getData('card'));
+      }
+      pickup(null);
+    },
+    (e) => {
+      e.preventDefault();
+    }
+  );
 
   return (
-    <Container
-      className="main-deck"
-      onDrop={(e) => {
-        e.preventDefault();
-        const t = e.dataTransfer.getData('type');
-        if (t === CardType.Shrine) {
-          setShrine(e.dataTransfer.getData('card'));
-        } else if (t === CardType.ShrineImprovement) {
-          setShrineImprovement(e.dataTransfer.getData('card'));
-        }
-      }}
-      onDragOver={(e) => {
-        e.preventDefault();
-      }}
-    >
+    <Container className="main-deck">
       <DeckModal
         shrineSlot={shrineSlot}
         mainDeck={mainDeck}

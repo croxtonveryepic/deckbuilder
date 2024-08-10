@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Container } from '@mui/material';
-import { ShrineSlot } from '../page';
+import { ShrineSlot } from '../cardlists/shrines';
 import { useDroppable, useDraggable } from '@dnd-kit/core';
 import { green } from '@mui/material/colors';
 import { BaseCard } from '../cardlists/base-cards';
@@ -8,6 +8,10 @@ import { Essence } from '../cardlists/essences';
 import type { ComponentPropsWithoutRef } from 'react';
 import { doc } from 'prettier';
 import { ClassNames } from '@emotion/react';
+import { useContext } from 'react';
+import { AnyCard, AlertPickup } from './drag-context';
+import { ConditionalDraggable } from './conditional-draggable';
+import { DeckContext } from './decklist-context';
 
 export enum CardType {
   Shrine = 'shrines',
@@ -24,10 +28,11 @@ export class DisplayData {
 }
 
 interface CardProps extends ComponentPropsWithoutRef<'div'> {
-  card: DisplayData;
+  card: AnyCard;
   onClick?: (card: any) => void;
   onContextMenu?: (card: any) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function Card({
@@ -35,8 +40,12 @@ export default function Card({
   onClick,
   onContextMenu,
   className = '',
+  disabled = false,
   ...rest
 }: CardProps) {
+  const pickup = useContext(AlertPickup);
+  // const deckContext = useContext(DeckContext);
+
   let path, alt, cn, priority;
   if (card.type === CardType.Placeholder) {
     path = '/assets/misc/card-shaped-logo.png';
@@ -51,17 +60,26 @@ export default function Card({
         ? 'card unbacked-overlay'
         : 'card';
   }
+  if (disabled) {
+    cn += ' invalid';
+  }
+  let dragProps = new ConditionalDraggable(
+    !disabled,
+    (e) => {
+      // e.dataTransfer.dropEffect = 'move';
+      console.log('pickup:\n');
+      console.log(card);
+      pickup(card);
+      e.dataTransfer.setData('card', card.filename || '');
+      e.dataTransfer.setData('type', card.type);
+    },
+    (e) => {
+      console.log('resetting held card');
+      pickup(null);
+    }
+  );
   return (
-    <Container
-      className={cn + ' ' + className}
-      draggable
-      onDragStart={(e) => {
-        // e.dataTransfer.dropEffect = 'move';
-        e.dataTransfer.setData('card', card.filename);
-        e.dataTransfer.setData('type', card.type);
-      }}
-      {...rest}
-    >
+    <div className={cn + ' ' + className} {...dragProps} {...rest}>
       <Image
         src={path}
         alt={card.name}
@@ -74,7 +92,7 @@ export default function Card({
         }}
         priority={priority}
       />
-    </Container>
+    </div>
   );
 }
 

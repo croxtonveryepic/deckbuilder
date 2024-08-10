@@ -6,7 +6,8 @@ import { act, useState } from 'react';
 import { ClickAwayListener } from '@mui/material';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIos';
-import { DeckSlot, ShrineSlot } from '../page';
+import { DeckSlot } from '../page';
+import { ShrineSlot } from '../cardlists/shrines';
 import { escape } from 'querystring';
 
 export function CardModal({

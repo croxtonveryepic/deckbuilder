@@ -19,17 +19,17 @@ time worked
 7/22: 5 hours (perfecting same-card overlap, mana curve)
 7/23: 4 hours (deploy to github.io)
 8/7: 3 hours (remove any absolute pixel styles, swap element buttons to be more thematic, fix cost tracker, adjust "between" cost filter icon to <=>)
+8/10: 8 hours (begin reworking dragging, grey out illegal drag targets, grey out maxed collection cards)
 
 todo:
-fix pathing to be build env agnostic
+
+high priority
 legality of dragging
 when dragging an essence, grey out the illegal cards
 fix deck modal inconsistency (essence-d cards sort right in clusters but in modal they appear to be on the left)
 polish dark mode (cannot read filter dropdowns, some modals weird)
 polish modals (legible and styled reasonably, sections for click-to-copy deck code and traditional deck list)
 filter dropdowns: instead of default `Any` value, display the name of the filter
-code for soulful and soulless
-modify the deck modal to allow browsing overlay cards
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity
 essence filters
     colors (6 symbols, plus AND/OR toggle)
@@ -40,7 +40,12 @@ deck zone indicators
     cards in deck
     number of creatures, spells, locations, and weapons
 
+medium priority:
+code for soulful and soulless
+modify the deck modal to allow browsing overlay cards
+
 low priority:
+fix pathing to be build env agnostic
 manual dark mode switch
 proxies
 options for how to sort the deck

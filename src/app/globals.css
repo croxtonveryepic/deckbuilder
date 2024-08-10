@@ -197,7 +197,7 @@ body {
 }
 
 .MuiGrid-item {
-  margin: 1vw;
+  margin: 0.75vw;
 }
 
 .base-card-container .base-card-list-container .MuiGrid-container {
@@ -346,10 +346,26 @@ body {
   padding-left: 0%;
 }
 
+.card-cluster div {
+  /* transition: opacity, 50ms; */
+  opacity: 100%;
+}
+
 .card-cluster .card img {
   border-color: black;
   border-width: thin;
   border-radius: 5%;
+}
+
+.card-cluster .valid.has-essence {
+  opacity: 60%;
+}
+
+.card-cluster .valid {
+}
+.invalid {
+  /* transition: opacity, 50ms; */
+  opacity: 15%;
 }
 
 .card img {

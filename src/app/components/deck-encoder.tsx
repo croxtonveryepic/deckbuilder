@@ -1,4 +1,5 @@
-import { ShrineSlot, DeckSlot } from '../page';
+import { DeckSlot } from '../page';
+import { ShrineSlot } from '../cardlists/shrines';
 import { shrines } from '../cardlists/shrines';
 import { shrineImprovements } from '../cardlists/shrine-improvements';
 import { baseCards } from '../cardlists/base-cards';

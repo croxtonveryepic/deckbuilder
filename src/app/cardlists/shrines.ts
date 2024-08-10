@@ -1,6 +1,7 @@
 import { Element } from './base-cards';
 import { Rarity } from './base-cards';
 import { CardType } from '../components/card';
+import { ShrineImprovement } from './shrine-improvements';
 export class Shrine {
   name: string;
   filename: string;
@@ -95,3 +96,12 @@ export let shrines: Shrine[] = [
     type: CardType.Shrine,
   },
 ];
+export class ShrineSlot {
+  shrine: Shrine | null;
+  shrineImprovement: ShrineImprovement | null;
+
+  constructor(shrine: Shrine | null, improvement: ShrineImprovement | null) {
+    this.shrine = shrine;
+    this.shrineImprovement = improvement;
+  }
+}
