@@ -1,6 +1,7 @@
 import { essences } from '../cardlists/essences';
 import { Shrine } from '../cardlists/shrines';
-import { DeckSlot, ShrineSlot } from '../page';
+import { DeckSlot } from '../page';
+import { ShrineSlot } from '../cardlists/shrines';
 import { Element } from '../cardlists/base-cards';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
@@ -164,7 +165,7 @@ export function ResourceTracker({
     costs.set(cost, (costs.get(cost) as any as number) + 1);
   }
 
-  console.log(costs);
+  // console.log(costs);
   const costDisplay = [] as any;
   costs.forEach((count, cost) => {
     costDisplay.push(

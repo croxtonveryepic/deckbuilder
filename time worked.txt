@@ -47,6 +47,10 @@ medium priority:
         when adding cards to the deck using the modal, show the new quantity
         when importing, exporting, saving, or deleting decks
 
+medium priority:
+code for soulful and soulless
+modify the deck modal to allow browsing overlay cards
+
 low priority:
     fix pathing to be build env agnostic // currently using dev/master cherry-pick, which is fine
     manual dark mode switch
