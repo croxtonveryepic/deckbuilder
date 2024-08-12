@@ -169,7 +169,19 @@ export function ImbuedCard({
   const pickup = useContext(AlertPickup);
   className += ' card';
   return (
-    <Container className={className} {...rest}>
+    <Container
+      className={className}
+      {...rest}
+      // draggable
+      // onDragStart={(e) => {
+      //   e.preventDefault();
+      //   pickup(essence);
+      // }}
+      // onDragEnd={(e) => {
+      //   e.preventDefault();
+      //   pickup(null);
+      // }}
+    >
       <Image
         className="base-card"
         src={'/deckbuilder/assets/base-cards/' + card.filename + '.png'}

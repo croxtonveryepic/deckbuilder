@@ -1,56 +1,16 @@
 'use client';
-<<<<<<< HEAD
 import { Alert, Box, Button, Fade, IconButton } from '@mui/material';
 import { baseCards, BaseCard } from './cardlists/base-cards';
 import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
 import { shrineImprovements } from './cardlists/shrine-improvements';
 import { CardType } from './components/card';
-=======
-import {
-  Box,
-  Container,
-  MenuItem,
-  Select,
-  Switch,
-  Typography,
-  Stack,
-  FormGroup,
-  FormControlLabel,
-  IconButton,
-  Icon,
-  TextField,
-  Paper,
-  Button,
-  InputAdornment,
-  InputLabel,
-} from '@mui/material';
-import {
-  ShrineList,
-  ShrineImprovementList,
-  BaseCardList,
-  EssenceList,
-} from './components/card-list';
-import {
-  baseCards,
-  BaseCardFilters,
-  BaseCard,
-  Element,
-  BaseCardType,
-  Rarity,
-} from './cardlists/base-cards';
-import { shrines, ShrineSlot } from './cardlists/shrines';
-import { essences, Essence } from './cardlists/essences';
-import { shrineImprovements } from './cardlists/shrine-improvements';
-import { CardType, DisplayData, ImprovedShrine } from './components/card';
->>>>>>> 852dd52 (dragging improvements)
 import { useState } from 'react';
 import { idGenerator } from './utils';
 import {
   useLocalStorageDeck,
   useLocalStorageShrine,
 } from './components/deck-encoder';
-<<<<<<< HEAD
 import { HeldCard, AlertPickup } from './components/drag-context';
 import { DeckContext } from './components/decklist-context';
 import { ConditionalDroppable } from './components/conditional-droppable';
@@ -62,13 +22,6 @@ import { DeckSection } from './deck-section';
 import { Check } from '@mui/icons-material';
 import zIndex from '@mui/material/styles/zIndex';
 import { styleText } from 'util';
-=======
-import { useEffect } from 'react';
-import { ResourceTracker } from './components/resource-tracker';
-import { HeldCard, AlertPickup } from './components/drag-context';
-import { createContext } from 'vm';
-import { DeckContext } from './components/decklist-context';
->>>>>>> 852dd52 (dragging improvements)
 
 export class DeckSlot {
   baseCard: BaseCard;
@@ -88,37 +41,10 @@ export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
   const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
   const [deck, setDeck] = useLocalStorageDeck();
-<<<<<<< HEAD
   const [heldCard, setHeldCard] = useState(null as HeldCard);
   const [maxView, setMaxView] = useState(false);
   // const [alertMessages, setAlertMessages] = useState({} as any);
   // const [alertVisible, setAlertVisible] = useState(false);
-=======
-  const [sElements, setSElements] = useState([] as Element[]);
-  const [bcType, setBcType] = useState(BaseCardType.Any);
-  const [bcRarity, setBcRarity] = useState(Rarity.Any);
-  const [bcElements, setBcElements] = useState([] as Element[]);
-  const [bcElementAnd, setBcElementAnd] = useState(false);
-  const [bcCostValOne, setBcCostValOne] = useState(NaN);
-  const [bcCostValTwo, setBcCostValTwo] = useState(NaN);
-  const [bcCostOperator, setBcCostOperator] = useState('=');
-  const [bcQuery, setBcQuery] = useState('');
-  const [deckDataModal, setDeckDataModal] = useState(false);
-  const [saveDeckModal, setSaveDeckModal] = useState(false);
-  const [loadDeckModal, setLoadDeckModal] = useState(false);
-  const [heldCard, setHeldCard] = useState(null as HeldCard);
-
-  // useEffect(() => {
-  //   setShrine(decodeShrine('tempDeck'));
-  // }, []);
-
-  // useEffect(() => {
-  //   window.localStorage.setItem(
-  //     'tempDeck',
-  //     encode({ shrineSlot: shrine, deck: deck })
-  //   );
-  // }, [deck, shrine]);
->>>>>>> 852dd52 (dragging improvements)
 
   function addBaseCard(card: BaseCard) {
     setDeck([...deck, new DeckSlot(card, null)]);

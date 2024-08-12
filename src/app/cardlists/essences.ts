@@ -102,7 +102,24 @@ export class EssenceFilters {
   }
 }
 
-export const essences: Essence[] = [
+export class Essence {
+  name: string;
+  filename: string;
+  id: number;
+  cost: Element[];
+  text: string;
+  resources: Element[];
+  unlimited: boolean;
+  ccc: number;
+  hp: number;
+  power: number;
+  speed: number;
+  type: CardType;
+  isValidBase: (c: BaseCard) => boolean;
+  validBases: Set<number>;
+}
+
+const uncalculated_essences: UncalculatedEssence[] = [
   {
     name: 'Advanced Essence',
     filename: 'advancedessence-1',
@@ -1469,3 +1486,13 @@ export const essences: Essence[] = [
     },
   },
 ];
+
+export const essences: Essence[] = uncalculated_essences.map((e) => {
+  let m = new Set<number>();
+  baseCards.forEach((c) => {
+    if (c.ccc + e.ccc <= 6 && c.isValidEssence(e) && e.isValidBase(c)) {
+      m.add(c.id);
+    }
+  });
+  return { ...e, validBases: m };
+});
