@@ -10,9 +10,9 @@ export class ConditionalDraggable {
       e.preventDefault();
     }
   ) {
+    this.onDragEnd = onDragEnd;
     if (condition) {
       this.onDragStart = onDragStart;
-      this.onDragEnd = onDragEnd;
       this.draggable = condition;
     }
   }

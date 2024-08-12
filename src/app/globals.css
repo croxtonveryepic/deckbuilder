@@ -361,11 +361,11 @@ body {
   opacity: 60%;
 }
 
-.card-cluster .valid {
-}
-.invalid {
+/* .card-cluster .valid {
+} */
+.greyed {
   /* transition: opacity, 50ms; */
-  opacity: 15%;
+  opacity: 15% !important;
 }
 
 .card img {

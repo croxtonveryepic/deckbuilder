@@ -247,11 +247,11 @@ export default function Home() {
     });
   }
 
-  function applyEssence(id: number, essence: string) {
+  function applyEssence(id: number, essence: Essence) {
     setDeck(
       deck.map((ds) => {
         if (ds.id === id) {
-          return { ...ds, essence: getCardByFilename(essence, essences) };
+          return { ...ds, essence: essence };
         } else {
           return ds;
         }
@@ -289,11 +289,11 @@ export default function Home() {
     <Box>
       <AlertPickup.Provider
         value={(c) => {
-          console.log('current held card:');
-          console.log(heldCard);
+          // console.log('current held card:');
+          // console.log(heldCard);
           setHeldCard(c);
-          console.log('new held card:');
-          console.log(heldCard);
+          // console.log('new held card:');
+          // console.log(heldCard);
         }}
       >
         <DeckContext.Provider
@@ -350,7 +350,8 @@ export default function Home() {
               setShrine={(s) =>
                 setShrine(
                   new ShrineSlot(
-                    getCardByFilename(s, shrines),
+                    s,
+                    // getCardByFilename(s, shrines),
                     shrine.shrineImprovement
                   )
                 )
@@ -359,7 +360,8 @@ export default function Home() {
                 setShrine(
                   new ShrineSlot(
                     shrine.shrine,
-                    getCardByFilename(si, shrineImprovements)
+                    si
+                    // getCardByFilename(si, shrineImprovements)
                   )
                 )
               }

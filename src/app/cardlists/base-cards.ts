@@ -136,7 +136,7 @@ export class BaseCard {
   artist: string;
   rarity: Rarity;
   type: CardType;
-  isValidEssence: (e: Essence) => boolean;
+  isValidEssence: (e: any) => boolean;
 }
 
 export const baseCards: BaseCard[] = [

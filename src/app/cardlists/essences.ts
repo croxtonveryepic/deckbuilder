@@ -1,6 +1,7 @@
 import { BaseCard, BaseCardType, Element } from './base-cards';
 import { CardType } from '../components/card';
-export class Essence {
+import { baseCards } from './base-cards';
+class UncalculatedEssence {
   name: string;
   filename: string;
   id: number;
@@ -16,7 +17,24 @@ export class Essence {
   isValidBase: (c: BaseCard) => boolean;
 }
 
-export const essences: Essence[] = [
+export class Essence {
+  name: string;
+  filename: string;
+  id: number;
+  cost: Element[];
+  text: string;
+  resources: Element[];
+  unlimited: boolean;
+  ccc: number;
+  hp: number;
+  power: number;
+  speed: number;
+  type: CardType;
+  isValidBase: (c: BaseCard) => boolean;
+  validBases: Set<number>;
+}
+
+const uncalculated_essences: UncalculatedEssence[] = [
   {
     name: 'Advanced Essence',
     filename: 'advancedessence-1',
@@ -59,7 +77,7 @@ export const essences: Essence[] = [
     text: '',
     resources: [Element.Air],
     unlimited: false,
-    ccc: 0,
+    ccc: 2,
     hp: 0,
     power: 0,
     speed: 3,
@@ -1383,3 +1401,13 @@ export const essences: Essence[] = [
     },
   },
 ];
+
+export const essences: Essence[] = uncalculated_essences.map((e) => {
+  let m = new Set<number>();
+  baseCards.forEach((c) => {
+    if (c.ccc + e.ccc <= 6 && c.isValidEssence(e) && e.isValidBase(c)) {
+      m.add(c.id);
+    }
+  });
+  return { ...e, validBases: m };
+});

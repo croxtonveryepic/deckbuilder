@@ -8,7 +8,7 @@ import { Essence } from '../cardlists/essences';
 import type { ComponentPropsWithoutRef } from 'react';
 import { doc } from 'prettier';
 import { ClassNames } from '@emotion/react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AnyCard, AlertPickup } from './drag-context';
 import { ConditionalDraggable } from './conditional-draggable';
 import { DeckContext } from './decklist-context';
@@ -61,22 +61,12 @@ export default function Card({
         : 'card';
   }
   if (disabled) {
-    cn += ' invalid';
+    cn += ' greyed';
   }
   let dragProps = new ConditionalDraggable(
     !disabled,
-    (e) => {
-      // e.dataTransfer.dropEffect = 'move';
-      console.log('pickup:\n');
-      console.log(card);
-      pickup(card);
-      e.dataTransfer.setData('card', card.filename || '');
-      e.dataTransfer.setData('type', card.type);
-    },
-    (e) => {
-      console.log('resetting held card');
-      pickup(null);
-    }
+    (e) => pickup(card),
+    (e) => pickup(null)
   );
   return (
     <div className={cn + ' ' + className} {...dragProps} {...rest}>
@@ -156,9 +146,22 @@ export function ImbuedCard({
   className = '',
   ...rest
 }: ImbuedCardProps) {
+  // const pickup = useContext(AlertPickup);
   className += ' card';
   return (
-    <Container className={className} {...rest}>
+    <Container
+      className={className}
+      {...rest}
+      // draggable
+      // onDragStart={(e) => {
+      //   e.preventDefault();
+      //   pickup(essence);
+      // }}
+      // onDragEnd={(e) => {
+      //   e.preventDefault();
+      //   pickup(null);
+      // }}
+    >
       <Image
         className="base-card"
         src={'/assets/base-cards/' + card.filename + '.png'}

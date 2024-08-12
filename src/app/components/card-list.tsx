@@ -184,9 +184,9 @@ export function Deck({
   mainDeck: DeckSlot[];
   heldCard: HeldCard;
   onClickDeckSlot: (id: number) => void;
-  applyEssence: (id: number, essence: string) => void;
-  setShrine: (shrine: string) => void;
-  setShrineImprovement: (shrineImprovement: string) => void;
+  applyEssence: (id: number, essence: Essence) => void;
+  setShrine: (shrine: Shrine | null) => void;
+  setShrineImprovement: (shrineImprovement: ShrineImprovement | null) => void;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
   const pickup = useContext(AlertPickup);
@@ -204,15 +204,12 @@ export function Deck({
     let dupes = [];
     let className = '';
     let droppable = false;
-    let holdingEssence;
-    if (heldCard?.type === CardType.Essence) {
-      let e = heldCard as Essence;
-      holdingEssence = true;
-      droppable =
-        c.baseCard.ccc + e.ccc <= 6 &&
-        c.baseCard.isValidEssence(e) &&
-        e.isValidBase(c.baseCard);
-      className = droppable ? ' valid' : ' invalid';
+    if (heldCard) {
+      if (heldCard.type === CardType.Essence) {
+        let e = heldCard as Essence;
+        droppable = e.validBases.has(c.baseCard.id);
+      }
+      className = droppable ? ' valid' : ' greyed';
     }
     let dropProps;
     while (mainDeck[i + 1]?.baseCard.id === c.baseCard.id) {
@@ -220,15 +217,15 @@ export function Deck({
       i++;
       dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
         e.preventDefault();
-        if (e.dataTransfer.getData('type') === CardType.Essence) {
-          applyEssence(dupe.id, e.dataTransfer.getData('card'));
+        if (heldCard?.type === CardType.Essence) {
+          applyEssence(dupe.id, heldCard as Essence);
         }
       });
       dupes.push(
         dupe.essence ? (
           <ImbuedCard
             key={i}
-            className={'overlapped' + className + ' has-essence'}
+            className={'overlapped has-essence' + className}
             // style={style}
             {...dropProps}
             card={dupe.baseCard}
@@ -256,8 +253,11 @@ export function Deck({
     c = mainDeck[i];
     dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
       e.preventDefault();
-      if (e.dataTransfer.getData('type') === CardType.Essence) {
-        applyEssence(c.id, e.dataTransfer.getData('card'));
+      if (
+        heldCard?.type === CardType.Essence
+        // e.dataTransfer.getData('type') === CardType.Essence
+      ) {
+        applyEssence(c.id, heldCard as Essence);
       }
     });
     deck.push(
@@ -272,7 +272,7 @@ export function Deck({
           <ImbuedCard
             key={i}
             {...dropProps}
-            className={'last' + className + ' has-essence'}
+            className={'last has-essence' + className}
             card={c.baseCard}
             essence={c.essence}
             onClick={() => onClickDeckSlot(c.id)}
@@ -297,31 +297,49 @@ export function Deck({
   }
 
   let shrine;
+  let shrineDroppable = new ConditionalDroppable(
+    (heldCard &&
+      (heldCard.type === CardType.Shrine ||
+        heldCard.type === CardType.ShrineImprovement)) as boolean,
+    (e) => {
+      e.preventDefault();
+      if (heldCard?.type === CardType.Shrine) {
+        setShrine(heldCard as Shrine);
+      } else {
+        // must be si
+        setShrineImprovement(heldCard as ShrineImprovement);
+      }
+    }
+  );
   if (shrineSlot.shrine) {
     shrine = shrineSlot.shrineImprovement ? (
       <ImprovedShrine
         shrineSlot={shrineSlot}
-        onClick={() => setShrineImprovement('')}
+        onClick={() => setShrineImprovement(null)}
         onContextMenu={() => setModalCard(-1)}
+        {...shrineDroppable}
       ></ImprovedShrine>
     ) : (
       <Card
         card={shrineSlot.shrine}
-        onClick={() => setShrine('')}
+        onClick={() => setShrine(null)}
         onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
+        {...shrineDroppable}
       ></Card>
     );
   } else {
     shrine = shrineSlot.shrineImprovement ? (
       <Card
         card={shrineSlot.shrineImprovement}
-        onClick={() => setShrineImprovement('')}
+        onClick={() => setShrineImprovement(null)}
         onContextMenu={() => setModalCard(-1)}
+        {...shrineDroppable}
       ></Card>
     ) : (
       <Card
         card={new Placeholder()}
         onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
+        {...shrineDroppable}
       ></Card>
     );
   }
@@ -329,13 +347,13 @@ export function Deck({
     heldCard?.type === CardType.BaseCard,
     (e) => {
       e.preventDefault();
-      const t = e.dataTransfer.getData('type');
+      const t = heldCard?.type; //e.dataTransfer.getData('type');
       if (t === CardType.Shrine) {
-        setShrine(e.dataTransfer.getData('card'));
+        setShrine(heldCard as Shrine); //e.dataTransfer.getData('card'));
       } else if (t === CardType.ShrineImprovement) {
-        setShrineImprovement(e.dataTransfer.getData('card'));
+        setShrineImprovement(heldCard as ShrineImprovement); //e.dataTransfer.getData('card'));
       }
-      pickup(null);
+      // pickup(null);
     },
     (e) => {
       e.preventDefault();
@@ -343,7 +361,7 @@ export function Deck({
   );
 
   return (
-    <Container className="main-deck">
+    <div className="main-deck" {...deckDroppable}>
       <DeckModal
         shrineSlot={shrineSlot}
         mainDeck={mainDeck}
@@ -354,6 +372,6 @@ export function Deck({
         <Grid item>{shrine}</Grid>
         {deck}
       </Grid>
-    </Container>
+    </div>
   );
 }

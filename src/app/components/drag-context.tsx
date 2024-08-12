@@ -9,6 +9,12 @@ export class Placeholder {
   type: CardType.Placeholder;
   filename: '';
   name: '';
+
+  constructor() {
+    this.type = CardType.Placeholder;
+    this.filename = '';
+    this.name = '';
+  }
 }
 
 export type AnyCard =
