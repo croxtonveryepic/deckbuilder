@@ -12,6 +12,8 @@ import { useContext, useState } from 'react';
 import { AnyCard, AlertPickup } from './drag-context';
 import { ConditionalDraggable } from './conditional-draggable';
 import { DeckContext } from './decklist-context';
+import { AlternateEmail } from '@mui/icons-material';
+import { ShrineImprovement } from '../cardlists/shrine-improvements';
 
 export enum CardType {
   Shrine = 'shrines',
@@ -33,6 +35,7 @@ interface CardProps extends ComponentPropsWithoutRef<'div'> {
   onContextMenu?: (card: any) => void;
   className?: string;
   disabled?: boolean;
+  cardSlotId?: number;
 }
 
 export default function Card({
@@ -41,9 +44,11 @@ export default function Card({
   onContextMenu,
   className = '',
   disabled = false,
+  cardSlotId = NaN,
   ...rest
 }: CardProps) {
   const pickup = useContext(AlertPickup);
+  // const
   // const deckContext = useContext(DeckContext);
 
   let path, alt, cn, priority;
@@ -65,7 +70,7 @@ export default function Card({
   }
   let dragProps = new ConditionalDraggable(
     !disabled,
-    (e) => pickup(card),
+    (e) => pickup({ card: card, id: cardSlotId }),
     (e) => pickup(null)
   );
   return (
@@ -100,32 +105,51 @@ export function ImprovedShrine({
   className = '',
   ...rest
 }: ShrineProps) {
+  const pickup = useContext(AlertPickup);
   className += ' card';
   return (
     <Container className={className} {...rest}>
-      <Image
-        className="base-card"
-        src={'/assets/shrines/' + shrineSlot.shrine?.filename + '.png'}
-        alt={shrineSlot.shrine?.name || ''}
-        width="145"
-        height="203"
-      />
-      <Image
-        className="overlay"
-        src={
-          '/assets/shrine-improvements/' +
-          shrineSlot.shrineImprovement?.filename +
-          '.png'
-        }
-        alt={shrineSlot.shrineImprovement?.name || ''}
-        width="145"
-        height="203"
-        onClick={(e) => onClick && onClick()}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          onContextMenu && onContextMenu();
+      <div>
+        <Image
+          className="base-card"
+          src={'/assets/shrines/' + shrineSlot.shrine?.filename + '.png'}
+          alt={shrineSlot.shrine?.name || ''}
+          width="145"
+          height="203"
+        />
+      </div>
+      <div
+        draggable
+        onDragStart={(e) => {
+          // console.log('picking up si');
+          pickup({
+            card: shrineSlot.shrineImprovement as ShrineImprovement,
+            id: 1,
+          });
+          // e.preventDefault();
         }}
-      />
+        onDragEnd={(e) => {
+          pickup(null);
+          // e.preventDefault();
+        }}
+      >
+        <Image
+          className="overlay"
+          src={
+            '/assets/shrine-improvements/' +
+            shrineSlot.shrineImprovement?.filename +
+            '.png'
+          }
+          alt={shrineSlot.shrineImprovement?.name || ''}
+          width="145"
+          height="203"
+          onClick={(e) => onClick && onClick()}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            onContextMenu && onContextMenu();
+          }}
+        />
+      </div>
     </Container>
   );
 }
@@ -136,6 +160,7 @@ interface ImbuedCardProps extends ComponentPropsWithoutRef<'div'> {
   onClick?: () => void;
   onContextMenu?: () => void;
   className?: string;
+  cardSlotId: number;
 }
 
 export function ImbuedCard({
@@ -144,9 +169,10 @@ export function ImbuedCard({
   onClick,
   onContextMenu,
   className = '',
+  cardSlotId,
   ...rest
 }: ImbuedCardProps) {
-  // const pickup = useContext(AlertPickup);
+  const pickup = useContext(AlertPickup);
   className += ' card';
   return (
     <Container
@@ -179,6 +205,15 @@ export function ImbuedCard({
         onContextMenu={(e) => {
           e.preventDefault();
           onContextMenu && onContextMenu();
+        }}
+        draggable
+        onDragStart={(e) => {
+          // e.preventDefault();
+          pickup({ card: essence, id: cardSlotId });
+        }}
+        onDragEnd={(e) => {
+          // e.preventDefault();
+          pickup(null);
         }}
       />
     </Container>

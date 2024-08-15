@@ -13,7 +13,7 @@ import { Essence } from '../cardlists/essences';
 import {
   AlertPickup,
   AnyCard,
-  disam,
+  // disam,
   HeldCard,
   Placeholder,
 } from './drag-context';
@@ -179,6 +179,7 @@ export function Deck({
   applyEssence,
   setShrine,
   setShrineImprovement,
+  addBaseCard,
 }: {
   shrineSlot: ShrineSlot;
   mainDeck: DeckSlot[];
@@ -187,9 +188,9 @@ export function Deck({
   applyEssence: (id: number, essence: Essence) => void;
   setShrine: (shrine: Shrine | null) => void;
   setShrineImprovement: (shrineImprovement: ShrineImprovement | null) => void;
+  addBaseCard: (c: BaseCard) => void;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
-  const pickup = useContext(AlertPickup);
 
   function getIndex(id: number) {
     return mainDeck.findIndex((slot) => {
@@ -205,11 +206,17 @@ export function Deck({
     let className = '';
     let droppable = false;
     if (heldCard) {
-      if (heldCard.type === CardType.Essence) {
-        let e = heldCard as Essence;
+      let t = heldCard.card.type;
+      if (t === CardType.Essence) {
+        let e = heldCard.card as Essence;
         droppable = e.validBases.has(c.baseCard.id);
       }
-      className = droppable ? ' valid' : ' greyed';
+      if (
+        t === CardType.Essence ||
+        (Number.isNaN(heldCard.id) &&
+          (t === CardType.Shrine || t === CardType.ShrineImprovement))
+      )
+        className = droppable ? ' valid' : ' greyed';
     }
     let dropProps;
     while (mainDeck[i + 1]?.baseCard.id === c.baseCard.id) {
@@ -217,9 +224,7 @@ export function Deck({
       i++;
       dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
         e.preventDefault();
-        if (heldCard?.type === CardType.Essence) {
-          applyEssence(dupe.id, heldCard as Essence);
-        }
+        applyEssence(dupe.id, heldCard?.card as Essence);
       });
       dupes.push(
         dupe.essence ? (
@@ -234,6 +239,7 @@ export function Deck({
             onContextMenu={() => {
               setModalCard(getIndex(dupe.id));
             }}
+            cardSlotId={dupe.id}
           ></ImbuedCard>
         ) : (
           <Card
@@ -246,6 +252,7 @@ export function Deck({
             onContextMenu={(s) => {
               setModalCard(getIndex(dupe.id));
             }}
+            cardSlotId={dupe.id}
           ></Card>
         )
       );
@@ -253,12 +260,7 @@ export function Deck({
     c = mainDeck[i];
     dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
       e.preventDefault();
-      if (
-        heldCard?.type === CardType.Essence
-        // e.dataTransfer.getData('type') === CardType.Essence
-      ) {
-        applyEssence(c.id, heldCard as Essence);
-      }
+      applyEssence(c.id, heldCard?.card as Essence);
     });
     deck.push(
       <Grid
@@ -279,6 +281,7 @@ export function Deck({
             onContextMenu={() => {
               setModalCard(getIndex(c.id));
             }}
+            cardSlotId={c.id}
           ></ImbuedCard>
         ) : (
           <Card
@@ -290,6 +293,7 @@ export function Deck({
             onContextMenu={(s) => {
               setModalCard(getIndex(c.id));
             }}
+            cardSlotId={c.id}
           ></Card>
         )}
       </Grid>
@@ -299,15 +303,15 @@ export function Deck({
   let shrine;
   let shrineDroppable = new ConditionalDroppable(
     (heldCard &&
-      (heldCard.type === CardType.Shrine ||
-        heldCard.type === CardType.ShrineImprovement)) as boolean,
+      (heldCard.card.type === CardType.Shrine ||
+        heldCard.card.type === CardType.ShrineImprovement)) as boolean,
     (e) => {
       e.preventDefault();
-      if (heldCard?.type === CardType.Shrine) {
-        setShrine(heldCard as Shrine);
+      if (heldCard?.card.type === CardType.Shrine) {
+        setShrine(heldCard.card as Shrine);
       } else {
         // must be si
-        setShrineImprovement(heldCard as ShrineImprovement);
+        setShrineImprovement(heldCard?.card as ShrineImprovement);
       }
     }
   );
@@ -324,6 +328,7 @@ export function Deck({
         card={shrineSlot.shrine}
         onClick={() => setShrine(null)}
         onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
+        cardSlotId={1} //distinguishing active shrine from those in the collection
         {...shrineDroppable}
       ></Card>
     );
@@ -344,19 +349,10 @@ export function Deck({
     );
   }
   const deckDroppable = new ConditionalDroppable(
-    heldCard?.type === CardType.BaseCard,
+    heldCard?.card.type === CardType.BaseCard && Number.isNaN(heldCard?.id),
     (e) => {
       e.preventDefault();
-      const t = heldCard?.type; //e.dataTransfer.getData('type');
-      if (t === CardType.Shrine) {
-        setShrine(heldCard as Shrine); //e.dataTransfer.getData('card'));
-      } else if (t === CardType.ShrineImprovement) {
-        setShrineImprovement(heldCard as ShrineImprovement); //e.dataTransfer.getData('card'));
-      }
-      // pickup(null);
-    },
-    (e) => {
-      e.preventDefault();
+      addBaseCard(heldCard?.card as BaseCard);
     }
   );
 

@@ -23,22 +23,22 @@ export type AnyCard =
   | BaseCard
   | Essence
   | Placeholder;
-export type HeldCard = AnyCard | null;
+export type HeldCard = { card: AnyCard; id: number } | null;
 
-export const disam = {
-  isShrine: (c: HeldCard): c is Shrine => {
-    return c?.type === CardType.Shrine;
-  },
-  isShrineImprovement: (c: HeldCard): c is ShrineImprovement => {
-    return c?.type === CardType.ShrineImprovement;
-  },
-  isBaseCard: (c: HeldCard): c is BaseCard => {
-    return c?.type === CardType.BaseCard;
-  },
-  isEssence: (c: HeldCard): c is Essence => {
-    return c?.type === CardType.Essence;
-  },
-};
+// export const disam = {
+//   isShrine: (c: HeldCard): c is Shrine => {
+//     return c?.type === CardType.Shrine;
+//   },
+//   isShrineImprovement: (c: HeldCard): c is ShrineImprovement => {
+//     return c?.type === CardType.ShrineImprovement;
+//   },
+//   isBaseCard: (c: HeldCard): c is BaseCard => {
+//     return c?.type === CardType.BaseCard;
+//   },
+//   isEssence: (c: HeldCard): c is Essence => {
+//     return c?.type === CardType.Essence;
+//   },
+// };
 
 // export class DragContex {
 //   card: HeldCard;
@@ -46,4 +46,5 @@ export const disam = {
 // };
 
 export const AlertPickup = createContext((c: HeldCard) => {});
+// export const
 // export const Droppable = createContext(false)

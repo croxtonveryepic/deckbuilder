@@ -21,13 +21,12 @@ time worked
 8/7: 3 hours (remove any absolute pixel styles, swap element buttons to be more thematic, fix cost tracker, adjust "between" cost filter icon to <=>)
 8/10: 8 hours (begin reworking dragging, grey out illegal drag targets, grey out maxed collection cards)
 8/11: 5 hours (dragging-related bugfixes, removed default data transfer and moved to object-based deck updating via context, efficiancy improvements by pre-compiling valid overlays)
+8/14: 4 hours (cards can now be correctly dragged from anywhere to anywhere)
 
 todo:
 
 high priority
-legality of dragging
-when dragging an essence, grey out the illegal cards
-should be able to drag practically all cards between zones... naturally dragging into the deck, but also dragging anything out of the deck, and essences between cards (swapping if applicable)
+prevent essence swap that would cause the target to be moved to an illegal base... or simply delete that essence
 fix deck modal inconsistency (essence-d cards sort right in clusters but in modal they appear to be on the left)
 polish dark mode (cannot read filter dropdowns, some modals weird)
 polish modals (legible and styled reasonably, sections for click-to-copy deck code and traditional deck list)

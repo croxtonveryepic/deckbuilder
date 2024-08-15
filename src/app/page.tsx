@@ -61,6 +61,7 @@ import { ResourceTracker } from './components/resource-tracker';
 import { HeldCard, AlertPickup } from './components/drag-context';
 import { createContext } from 'vm';
 import { DeckContext } from './components/decklist-context';
+import { ConditionalDroppable } from './components/conditional-droppable';
 
 export class DeckSlot {
   baseCard: BaseCard;
@@ -248,15 +249,32 @@ export default function Home() {
   }
 
   function applyEssence(id: number, essence: Essence) {
-    setDeck(
-      deck.map((ds) => {
-        if (ds.id === id) {
-          return { ...ds, essence: essence };
-        } else {
-          return ds;
-        }
-      })
-    );
+    if (Number.isNaN(heldCard?.id)) {
+      setDeck(
+        deck.map((ds) => {
+          if (ds.id === id) {
+            return { ...ds, essence: essence };
+          } else {
+            return ds;
+          }
+        })
+      );
+    } else {
+      const targetEssence = deck.find((ds) => ds.id === id)
+        ?.essence as Essence | null;
+      setDeck(
+        deck.map((ds) => {
+          if (ds.id === id) {
+            return { ...ds, essence: essence };
+          } else if (ds.id === heldCard?.id) {
+            return { ...ds, essence: targetEssence };
+          } else {
+            return ds;
+          }
+        })
+      );
+      setHeldCard(null); // must re-do here because the source will re-render, which will cause heldCard state to hang if it's a transfer instead of a swap
+    }
   }
 
   function toggleDeckDataModal() {
@@ -285,6 +303,27 @@ export default function Home() {
       essenceCounts.set(id, count ? count + 1 : 1);
     }
   });
+
+  const handleCollectionDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    switch (heldCard?.card.type) {
+      case CardType.BaseCard:
+      case CardType.Essence:
+        removeLayer(heldCard.id);
+        break;
+      case CardType.Shrine:
+        setShrine({ ...shrine, shrine: null });
+        break;
+      case CardType.ShrineImprovement:
+        setShrine({ ...shrine, shrineImprovement: null });
+        break;
+    }
+  };
+
+  const collectionDropProps = new ConditionalDroppable(
+    (heldCard && !Number.isNaN(heldCard.id)) as boolean,
+    handleCollectionDrop
+  );
   return (
     <Box>
       <AlertPickup.Provider
@@ -365,9 +404,10 @@ export default function Home() {
                   )
                 )
               }
+              addBaseCard={addBaseCard}
             ></Deck>
           </Container>
-          <Container className="base-card-container">
+          <div className="base-card-container" {...collectionDropProps}>
             <div className="base-card-widget-container">
               {/* <FormGroup>
               <FormControlLabel label={} control={<Switch></Switch>}>
@@ -499,8 +539,8 @@ export default function Home() {
                 onClickBaseCard={(card_name) => addBaseCard(card_name)}
               ></BaseCardList>
             )}
-          </Container>
-          <Container className="overlay-card-container">
+          </div>
+          <div className="overlay-card-container" {...collectionDropProps}>
             <Container className="overlay-card-widget-container">
               button stuff
             </Container>
@@ -514,7 +554,7 @@ export default function Home() {
             ) : (
               <EssenceList essences={essences}></EssenceList>
             )}
-          </Container>
+          </div>
         </DeckContext.Provider>
       </AlertPickup.Provider>
     </Box>
