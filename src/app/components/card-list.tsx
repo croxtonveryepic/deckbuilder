@@ -210,7 +210,6 @@ export function Deck({
   deckMaximized: boolean;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
-  const pickup = useContext(AlertPickup);
 
   function getIndex(id: number) {
     return mainDeck.findIndex((slot) => {
