@@ -123,6 +123,26 @@ class UncalculatedBaseCard {
   isValidEssence: (e: Essence) => boolean;
 }
 
+class UncalculatedBaseCard {
+  name: string;
+  filename: string;
+  id: number;
+  epic: boolean;
+  supertype: BaseCardType;
+  subtype: string;
+  cost: number;
+  pips: Element[];
+  hp: number;
+  power: number;
+  speed: number;
+  text: string;
+  ccc: number;
+  artist: string;
+  rarity: Rarity;
+  type: CardType;
+  isValidEssence: (e: Essence) => boolean;
+}
+
 export class BaseCard {
   name: string;
   filename: string;

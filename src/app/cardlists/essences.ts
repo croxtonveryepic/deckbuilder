@@ -115,11 +115,10 @@ export class Essence {
   power: number;
   speed: number;
   type: CardType;
-  isValidBase: (c: BaseCard) => boolean;
-  validBases: Set<number>;
+  isValidBase: (c: any) => boolean;
 }
 
-const uncalculated_essences: UncalculatedEssence[] = [
+export const essences: Essence[] = [
   {
     name: 'Advanced Essence',
     filename: 'advancedessence-1',
@@ -1486,13 +1485,3 @@ const uncalculated_essences: UncalculatedEssence[] = [
     },
   },
 ];
-
-export const essences: Essence[] = uncalculated_essences.map((e) => {
-  let m = new Set<number>();
-  baseCards.forEach((c) => {
-    if (c.ccc + e.ccc <= 6 && c.isValidEssence(e) && e.isValidBase(c)) {
-      m.add(c.id);
-    }
-  });
-  return { ...e, validBases: m };
-});
