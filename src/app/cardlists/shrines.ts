@@ -1,5 +1,5 @@
-import { Element } from './base-cards';
-import { Rarity } from './base-cards';
+import { Element } from './enums';
+import { Rarity } from './enums';
 import { CardType } from '../components/card';
 import { ShrineImprovement } from './shrine-improvements';
 export class Shrine {

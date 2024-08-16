@@ -1,4 +1,4 @@
-import { Element } from '../cardlists/base-cards';
+import { Element } from '../cardlists/enums';
 import Image from 'next/image';
 
 export function ElementButtons({

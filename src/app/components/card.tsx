@@ -1,18 +1,12 @@
 import Image from 'next/image';
 import { Container } from '@mui/material';
 import { ShrineSlot } from '../cardlists/shrines';
-import { useDroppable, useDraggable } from '@dnd-kit/core';
-import { green } from '@mui/material/colors';
 import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
 import type { ComponentPropsWithoutRef } from 'react';
-import { doc } from 'prettier';
-import { ClassNames } from '@emotion/react';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AnyCard, AlertPickup } from './drag-context';
 import { ConditionalDraggable } from './conditional-draggable';
-import { DeckContext } from './decklist-context';
-import { AlternateEmail } from '@mui/icons-material';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 
 export enum CardType {
@@ -38,7 +32,7 @@ interface CardProps extends ComponentPropsWithoutRef<'div'> {
   cardSlotId?: number;
 }
 
-export default function Card({
+export function Card({
   card,
   onClick,
   onContextMenu,
@@ -48,8 +42,6 @@ export default function Card({
   ...rest
 }: CardProps) {
   const pickup = useContext(AlertPickup);
-  // const
-  // const deckContext = useContext(DeckContext);
 
   let path, alt, cn, priority;
   if (card.type === CardType.Placeholder) {
@@ -67,6 +59,7 @@ export default function Card({
   }
   if (disabled) {
     cn += ' greyed';
+    onClick = undefined;
   }
   let dragProps = new ConditionalDraggable(
     !disabled,
@@ -121,16 +114,13 @@ export function ImprovedShrine({
       <div
         draggable
         onDragStart={(e) => {
-          // console.log('picking up si');
           pickup({
             card: shrineSlot.shrineImprovement as ShrineImprovement,
             id: 1,
           });
-          // e.preventDefault();
         }}
         onDragEnd={(e) => {
           pickup(null);
-          // e.preventDefault();
         }}
       >
         <Image
@@ -175,19 +165,7 @@ export function ImbuedCard({
   const pickup = useContext(AlertPickup);
   className += ' card';
   return (
-    <Container
-      className={className}
-      {...rest}
-      // draggable
-      // onDragStart={(e) => {
-      //   e.preventDefault();
-      //   pickup(essence);
-      // }}
-      // onDragEnd={(e) => {
-      //   e.preventDefault();
-      //   pickup(null);
-      // }}
-    >
+    <Container className={className} {...rest}>
       <Image
         className="base-card"
         src={'/assets/base-cards/' + card.filename + '.png'}
@@ -208,11 +186,9 @@ export function ImbuedCard({
         }}
         draggable
         onDragStart={(e) => {
-          // e.preventDefault();
           pickup({ card: essence, id: cardSlotId });
         }}
         onDragEnd={(e) => {
-          // e.preventDefault();
           pickup(null);
         }}
       />

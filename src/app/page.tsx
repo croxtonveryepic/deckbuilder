@@ -8,12 +8,8 @@ import {
   Typography,
   Stack,
   FormGroup,
-  FormControlLabel,
   IconButton,
-  Icon,
   TextField,
-  Paper,
-  Button,
   InputAdornment,
   InputLabel,
 } from '@mui/material';
@@ -23,24 +19,15 @@ import {
   BaseCardList,
   EssenceList,
 } from './components/card-list';
-import {
-  baseCards,
-  BaseCardFilters,
-  BaseCard,
-  Element,
-  BaseCardType,
-  Rarity,
-} from './cardlists/base-cards';
+import { baseCards, BaseCardFilters, BaseCard } from './cardlists/base-cards';
+import { Element, BaseCardType, Rarity } from './cardlists/enums';
 import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
 import { shrineImprovements } from './cardlists/shrine-improvements';
-import { CardType, DisplayData, ImprovedShrine } from './components/card';
+import { CardType } from './components/card';
 import { useState } from 'react';
-import Card from './components/card';
 import { Deck } from './components/card-list';
 import { idGenerator } from './utils';
-import Image from 'next/image';
-import { DndContext } from '@dnd-kit/core';
 import { PipButtons } from './components/pip-button';
 import { ElementButtons } from './components/element-buttons';
 import {
@@ -48,7 +35,6 @@ import {
   SaveAs,
   LibraryBooks,
   Search,
-  ImportExport,
 } from '@mui/icons-material';
 import {
   LoadDeckModal,
@@ -56,10 +42,8 @@ import {
   useLocalStorageDeck,
   useLocalStorageShrine,
 } from './components/deck-encoder';
-import { useEffect } from 'react';
 import { ResourceTracker } from './components/resource-tracker';
 import { HeldCard, AlertPickup } from './components/drag-context';
-import { createContext } from 'vm';
 import { DeckContext } from './components/decklist-context';
 import { ConditionalDroppable } from './components/conditional-droppable';
 
@@ -77,13 +61,6 @@ export class DeckSlot {
 
 const newId = idGenerator();
 
-// typeChoice?: BaseCardType;
-//     elementChoices?: Element[];
-//     elementAnd: boolean;
-//     costChoiceOne?: number;
-//     costChoiceTwo?: number;
-//     costOperator: string;
-//     query?: string;
 export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
   const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
@@ -101,17 +78,6 @@ export default function Home() {
   const [saveDeckModal, setSaveDeckModal] = useState(false);
   const [loadDeckModal, setLoadDeckModal] = useState(false);
   const [heldCard, setHeldCard] = useState(null as HeldCard);
-
-  // useEffect(() => {
-  //   setShrine(decodeShrine('tempDeck'));
-  // }, []);
-
-  // useEffect(() => {
-  //   window.localStorage.setItem(
-  //     'tempDeck',
-  //     encode({ shrineSlot: shrine, deck: deck })
-  //   );
-  // }, [deck, shrine]);
 
   function addBaseCard(card: BaseCard) {
     setDeck([...deck, new DeckSlot(card, null)]);
@@ -216,8 +182,6 @@ export default function Home() {
     }
   }
 
-  // handleCostFilterLineT
-
   function filteredAndSortedBaseCards() {
     const filters = new BaseCardFilters({
       typeChoice: bcType,
@@ -248,26 +212,33 @@ export default function Home() {
     });
   }
 
-  function applyEssence(id: number, essence: Essence) {
+  function applyEssence(id: number, incomingEssence: Essence) {
+    // from collection
     if (Number.isNaN(heldCard?.id)) {
       setDeck(
         deck.map((ds) => {
           if (ds.id === id) {
-            return { ...ds, essence: essence };
+            return { ...ds, essence: incomingEssence };
           } else {
             return ds;
           }
         })
       );
     } else {
-      const targetEssence = deck.find((ds) => ds.id === id)
-        ?.essence as Essence | null;
+      // from elsewhere in the deck zone
+      const targetDeckSlot = deck.find((ds) => ds.id === id);
+      const sourceDeckSlot = deck.find((ds) => ds.id === heldCard?.id);
+      const essenceToTransfer =
+        targetDeckSlot?.essence &&
+        sourceDeckSlot?.baseCard.validEssences.has(targetDeckSlot.essence.id)
+          ? targetDeckSlot.essence
+          : null;
       setDeck(
         deck.map((ds) => {
           if (ds.id === id) {
-            return { ...ds, essence: essence };
+            return { ...ds, essence: incomingEssence };
           } else if (ds.id === heldCard?.id) {
-            return { ...ds, essence: targetEssence };
+            return { ...ds, essence: essenceToTransfer };
           } else {
             return ds;
           }
@@ -328,11 +299,7 @@ export default function Home() {
     <Box>
       <AlertPickup.Provider
         value={(c) => {
-          // console.log('current held card:');
-          // console.log(heldCard);
           setHeldCard(c);
-          // console.log('new held card:');
-          // console.log(heldCard);
         }}
       >
         <DeckContext.Provider
@@ -367,12 +334,8 @@ export default function Home() {
                 open={loadDeckModal}
                 toggle={toggleLoadDeckModal}
                 setShrineAndDeck={(ss, ds) => {
-                  // console.log(ss);
                   setShrine(ss);
-                  // console.log(shrine);
-                  // console.log(ds);
                   setDeck(ds);
-                  // console.log(deck);
                 }}
               ></LoadDeckModal>
               <ResourceTracker
@@ -387,22 +350,10 @@ export default function Home() {
               onClickDeckSlot={removeLayer}
               applyEssence={applyEssence}
               setShrine={(s) =>
-                setShrine(
-                  new ShrineSlot(
-                    s,
-                    // getCardByFilename(s, shrines),
-                    shrine.shrineImprovement
-                  )
-                )
+                setShrine(new ShrineSlot(s, shrine.shrineImprovement))
               }
               setShrineImprovement={(si) =>
-                setShrine(
-                  new ShrineSlot(
-                    shrine.shrine,
-                    si
-                    // getCardByFilename(si, shrineImprovements)
-                  )
-                )
+                setShrine(new ShrineSlot(shrine.shrine, si))
               }
               addBaseCard={addBaseCard}
             ></Deck>
@@ -489,7 +440,7 @@ export default function Home() {
                     <Stack
                       direction="row"
                       alignItems="center"
-                      sx={{ marginLeft: '5px' }}
+                      sx={{ marginLeft: '.5em' }}
                     >
                       <Typography>Or</Typography>
                       <Switch
@@ -509,7 +460,6 @@ export default function Home() {
                         }
                         setBcCostOperator(val);
                       }}
-                      // sx={{ width = '20%' }}
                     >
                       <MenuItem value={'='}>=</MenuItem>
                       <MenuItem value={'<='}>&lt;=</MenuItem>

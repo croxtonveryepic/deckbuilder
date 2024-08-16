@@ -22,12 +22,10 @@ time worked
 8/10: 8 hours (begin reworking dragging, grey out illegal drag targets, grey out maxed collection cards)
 8/11: 5 hours (dragging-related bugfixes, removed default data transfer and moved to object-based deck updating via context, efficiancy improvements by pre-compiling valid overlays)
 8/14: 4 hours (cards can now be correctly dragged from anywhere to anywhere)
+8/15: 4 hours (refactored overlay validity to be on base cards, cleared comments and unused imports, polished deck creation: essences can no longer be swapped in a way that will be illegal (illegal essence is removed instead, and this is visually obvious), pressing enter in modal now correctly can add shrines and shrine improvements, pressing enter in modal now no longer bypasses deck limits. effectively, deck legality is now forced w.r.t. counts and essences; 50 cards, 50 essences, and 20 cards of shrine are checked at save time)
 
 todo:
-
 high priority
-prevent essence swap that would cause the target to be moved to an illegal base... or simply delete that essence
-fix deck modal inconsistency (essence-d cards sort right in clusters but in modal they appear to be on the left)
 polish dark mode (cannot read filter dropdowns, some modals weird)
 polish modals (legible and styled reasonably, sections for click-to-copy deck code and traditional deck list)
 filter dropdowns: instead of default `Any` value, display the name of the filter
@@ -46,7 +44,7 @@ code for soulful and soulless
 modify the deck modal to allow browsing overlay cards
 
 low priority:
-fix pathing to be build env agnostic
+fix pathing to be build env agnostic // currently using dev/master cherry-pick, which is fine
 manual dark mode switch
 proxies
 options for how to sort the deck

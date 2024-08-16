@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material';
-import Card, { DisplayData } from './card';
+import { Card } from './card';
 import { CardType } from './card';
 import { ImprovedShrine, ImbuedCard } from './card';
 import { DeckSlot } from '../page';
@@ -10,15 +10,11 @@ import { Shrine } from '../cardlists/shrines';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
-import {
-  AlertPickup,
-  AnyCard,
-  // disam,
-  HeldCard,
-  Placeholder,
-} from './drag-context';
+import { HeldCard, Placeholder } from './drag-context';
 import { ConditionalDroppable } from './conditional-droppable';
 import { DeckContext, DecklistContext } from './decklist-context';
+import { ConditionalDragEnterLeave } from './conditional-drag-enter-leave';
+import { isAtMax } from '../utils';
 
 export function ShrineList({
   shrines,
@@ -28,6 +24,7 @@ export function ShrineList({
   onClickShrine: (shrine: Shrine) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
+  const decklistContext = useContext(DeckContext);
 
   function openModal(shrine: Shrine) {
     setModalCard(shrines.indexOf(shrine));
@@ -39,6 +36,7 @@ export function ShrineList({
         card={shrine}
         onClick={onClickShrine}
         onContextMenu={openModal}
+        disabled={isAtMax(decklistContext, shrine)}
       ></Card>
     </Grid>
   ));
@@ -65,6 +63,7 @@ export function ShrineImprovementList({
   onClickShrineImprovement: (shrineImprovement: ShrineImprovement) => void;
 }) {
   const [modalCard, setModalCard] = useState(-1);
+  const decklistContext = useContext(DeckContext);
 
   function openModal(shrineImprovement: ShrineImprovement) {
     setModalCard(shrineImprovements.indexOf(shrineImprovement));
@@ -76,6 +75,7 @@ export function ShrineImprovementList({
         card={si}
         onClick={onClickShrineImprovement}
         onContextMenu={openModal}
+        disabled={isAtMax(decklistContext, si)}
       ></Card>
     </Grid>
   ));
@@ -87,6 +87,7 @@ export function ShrineImprovementList({
         list={shrineImprovements}
         activeCard={modalCard}
         setActiveCard={setModalCard}
+        onEnter={onClickShrineImprovement}
       ></CardModal>
       <Grid container className="overlay-grid">
         {images}
@@ -110,16 +111,13 @@ export function BaseCardList({
   }
 
   const images = cards.map((c) => {
-    let count = decklistContext.cards.get(c.id) || 0;
-    let atMax = c.epic ? count === 1 : count === 3;
-    // atMax = false;
     return (
       <Grid item key={c.filename}>
         <Card
           card={c}
           onClick={onClickBaseCard}
           onContextMenu={openModal}
-          disabled={atMax}
+          disabled={isAtMax(decklistContext, c)}
         ></Card>
       </Grid>
     );
@@ -132,7 +130,9 @@ export function BaseCardList({
         list={cards}
         activeCard={modalCard}
         setActiveCard={setModalCard}
-        onEnter={onClickBaseCard}
+        onEnter={(c) => {
+          onClickBaseCard(c);
+        }}
       ></CardModal>
       <Grid container>{images}</Grid>
     </Container>
@@ -148,10 +148,13 @@ export function EssenceList({ essences }: { essences: Essence[] }) {
   }
 
   const images = essences.map((e) => {
-    let atMax = (decklistContext.essences.get(e.id) || 0) === 3 && !e.unlimited;
     return (
       <Grid className="unbacked-overlay" item key={e.filename}>
-        <Card card={e} onContextMenu={openModal} disabled={atMax}></Card>
+        <Card
+          card={e}
+          onContextMenu={openModal}
+          disabled={isAtMax(decklistContext, e)}
+        ></Card>
       </Grid>
     );
   });
@@ -169,6 +172,14 @@ export function EssenceList({ essences }: { essences: Essence[] }) {
       </Grid>
     </Container>
   );
+}
+
+function onEnterWarn(e: React.DragEvent) {
+  e.currentTarget.classList.add('warn');
+}
+
+function onLeaveUnwarn(e: React.DragEvent) {
+  e.currentTarget.classList.remove('warn');
 }
 
 export function Deck({
@@ -205,11 +216,16 @@ export function Deck({
     let dupes = [];
     let className = '';
     let droppable = false;
+    let warn;
+    let enterLeaveProps;
     if (heldCard) {
       let t = heldCard.card.type;
       if (t === CardType.Essence) {
         let e = heldCard.card as Essence;
-        droppable = e.validBases.has(c.baseCard.id);
+        droppable = c.baseCard.validEssences.has(e.id);
+        if (!Number.isNaN(heldCard.id)) {
+          warn = mainDeck.find((ds) => ds.id === heldCard.id);
+        }
       }
       if (
         t === CardType.Essence ||
@@ -226,12 +242,18 @@ export function Deck({
         e.preventDefault();
         applyEssence(dupe.id, heldCard?.card as Essence);
       });
+      enterLeaveProps = new ConditionalDragEnterLeave(
+        (warn &&
+          !warn.baseCard.validEssences.has(dupe.essence?.id || NaN)) as boolean,
+        onEnterWarn,
+        onLeaveUnwarn
+      );
       dupes.push(
         dupe.essence ? (
           <ImbuedCard
             key={i}
             className={'overlapped has-essence' + className}
-            // style={style}
+            {...enterLeaveProps}
             {...dropProps}
             card={dupe.baseCard}
             essence={dupe.essence}
@@ -262,6 +284,12 @@ export function Deck({
       e.preventDefault();
       applyEssence(c.id, heldCard?.card as Essence);
     });
+    enterLeaveProps = new ConditionalDragEnterLeave(
+      (warn &&
+        !warn.baseCard.validEssences.has(c.essence?.id || NaN)) as boolean,
+      onEnterWarn,
+      onLeaveUnwarn
+    );
     deck.push(
       <Grid
         item
@@ -274,6 +302,7 @@ export function Deck({
           <ImbuedCard
             key={i}
             {...dropProps}
+            {...enterLeaveProps}
             className={'last has-essence' + className}
             card={c.baseCard}
             essence={c.essence}

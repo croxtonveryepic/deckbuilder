@@ -1,32 +1,6 @@
 import { CardType } from '../components/card';
-import { Essence } from './essences';
-export enum BaseCardType {
-  Unit = 1,
-  Event = 2,
-  ContinuousEvent = 3,
-  Item = 4,
-  Structure = 5,
-  Any = 6,
-}
-
-export enum Element {
-  Air,
-  Dark,
-  Earth,
-  Fire,
-  Light,
-  Water,
-  Neutral,
-}
-
-export enum Rarity {
-  Common,
-  Uncommon,
-  Rare,
-  Epic,
-  Any,
-}
-
+import { BaseCardType, Element, Rarity } from './enums';
+import { Essence, essences } from './essences';
 export class BaseCardFilters {
   type: (supertype: BaseCardType) => boolean;
   identity: (pips: Element[]) => boolean;
@@ -119,6 +93,26 @@ export class BaseCardFilters {
   }
 }
 
+class UncalculatedBaseCard {
+  name: string;
+  filename: string;
+  id: number;
+  epic: boolean;
+  supertype: BaseCardType;
+  subtype: string;
+  cost: number;
+  pips: Element[];
+  hp: number;
+  power: number;
+  speed: number;
+  text: string;
+  ccc: number;
+  artist: string;
+  rarity: Rarity;
+  type: CardType;
+  isValidEssence: (e: Essence) => boolean;
+}
+
 export class BaseCard {
   name: string;
   filename: string;
@@ -136,10 +130,11 @@ export class BaseCard {
   artist: string;
   rarity: Rarity;
   type: CardType;
-  isValidEssence: (e: any) => boolean;
+  isValidEssence: (e: Essence) => boolean;
+  validEssences: Set<number>;
 }
 
-export const baseCards: BaseCard[] = [
+const uncalculatedBaseCards: UncalculatedBaseCard[] = [
   {
     name: 'Absorb Magic',
     filename: 'absorbmagic',
@@ -3100,3 +3095,13 @@ export const baseCards: BaseCard[] = [
     },
   },
 ];
+
+export const baseCards: BaseCard[] = uncalculatedBaseCards.map((c) => {
+  let m = new Set<number>();
+  essences.forEach((e) => {
+    if (c.ccc + e.ccc <= 6 && c.isValidEssence(e) && e.isValidBase(c)) {
+      m.add(e.id);
+    }
+  });
+  return { ...c, validEssences: m };
+});

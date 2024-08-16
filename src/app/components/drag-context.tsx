@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { CardType, DisplayData } from './card';
+import { CardType } from './card';
 import { Shrine } from '../cardlists/shrines';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 import { BaseCard } from '../cardlists/base-cards';
@@ -40,11 +40,4 @@ export type HeldCard = { card: AnyCard; id: number } | null;
 //   },
 // };
 
-// export class DragContex {
-//   card: HeldCard;
-//   pickup: (c: HeldCard) => void;
-// };
-
 export const AlertPickup = createContext((c: HeldCard) => {});
-// export const
-// export const Droppable = createContext(false)

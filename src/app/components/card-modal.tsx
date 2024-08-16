@@ -1,14 +1,15 @@
-import { Modal, Typography } from '@mui/material';
+import { Modal } from '@mui/material';
 import Image from 'next/image';
-import { CardType, DisplayData } from './card';
+import { CardType } from './card';
 import { Container, IconButton } from '@mui/material';
-import { act, useState } from 'react';
-import { ClickAwayListener } from '@mui/material';
+import { useContext, useState } from 'react';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIos';
 import { DeckSlot } from '../page';
 import { ShrineSlot } from '../cardlists/shrines';
-import { escape } from 'querystring';
+import { isAtMax } from '../utils';
+import { DeckContext } from './decklist-context';
+import { AnyCard } from './drag-context';
 
 export function CardModal({
   cardType,
@@ -18,12 +19,13 @@ export function CardModal({
   onEnter,
 }: {
   cardType: CardType;
-  list: DisplayData[];
+  list: AnyCard[];
   activeCard: number;
   setActiveCard: (arg0: number) => void;
   onEnter?: (card: any) => void;
 }) {
   const [translucent, setTranslucent] = useState(false);
+  const decklistContext = useContext(DeckContext);
 
   function moveLeft() {
     setActiveCard(activeCard - 1);
@@ -40,6 +42,8 @@ export function CardModal({
   let className = translucent
     ? 'modal-parent translucent'
     : 'modal-parent opaque';
+
+  onEnter = isAtMax(decklistContext, list[activeCard]) ? undefined : onEnter;
 
   return (
     <Modal open={activeCard >= 0}>
@@ -114,8 +118,6 @@ export function CardModal({
     </Modal>
   );
 }
-
-// function
 
 export function DeckModal({
   shrineSlot,

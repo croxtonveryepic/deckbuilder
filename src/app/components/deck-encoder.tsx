@@ -7,18 +7,14 @@ import { essences } from '../cardlists/essences';
 import { useState, useEffect } from 'react';
 import {
   Card,
-  CardContent,
   CardHeader,
-  CardMedia,
   Container,
   Modal,
   Paper,
   TextField,
 } from '@mui/material';
-import { ClickAwayListener, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { checkOrX } from './check-or-x';
-import { Check, Toll } from '@mui/icons-material';
-import { json } from 'stream/consumers';
 const BASE = 92;
 const OFFSET = 35;
 const EMPTY = '"" ';

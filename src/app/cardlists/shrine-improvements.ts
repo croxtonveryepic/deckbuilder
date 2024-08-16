@@ -1,5 +1,4 @@
 import { CardType } from '../components/card';
-// add stats
 export class ShrineImprovement {
   name: string;
   filename: string;

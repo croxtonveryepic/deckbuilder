@@ -39,7 +39,6 @@ body {
 
 .card-cluster {
   display: flex;
-  margin-right: 32px;
 }
 .card-cluster .card:hover {
   z-index: 1;
@@ -164,7 +163,6 @@ body {
 .deck-widget-container .mana-pip.circle {
   display: grid;
   justify-items: center;
-  /* align-content: center; */
   width: 1.5rem;
   height: 1.5rem;
   background-color: grey;
@@ -257,7 +255,6 @@ body {
   .element-button-container
   button.selected
   img {
-  /* margin: 10%; */
   padding: 0;
   border-radius: 50%;
   border-style: solid;
@@ -270,7 +267,6 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* justify-content: space-evenly; */
 }
 
 .base-card-widget-container .mana-pip {
@@ -347,7 +343,6 @@ body {
 }
 
 .card-cluster div {
-  /* transition: opacity, 50ms; */
   opacity: 100%;
 }
 
@@ -361,10 +356,13 @@ body {
   opacity: 60%;
 }
 
-/* .card-cluster .valid {
-} */
+.card-cluster .valid.warn img {
+  border-color: red;
+  border-width: medium;
+  border-radius: 5%;
+}
+
 .greyed {
-  /* transition: opacity, 50ms; */
   opacity: 15% !important;
 }
 
