@@ -12,6 +12,7 @@ import {
   TextField,
   InputAdornment,
   InputLabel,
+  FormControl,
 } from '@mui/material';
 import {
   ShrineList,
@@ -22,7 +23,7 @@ import {
 import { baseCards, BaseCardFilters, BaseCard } from './cardlists/base-cards';
 import { Element, BaseCardType, Rarity } from './cardlists/enums';
 import { shrines, ShrineSlot } from './cardlists/shrines';
-import { essences, Essence } from './cardlists/essences';
+import { essences, Essence, EssenceFilters } from './cardlists/essences';
 import { shrineImprovements } from './cardlists/shrine-improvements';
 import { CardType } from './components/card';
 import { useState } from 'react';
@@ -46,6 +47,8 @@ import { ResourceTracker } from './components/resource-tracker';
 import { HeldCard, AlertPickup } from './components/drag-context';
 import { DeckContext } from './components/decklist-context';
 import { ConditionalDroppable } from './components/conditional-droppable';
+import { TertiaryButton } from './components/tertiary-button';
+import { TernaryButton } from './components/ternary-button';
 
 export class DeckSlot {
   baseCard: BaseCard;
@@ -66,6 +69,8 @@ export default function Home() {
   const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
   const [deck, setDeck] = useLocalStorageDeck();
   const [sElements, setSElements] = useState([] as Element[]);
+  // Shrine Improvement Filters
+  // Base Card Filters
   const [bcType, setBcType] = useState(BaseCardType.Any);
   const [bcRarity, setBcRarity] = useState(Rarity.Any);
   const [bcElements, setBcElements] = useState([] as Element[]);
@@ -74,6 +79,19 @@ export default function Home() {
   const [bcCostValTwo, setBcCostValTwo] = useState(NaN);
   const [bcCostOperator, setBcCostOperator] = useState('=');
   const [bcQuery, setBcQuery] = useState('');
+  // Essence Filters
+  const [eElements, setEElements] = useState([] as Element[]);
+  const [eElementAnd, setEElementAnd] = useState(true);
+  const [eSpeed, setESpeed] = useState(false);
+  const [ePower, setEPower] = useState(false);
+  const [eHp, setEHp] = useState(false);
+  const [eCost, setECost] = useState(undefined as boolean | undefined);
+  const [eCcc, setECcc] = useState(NaN);
+  const [eCccOperator, setECccOperator] = useState('<=');
+  const [eUnlimited, setEUnlimited] = useState(
+    undefined as boolean | undefined
+  );
+
   const [deckDataModal, setDeckDataModal] = useState(false);
   const [saveDeckModal, setSaveDeckModal] = useState(false);
   const [loadDeckModal, setLoadDeckModal] = useState(false);
@@ -110,18 +128,6 @@ export default function Home() {
     }
   }
 
-  function filteredAndSortedShrines() {
-    let filtered =
-      sElements.length === 0
-        ? shrines
-        : shrines.filter((s) => {
-            return sElements.includes(s.identity);
-          });
-    return filtered.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
-  }
-
   function sortDeck() {
     return Array.from(deck).sort((a, b) => {
       let ac = a.baseCard;
@@ -134,21 +140,74 @@ export default function Home() {
     });
   }
 
-  let sortedDeck = sortDeck();
+  const sortedDeck = sortDeck();
 
-  function handleShrineElementFilterClicked(e: Element) {
-    if (sElements.includes(e)) {
-      setSElements(sElements.filter((el) => el !== e));
-    } else {
-      setSElements([...sElements, e]);
-    }
+  function filterAndSortShrines() {
+    let filtered =
+      sElements.length === 0
+        ? shrines
+        : shrines.filter((s) => {
+            return sElements.includes(s.identity);
+          });
+    return filtered.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
   }
 
-  function handleBaseCardElementFilterClicked(e: Element) {
-    if (bcElements.includes(e)) {
-      setBcElements(bcElements.filter((el) => el !== e));
+  const filteredAndSortedShrines = filterAndSortShrines();
+
+  function filterAndSortShrineImprovements() {
+    return shrineImprovements;
+  }
+
+  const filteredAndSortedShrineImprovements = filterAndSortShrineImprovements();
+
+  function filterAndSortBaseCards() {
+    const filters = new BaseCardFilters({
+      typeChoice: bcType,
+      elementChoices: bcElements,
+      elementAnd: bcElementAnd,
+      costChoiceOne: bcCostValOne,
+      costChoiceTwo: bcCostValTwo,
+      costOperator: bcCostOperator,
+      query: bcQuery,
+      rarityFilter: bcRarity,
+    });
+    return baseCards
+      .filter((c) => filters.keep(c))
+      .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
+  }
+
+  const filteredAndSortedBaseCards = filterAndSortBaseCards();
+
+  function filterAndSortEssences() {
+    const filters = new EssenceFilters({
+      elementChoices: eElements,
+      elementAnd: eElementAnd,
+      speedChoice: eSpeed,
+      powerChoice: ePower,
+      hpChoice: eHp,
+      hasCost: eCost,
+      cccChoice: eCcc,
+      cccOperator: eCccOperator,
+      unlimitedChoice: eUnlimited,
+    });
+    return essences
+      .filter((e) => filters.keep(e))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  const filteredAndSortedEssences = filterAndSortEssences();
+
+  function handleElementFilterClicked(
+    e: Element,
+    currentFilters: Element[],
+    setFilters: (a: Element[]) => void
+  ) {
+    if (currentFilters.includes(e)) {
+      setFilters(currentFilters.filter((el) => el !== e));
     } else {
-      setBcElements([...bcElements, e]);
+      setFilters([...currentFilters, e]);
     }
   }
 
@@ -180,30 +239,6 @@ export default function Home() {
         setBcCostValOne(x);
       }
     }
-  }
-
-  function filteredAndSortedBaseCards() {
-    const filters = new BaseCardFilters({
-      typeChoice: bcType,
-      elementChoices: bcElements,
-      elementAnd: bcElementAnd,
-      costChoiceOne: bcCostValOne,
-      costChoiceTwo: bcCostValTwo,
-      costOperator: bcCostOperator,
-      query: bcQuery,
-      rarityFilter: bcRarity,
-    });
-    return baseCards
-      .filter((c) => {
-        return (
-          filters.type(c.supertype) &&
-          filters.identity(c.pips) &&
-          filters.cost(c.cost) &&
-          filters.query([c.name, c.subtype, c.text, c.artist]) &&
-          filters.rarity(c.rarity)
-        );
-      })
-      .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
   }
 
   function getCardByFilename(filename: string, list: any[]) {
@@ -369,7 +404,9 @@ export default function Home() {
                 <FormGroup className="element-filter">
                   <ElementButtons
                     selected={sElements}
-                    onElementClicked={handleShrineElementFilterClicked}
+                    onElementClicked={(e: Element) =>
+                      handleElementFilterClicked(e, sElements, setSElements)
+                    }
                   ></ElementButtons>
                 </FormGroup>
               ) : (
@@ -435,7 +472,9 @@ export default function Home() {
                   <FormGroup className="element-filter">
                     <ElementButtons
                       selected={bcElements}
-                      onElementClicked={handleBaseCardElementFilterClicked}
+                      onElementClicked={(e: Element) =>
+                        handleElementFilterClicked(e, bcElements, setBcElements)
+                      }
                     ></ElementButtons>
                     <Stack
                       direction="row"
@@ -478,31 +517,100 @@ export default function Home() {
             </div>
             {shrineMode ? (
               <ShrineList
-                shrines={filteredAndSortedShrines()}
+                shrines={filteredAndSortedShrines}
                 onClickShrine={(s) =>
                   setShrine(new ShrineSlot(s, shrine.shrineImprovement))
                 }
               ></ShrineList>
             ) : (
               <BaseCardList
-                cards={filteredAndSortedBaseCards()}
+                cards={filteredAndSortedBaseCards}
                 onClickBaseCard={(card_name) => addBaseCard(card_name)}
               ></BaseCardList>
             )}
           </div>
           <div className="overlay-card-container" {...collectionDropProps}>
-            <Container className="overlay-card-widget-container">
-              button stuff
-            </Container>
+            {shrineMode ? (
+              <div className="overlay-card-widget-container">
+                <FormGroup className="element-filter">
+                  {/* <ElementButtons
+                    selected={sElements}
+                    onElementClicked={(e: Element) =>
+                      handleElementFilterClicked(e, eElements, setEElements)
+                    }
+                  ></ElementButtons> */}
+                </FormGroup>
+              </div>
+            ) : (
+              <div className="overlay-card-widget-container">
+                <FormGroup className="element-filter">
+                  <ElementButtons
+                    selected={sElements}
+                    onElementClicked={(e: Element) =>
+                      handleElementFilterClicked(e, eElements, setEElements)
+                    }
+                  ></ElementButtons>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    sx={{ marginLeft: '.5em' }}
+                  >
+                    <Typography>Or</Typography>
+                    <Switch
+                      checked={eElementAnd}
+                      onChange={(e) => setEElementAnd(e.target.checked)}
+                    />
+                    <Typography>And</Typography>
+                  </Stack>
+                </FormGroup>
+                <div className="stat-filters">
+                  <button onClick={() => setESpeed(!eSpeed)}>
+                    <Box className="stat-filter">Spd</Box>
+                  </button>
+                  <button onClick={() => setEPower(!ePower)}>
+                    <Box className="stat-filter">Pwr</Box>
+                  </button>
+                  <button onClick={() => setEHp(!eHp)}>
+                    <Box className="stat-filter">Hp</Box>
+                  </button>
+                </div>
+                <TertiaryButton
+                  state={eCost}
+                  labels={['Cost', '+1', '+0']}
+                  setState={setECost}
+                ></TertiaryButton>
+                <FormGroup className="cost-filter">
+                  <Select
+                    value={eCccOperator}
+                    onChange={(e) => setECccOperator(e.target.value)}
+                  >
+                    <MenuItem value={'='}>=</MenuItem>
+                    <MenuItem value={'<='}>&lt;=</MenuItem>
+                    <MenuItem value={'>='}>&gt;=</MenuItem>
+                  </Select>
+                  <PipButtons
+                    count={7}
+                    selectedOne={eCcc}
+                    onClick={(num: number) => setECcc(num === eCcc ? NaN : num)}
+                    zeroIndex={true}
+                  ></PipButtons>
+                </FormGroup>
+                <TertiaryButton
+                  state={eUnlimited}
+                  labels={['Quantity', 'Quantity: ∞', 'Quantity: 3']}
+                  setState={setEUnlimited}
+                ></TertiaryButton>
+              </div>
+            )}
             {shrineMode ? (
               <ShrineImprovementList
-                shrineImprovements={shrineImprovements}
+                shrineImprovements={filteredAndSortedShrineImprovements}
                 onClickShrineImprovement={(si) =>
                   setShrine(new ShrineSlot(shrine.shrine, si))
                 }
               ></ShrineImprovementList>
             ) : (
-              <EssenceList essences={essences}></EssenceList>
+              <EssenceList essences={filteredAndSortedEssences}></EssenceList>
             )}
           </div>
         </DeckContext.Provider>

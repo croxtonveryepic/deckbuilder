@@ -17,6 +17,91 @@ export class Essence {
   isValidBase: (c: any) => boolean;
 }
 
+export class EssenceFilters {
+  private identity: (pips: Element[]) => boolean;
+  private stats: (speed: number, power: number, hp: number) => boolean;
+  private cost: (cost: number) => boolean;
+  private ccc: (ccc: number) => boolean;
+  private unlimited: (unlimited: boolean) => boolean;
+
+  constructor({
+    elementChoices,
+    elementAnd,
+    speedChoice,
+    powerChoice,
+    hpChoice,
+    hasCost,
+    cccChoice,
+    cccOperator,
+    unlimitedChoice,
+  }: {
+    elementChoices: Element[];
+    elementAnd: boolean;
+    speedChoice: boolean;
+    powerChoice: boolean;
+    hpChoice: boolean;
+    cccChoice: number;
+    cccOperator: string;
+    hasCost?: boolean;
+    unlimitedChoice?: boolean;
+  }) {
+    if (elementChoices.length > 0) {
+      this.identity = elementAnd
+        ? (pips: Element[]) => {
+            return elementChoices.every((el) => pips.includes(el));
+          }
+        : (pips: Element[]) => {
+            return elementChoices.some((el) => pips.includes(el));
+          };
+    } else {
+      this.identity = (pips: Element[]) => true;
+    }
+    this.stats = (speed: number, power: number, hp: number) => {
+      return Boolean(
+        (speed || !speedChoice) && (power || !powerChoice) && (hp || !hpChoice)
+      );
+    };
+    if (hasCost === undefined) {
+      this.cost = (cost: number) => true;
+    } else {
+      this.cost = hasCost
+        ? (cost: number) => cost === 1
+        : (cost: number) => cost === 0;
+    }
+    if (Number.isNaN(cccChoice)) {
+      this.ccc = (ccc: number) => true;
+    } else {
+      switch (cccOperator) {
+        case '<=':
+          this.ccc = (ccc: number) => ccc <= cccChoice;
+          break;
+        case '=':
+          this.ccc = (ccc: number) => ccc === cccChoice;
+          break;
+        case '>=':
+          this.ccc = (ccc: number) => ccc >= cccChoice;
+          break;
+        default:
+          console.warn('Invalid cost filter operator');
+      }
+    }
+    this.unlimited =
+      unlimitedChoice === undefined
+        ? (unlimited: boolean) => true
+        : (unlimited: boolean) => unlimited === unlimitedChoice;
+  }
+
+  keep(e: Essence): boolean {
+    return (
+      this.identity(e.resources) &&
+      this.stats(e.speed, e.power, e.hp) &&
+      this.cost(e.cost.length) &&
+      this.ccc(e.ccc) &&
+      this.unlimited(e.unlimited)
+    );
+  }
+}
+
 export const essences: Essence[] = [
   {
     name: 'Advanced Essence',
@@ -481,7 +566,7 @@ export const essences: Essence[] = [
     name: 'Essence of Life',
     filename: 'essenceoflife-1',
     id: 27,
-    cost: [Element.Light],
+    cost: [],
     text: '',
     resources: [Element.Light],
     unlimited: false,
@@ -532,7 +617,7 @@ export const essences: Essence[] = [
     name: 'Essence of Might',
     filename: 'essenceofmight-1',
     id: 30,
-    cost: [Element.Fire],
+    cost: [],
     text: '',
     resources: [Element.Fire],
     unlimited: false,
@@ -929,7 +1014,7 @@ export const essences: Essence[] = [
     cost: [],
     text: 'This Card gains the subtype Knight.',
     resources: [Element.Earth],
-    unlimited: true,
+    unlimited: false,
     ccc: 0,
     hp: 0,
     power: 0,
@@ -1113,7 +1198,7 @@ export const essences: Essence[] = [
     name: 'Rushing Essence',
     filename: 'rushingessence-1',
     id: 64,
-    cost: [Element.Water],
+    cost: [],
     text: '',
     resources: [Element.Water],
     unlimited: false,

@@ -28,16 +28,18 @@ function PipButton({
 export function PipButtons({
   count,
   selectedOne,
-  selectedTwo,
+  selectedTwo = NaN,
   onClick,
+  zeroIndex = false,
 }: {
   count: number;
   selectedOne: number;
-  selectedTwo: number;
+  selectedTwo?: number;
   onClick: (num: number) => void;
+  zeroIndex?: boolean;
 }) {
   const buttons = Array.from({ length: count }).map((x, i) => {
-    let num = i + 1;
+    let num = zeroIndex ? i : i + 1;
     return (
       <PipButton
         key={num}

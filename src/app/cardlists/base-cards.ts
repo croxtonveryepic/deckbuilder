@@ -2,11 +2,11 @@ import { CardType } from '../components/card';
 import { BaseCardType, Element, Rarity } from './enums';
 import { Essence, essences } from './essences';
 export class BaseCardFilters {
-  type: (supertype: BaseCardType) => boolean;
-  identity: (pips: Element[]) => boolean;
-  cost: (cost: number) => boolean;
-  query: (fields: string[]) => boolean;
-  rarity: (rarity: Rarity) => boolean;
+  private type: (supertype: BaseCardType) => boolean;
+  private identity: (pips: Element[]) => boolean;
+  private cost: (cost: number) => boolean;
+  private query: (fields: string[]) => boolean;
+  private rarity: (rarity: Rarity) => boolean;
   // speed: (speed: number) => boolean;
   // ccc: (ccc: number) => boolean;
   // epic: (epic: boolean) => boolean;
@@ -90,6 +90,16 @@ export class BaseCardFilters {
       rarityFilter === Rarity.Any
         ? (rarity: Rarity) => true
         : (rarity: Rarity) => rarity === rarityFilter;
+  }
+
+  keep(c: BaseCard): boolean {
+    return (
+      this.type(c.supertype) &&
+      this.identity(c.pips) &&
+      this.cost(c.cost) &&
+      this.query([c.name, c.subtype, c.text, c.artist]) &&
+      this.rarity(c.rarity)
+    );
   }
 }
 
