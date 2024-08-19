@@ -1,10 +1,10 @@
 export enum BaseCardType {
-  Unit = 1,
-  Event = 2,
-  ContinuousEvent = 3,
-  Item = 4,
-  Structure = 5,
-  Any = 6,
+  Unit = 'a',
+  Event = 'b',
+  ContinuousEvent = 'c',
+  Item = 'd',
+  Structure = 'e',
+  Any = '',
 }
 
 export enum Element {
@@ -18,9 +18,9 @@ export enum Element {
 }
 
 export enum Rarity {
-  Common,
-  Uncommon,
-  Rare,
-  Epic,
-  Any,
+  Common = 'a',
+  Uncommon = 'b',
+  Rare = 'c',
+  Epic = 'd',
+  Any = '',
 }

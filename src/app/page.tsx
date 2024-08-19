@@ -133,7 +133,7 @@ export default function Home() {
       let ac = a.baseCard;
       let bc = b.baseCard;
       return (
-        a.baseCard.supertype - b.baseCard.supertype ||
+        a.baseCard.supertype.localeCompare(b.baseCard.supertype) ||
         ac.cost + ac.pips.length - (bc.cost + bc.pips.length) ||
         ac.name.localeCompare(bc.name)
       );
@@ -426,47 +426,56 @@ export default function Home() {
                           ),
                         }}
                         color="secondary"
+                        sx={{ type: 'search' }}
                       ></TextField>
-                      <IconButton onClick={() => setBcQuery('')}>
+                      {/* <IconButton onClick={() => setBcQuery('')}>
                         <HighlightOff></HighlightOff>
-                      </IconButton>
+                      </IconButton> */}
                     </div>
                   </FormGroup>
                   <FormGroup>
                     <div className="type-rarity-container">
-                      <Select
-                        label="Type"
-                        value={bcType}
-                        onChange={(e) => {
-                          setBcType(e.target.value as BaseCardType);
-                        }}
-                      >
-                        <MenuItem value={BaseCardType.Any}>Any</MenuItem>
-                        <MenuItem value={BaseCardType.Unit}>Unit</MenuItem>
-                        <MenuItem value={BaseCardType.Event}>Event</MenuItem>
-                        <MenuItem value={BaseCardType.ContinuousEvent}>
-                          Continuous Event
-                        </MenuItem>
-                        <MenuItem value={BaseCardType.Item}>Item</MenuItem>
-                        <MenuItem value={BaseCardType.Structure}>
-                          Structure
-                        </MenuItem>
-                      </Select>
-
-                      <Select
-                        label="Rarity"
-                        value={bcRarity}
-                        onChange={(e) => {
-                          setBcRarity(e.target.value as Rarity);
-                        }}
-                      >
+                      <FormControl>
+                        <InputLabel>Supertype</InputLabel>
+                        <Select
+                          label="Supertype"
+                          value={bcType}
+                          onChange={(e) => {
+                            setBcType(e.target.value as BaseCardType);
+                          }}
+                        >
+                          <MenuItem value={BaseCardType.Any}>
+                            <em>Any</em>
+                          </MenuItem>
+                          <MenuItem value={BaseCardType.Unit}>Unit</MenuItem>
+                          <MenuItem value={BaseCardType.Event}>Event</MenuItem>
+                          <MenuItem value={BaseCardType.ContinuousEvent}>
+                            Continuous Event
+                          </MenuItem>
+                          <MenuItem value={BaseCardType.Item}>Item</MenuItem>
+                          <MenuItem value={BaseCardType.Structure}>
+                            Structure
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                      <FormControl>
                         <InputLabel>Rarity</InputLabel>
-                        <MenuItem value={Rarity.Any}>Any</MenuItem>
-                        <MenuItem value={Rarity.Common}>Common</MenuItem>
-                        <MenuItem value={Rarity.Uncommon}>Uncommon</MenuItem>
-                        <MenuItem value={Rarity.Rare}>Rare</MenuItem>
-                        <MenuItem value={Rarity.Epic}>Epic</MenuItem>
-                      </Select>
+                        <Select
+                          label="Rarity"
+                          value={bcRarity}
+                          onChange={(e) => {
+                            setBcRarity(e.target.value as Rarity);
+                          }}
+                        >
+                          <MenuItem value={Rarity.Any}>
+                            <em>Any</em>
+                          </MenuItem>
+                          <MenuItem value={Rarity.Common}>Common</MenuItem>
+                          <MenuItem value={Rarity.Uncommon}>Uncommon</MenuItem>
+                          <MenuItem value={Rarity.Rare}>Rare</MenuItem>
+                          <MenuItem value={Rarity.Epic}>Epic</MenuItem>
+                        </Select>
+                      </FormControl>
                     </div>
                   </FormGroup>
                   <FormGroup className="element-filter">
@@ -489,7 +498,7 @@ export default function Home() {
                       <Typography>And</Typography>
                     </Stack>
                   </FormGroup>
-                  <FormGroup className="cost-filter">
+                  <FormGroup className="cost-filter-container">
                     <Select
                       value={bcCostOperator}
                       onChange={(e) => {
@@ -500,6 +509,7 @@ export default function Home() {
                         setBcCostOperator(val);
                       }}
                     >
+                      <InputLabel>Cost</InputLabel>
                       <MenuItem value={'='}>=</MenuItem>
                       <MenuItem value={'<='}>&lt;=</MenuItem>
                       <MenuItem value={'>='}>&gt;=</MenuItem>
@@ -579,7 +589,7 @@ export default function Home() {
                   labels={['Cost', '+1', '+0']}
                   setState={setECost}
                 ></TertiaryButton>
-                <FormGroup className="cost-filter">
+                <FormGroup>
                   <Select
                     value={eCccOperator}
                     onChange={(e) => setECccOperator(e.target.value)}
