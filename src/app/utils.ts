@@ -3,7 +3,7 @@ import { Essence } from './cardlists/essences';
 import { CardType } from './components/card';
 import { DecklistContext } from './components/decklist-context';
 import { AnyCard } from './components/drag-context';
-
+import { Element } from './cardlists/enums';
 export function idGenerator() {
   let i = 0;
   return function () {
@@ -33,4 +33,22 @@ export function isAtMax(
     default:
       return false;
   }
+}
+
+export function handleElementFilterClicked(
+  e: Element,
+  currentFilters: Element[],
+  setFilters: (a: Element[]) => void
+) {
+  if (currentFilters.includes(e)) {
+    setFilters(currentFilters.filter((el) => el !== e));
+  } else {
+    setFilters([...currentFilters, e]);
+  }
+}
+
+function getCardByFilename(filename: string, list: any[]) {
+  return list.find((obj) => {
+    return obj.filename === filename;
+  });
 }

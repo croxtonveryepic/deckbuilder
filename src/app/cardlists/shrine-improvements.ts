@@ -9,6 +9,25 @@ export class ShrineImprovement {
   speed: number;
   type: CardType;
 }
+
+export class ShrineImprovementFilters {
+  private query: (fields: string[]) => boolean;
+
+  constructor({ query }: { query: string }) {
+    this.query = query
+      ? (fields: string[]) =>
+          fields.some((s) => {
+            return (
+              s.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) >= 0
+            );
+          })
+      : (fields: string[]) => true;
+  }
+  keep(si: ShrineImprovement): boolean {
+    return this.query([si.name, si.text]);
+  }
+}
+
 export const shrineImprovements: ShrineImprovement[] = [
   {
     name: 'Arsenal',

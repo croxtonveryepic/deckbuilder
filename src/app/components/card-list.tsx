@@ -12,7 +12,7 @@ import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
 import { HeldCard, Placeholder } from './drag-context';
 import { ConditionalDroppable } from './conditional-droppable';
-import { DeckContext, DecklistContext } from './decklist-context';
+import { DeckContext } from './decklist-context';
 import { ConditionalDragEnterLeave } from './conditional-drag-enter-leave';
 import { isAtMax } from '../utils';
 
@@ -187,19 +187,19 @@ export function Deck({
   mainDeck,
   heldCard,
   onClickDeckSlot,
-  applyEssence,
+  onDropEssence,
   setShrine,
   setShrineImprovement,
-  addBaseCard,
+  onDropBaseCard,
 }: {
   shrineSlot: ShrineSlot;
   mainDeck: DeckSlot[];
   heldCard: HeldCard;
   onClickDeckSlot: (id: number) => void;
-  applyEssence: (id: number, essence: Essence) => void;
+  onDropEssence: (id: number, essence: Essence) => void;
   setShrine: (shrine: Shrine | null) => void;
   setShrineImprovement: (shrineImprovement: ShrineImprovement | null) => void;
-  addBaseCard: (c: BaseCard) => void;
+  onDropBaseCard: (c: BaseCard) => void;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
 
@@ -240,7 +240,7 @@ export function Deck({
       i++;
       dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
         e.preventDefault();
-        applyEssence(dupe.id, heldCard?.card as Essence);
+        onDropEssence(dupe.id, heldCard?.card as Essence);
       });
       enterLeaveProps = new ConditionalDragEnterLeave(
         (warn &&
@@ -282,7 +282,7 @@ export function Deck({
     c = mainDeck[i];
     dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
       e.preventDefault();
-      applyEssence(c.id, heldCard?.card as Essence);
+      onDropEssence(c.id, heldCard?.card as Essence);
     });
     enterLeaveProps = new ConditionalDragEnterLeave(
       (warn &&
@@ -381,7 +381,7 @@ export function Deck({
     heldCard?.card.type === CardType.BaseCard && Number.isNaN(heldCard?.id),
     (e) => {
       e.preventDefault();
-      addBaseCard(heldCard?.card as BaseCard);
+      onDropBaseCard(heldCard?.card as BaseCard);
     }
   );
 
