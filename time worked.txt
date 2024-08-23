@@ -25,6 +25,7 @@ time worked
 8/15: 4 hours (refactored overlay validity to be on base cards, cleared comments and unused imports, polished deck creation: essences can no longer be swapped in a way that will be illegal (illegal essence is removed instead, and this is visually obvious), pressing enter in modal now correctly can add shrines and shrine improvements, pressing enter in modal now no longer bypasses deck limits. effectively, deck legality is now forced w.r.t. counts and essences; 50 cards, 50 essences, and 20 cards of shrine are checked at save time)
 8/17: 6 hours (fixed filteredAndSorted to be calculated only once, added filters for essences)
 8/18: 4 hours (shrine improvement query filter, organized css, refactored all of the major sections into individual components)
+8/23: 2 hours (reworking the styling of the deck widget container)
 
 todo:
 high priority
@@ -35,6 +36,8 @@ deck zone indicators
     cards in deck
     number of creatures, spells, locations, and weapons
 make clear filters button
+shrine mode switch tooltip to indicate that filters will be reset
+wh = 20px
 
 medium priority:
 code for soulful and soulless

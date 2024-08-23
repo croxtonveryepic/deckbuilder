@@ -43,17 +43,20 @@ body {
   max-width: none;
   padding: 0;
   overflow: scroll;
+  /* display: flex; */
 
   .deck-widget-container {
     position: relative;
     height: 9%;
-    width: 77.4%;
+    /* width: 100%; */
     top: 0;
     right: 0;
     max-width: none;
     padding: 0;
     display: flex;
     flex-direction: row;
+    /* flex-grow: 1; */
+    /* justify-content: space-evenly; */
     .mana-pip.circle {
       display: grid;
       justify-items: center;
@@ -61,48 +64,84 @@ body {
       height: 1.5rem;
       background-color: grey;
     }
-    .resource-tracker {
+    .shrine-switch {
       display: flex;
       flex-direction: row;
-      .color-display {
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-        align-items: center;
-        padding-left: 4%;
-        padding-right: 4%;
-        .color-tracker-icons {
-          display: flex;
-          flex-direction: row;
-          flex-shrink: 0;
-          padding-left: 1rem;
-          span {
-            margin-left: 0.3rem;
-            margin-right: 0.3rem;
-            display: grid;
-            justify-items: center;
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 0.5;
+    }
+    .modals {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      flex-grow: 0.5;
+      justify-content: center;
+    }
+    .card-counts {
+      flex-grow: 0.75;
+      margin-left: 1rem;
+      margin-right: 0.75rem;
+      /* min-width: 15%; */
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      div {
+        font-size: medium;
+        span {
+          width: 50%;
+          display: inline-block;
+          &.valid {
+            color: green;
+          }
+          &.warn {
+            color: #c11379;
           }
         }
       }
-      .curve-display {
+    }
+    .color-display {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
+      /* padding-left: 4%;
+      padding-right: 4%; */
+      .color-tracker-icons {
         display: flex;
         flex-direction: row;
-        flex-grow: 1;
-        align-items: center;
-        padding-left: 4%;
-        padding-right: 4%;
-        .curve-tracker-icons {
-          display: flex;
-          flex-direction: row;
-          flex-shrink: 0;
-          padding-left: 1rem;
-          span {
-            margin-left: 0.15rem;
-            margin-right: 0.15rem;
-            display: grid;
-            justify-items: center;
-            align-content: center;
-          }
+        flex-shrink: 0;
+        padding-left: 1rem;
+        span {
+          margin-left: 0.3rem;
+          margin-right: 0.3rem;
+          display: grid;
+          justify-items: center;
+        }
+      }
+    }
+    .curve-display {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
+      /* padding-left: 4%;
+      padding-right: 4%; */
+      .curve-tracker-icons {
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 0;
+        padding-left: 1rem;
+        span {
+          margin-left: 0.15rem;
+          margin-right: 0.15rem;
+          display: grid;
+          justify-items: center;
+          align-content: center;
         }
       }
     }

@@ -1,8 +1,19 @@
-import { Shrine } from '../cardlists/shrines';
+import { Shrine, ShrineSlot } from '../cardlists/shrines';
 import { DeckSlot } from '../page';
 import { Element } from '../cardlists/enums';
 import Image from 'next/image';
-import { Box, Container, Tooltip } from '@mui/material';
+import {
+  Box,
+  Container,
+  IconButton,
+  Switch,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { LibraryBooks, SaveAs } from '@mui/icons-material';
+import { LoadDeckModal, SaveDeckModal } from './deck-encoder';
+import { useState } from 'react';
+import { TernaryButton } from './ternary-button';
 
 class Colors {
   air = 0;
@@ -47,9 +58,9 @@ const wh = 20;
 function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
   return (
     <Tooltip title={title}>
-      <Container className="color-display">
-        <Box className="circle letter">{title.substring(0, 1)}</Box>
-        <Container className="color-tracker-icons">
+      <div className="color-display">
+        <div className="circle letter">{title.substring(0, 1)}</div>
+        <div className="color-tracker-icons">
           {colors.air > 0 && (
             <span style={{ order: -colors.air }}>
               <Image
@@ -116,8 +127,8 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
               {colors.water}
             </span>
           )}
-        </Container>
-      </Container>
+        </div>
+      </div>
     </Tooltip>
   );
 }
@@ -126,13 +137,39 @@ function manaCircle(num: number) {
   return <Box className="mana-pip circle">{num}</Box>;
 }
 
-export function ResourceTracker({
+export function DeckTracker({
   shrine,
+  setShrine,
   deck,
+  setDeck,
+  shrineMode,
+  toggleShrineMode,
 }: {
-  shrine: Shrine | null;
+  shrine: ShrineSlot;
+  setShrine: (ss: ShrineSlot) => void;
   deck: DeckSlot[];
+  setDeck: (deck: DeckSlot[]) => void;
+  shrineMode: boolean;
+  toggleShrineMode: () => void;
 }) {
+  const [deckDataModal, setDeckDataModal] = useState(false);
+  const [saveDeckModal, setSaveDeckModal] = useState(false);
+  const [loadDeckModal, setLoadDeckModal] = useState(false);
+
+  function toggleDeckDataModal() {
+    setDeckDataModal(!deckDataModal);
+  }
+
+  function toggleSaveDeckModal() {
+    setSaveDeckModal(!saveDeckModal);
+  }
+
+  function toggleLoadDeckModal() {
+    setLoadDeckModal(!loadDeckModal);
+  }
+
+  let numCards = deck.length;
+  let numEssences = 0;
   let resources = new Colors();
   let souls = new Colors();
   let identities = new Colors();
@@ -149,6 +186,7 @@ export function ResourceTracker({
     let r, s, i;
     s = [...ds.baseCard.pips];
     if (ds.essence) {
+      numEssences++;
       r = ds.essence.resources;
       s.push(...ds.essence.cost);
     } else {
@@ -173,7 +211,60 @@ export function ResourceTracker({
   });
 
   return (
-    <div className="resource-tracker">
+    <div className="deck-widget-container">
+      <TernaryButton
+        state={shrineMode}
+        labelOne="Shrine Mode"
+        labelTwo="Deck Mode"
+        setState={toggleShrineMode}
+      ></TernaryButton>
+      {/* <div className="shrine-switch">
+        <Typography>Shrine</Typography>
+        <Switch checked={!shrineMode} onChange={toggleShrineMode} />
+        <Typography>Deck</Typography>
+      </div> */}
+      {/* save deck */}
+      <div className="modals">
+        <IconButton onClick={toggleSaveDeckModal}>
+          <SaveAs></SaveAs>
+        </IconButton>
+        <SaveDeckModal
+          open={saveDeckModal}
+          toggle={toggleSaveDeckModal}
+          deck={deck}
+          shrine={shrine}
+        ></SaveDeckModal>
+        {/* load deck */}
+        <IconButton onClick={toggleLoadDeckModal}>
+          <LibraryBooks></LibraryBooks>
+        </IconButton>
+        <LoadDeckModal
+          open={loadDeckModal}
+          toggle={toggleLoadDeckModal}
+          setShrineAndDeck={(ss, ds) => {
+            setShrine(ss);
+            setDeck(ds);
+          }}
+        ></LoadDeckModal>
+      </div>
+      <div className="card-counts">
+        <div>
+          <span className={shrine.shrine ? 'valid' : 'warn'}>
+            {shrine.shrine ? '1/1 Shrine' : '0/1 Shrine'}
+          </span>
+          <span className={shrine.shrineImprovement ? 'valid' : 'warn'}>
+            {shrine.shrineImprovement ? '1/1 Improvement' : '0/1 Improvement'}
+          </span>
+        </div>
+        <div>
+          <span className={numCards === 50 ? 'valid' : 'warn'}>
+            {numCards + '/50 Cards'}
+          </span>
+          <span className={numEssences === 50 ? 'valid' : 'warn'}>
+            {numEssences + '/50 Essences'}
+          </span>
+        </div>
+      </div>
       <ColorDisplay
         title="Souls (Total resource pips in the costs of cards)"
         colors={souls}
@@ -187,10 +278,10 @@ export function ResourceTracker({
         colors={identities}
       ></ColorDisplay>
       <Tooltip title="Curve (Numerical costs of cards)">
-        <Container className="curve-display">
+        <div className="curve-display">
           <Box className="circle letter">C</Box>
-          <Container className="curve-tracker-icons">{costDisplay}</Container>
-        </Container>
+          <div className="curve-tracker-icons">{costDisplay}</div>
+        </div>
       </Tooltip>
     </div>
   );

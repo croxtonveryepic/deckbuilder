@@ -9,7 +9,7 @@ import { ComponentPropsWithoutRef, useState } from 'react';
 import { LibraryBooks, SaveAs } from '@mui/icons-material';
 import { Essence } from './cardlists/essences';
 import { LoadDeckModal, SaveDeckModal } from './components/deck-encoder';
-import { ResourceTracker } from './components/resource-tracker';
+import { DeckTracker } from './components/deck-tracker';
 import { DeckSlot } from './page';
 import { ShrineSlot } from './cardlists/shrines';
 import { Deck } from './components/card-list';
@@ -54,56 +54,18 @@ export function DeckSection({
   onDropBaseCard,
   ...rest
 }: DeckSectionProps) {
-  const [deckDataModal, setDeckDataModal] = useState(false);
-  const [saveDeckModal, setSaveDeckModal] = useState(false);
-  const [loadDeckModal, setLoadDeckModal] = useState(false);
-
-  function toggleDeckDataModal() {
-    setDeckDataModal(!deckDataModal);
-  }
-
-  function toggleSaveDeckModal() {
-    setSaveDeckModal(!saveDeckModal);
-  }
-
-  function toggleLoadDeckModal() {
-    setLoadDeckModal(!loadDeckModal);
-  }
-
   const sortedDeck = sortDeck(deck);
 
   return (
     <Container className="deck-container" {...rest}>
-      <Container className="deck-widget-container">
-        <Stack direction="row" alignItems="center">
-          <Typography>Shrine</Typography>
-          <Switch checked={!shrineMode} onChange={toggleShrineMode} />
-          <Typography>Deck</Typography>
-        </Stack>
-        {/* save deck */}
-        <IconButton onClick={toggleSaveDeckModal}>
-          <SaveAs></SaveAs>
-        </IconButton>
-        <SaveDeckModal
-          open={saveDeckModal}
-          toggle={toggleSaveDeckModal}
-          deck={sortedDeck}
-          shrine={shrine}
-        ></SaveDeckModal>
-        {/* load deck */}
-        <IconButton onClick={toggleLoadDeckModal}>
-          <LibraryBooks></LibraryBooks>
-        </IconButton>
-        <LoadDeckModal
-          open={loadDeckModal}
-          toggle={toggleLoadDeckModal}
-          setShrineAndDeck={(ss, ds) => {
-            setShrine(ss);
-            setDeck(ds);
-          }}
-        ></LoadDeckModal>
-        <ResourceTracker deck={deck} shrine={shrine.shrine}></ResourceTracker>
-      </Container>
+      <DeckTracker
+        deck={deck}
+        setDeck={setDeck}
+        shrine={shrine}
+        setShrine={setShrine}
+        shrineMode={shrineMode}
+        toggleShrineMode={toggleShrineMode}
+      ></DeckTracker>
       <Deck
         shrineSlot={shrine}
         mainDeck={sortedDeck}
