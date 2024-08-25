@@ -1,16 +1,14 @@
-import { Shrine, ShrineSlot } from '../cardlists/shrines';
+import { ShrineSlot } from '../cardlists/shrines';
 import { DeckSlot } from '../page';
 import { Element } from '../cardlists/enums';
 import Image from 'next/image';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import {
-  Box,
-  Container,
-  IconButton,
-  Switch,
-  Tooltip,
-  Typography,
-} from '@mui/material';
-import { LibraryBooks, SaveAs } from '@mui/icons-material';
+  CloseFullscreen,
+  LibraryBooks,
+  OpenInFull,
+  SaveAs,
+} from '@mui/icons-material';
 import { LoadDeckModal, SaveDeckModal } from './deck-encoder';
 import { useState } from 'react';
 import { TernaryButton } from './ternary-button';
@@ -51,12 +49,19 @@ class Colors {
       }
     }
   }
+
+  nonEmpty(): boolean {
+    return (
+      this.air + this.dark + this.earth + this.fire + this.light + this.water >
+      0
+    );
+  }
 }
 
 const wh = 20;
 
 function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
-  return (
+  return colors.nonEmpty() ? (
     <Tooltip title={title}>
       <div className="color-display">
         <div className="circle letter">{title.substring(0, 1)}</div>
@@ -130,6 +135,8 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
         </div>
       </div>
     </Tooltip>
+  ) : (
+    <div className="spacer"></div>
   );
 }
 
@@ -144,6 +151,8 @@ export function DeckTracker({
   setDeck,
   shrineMode,
   toggleShrineMode,
+  deckMaximized,
+  toggleMaxView,
 }: {
   shrine: ShrineSlot;
   setShrine: (ss: ShrineSlot) => void;
@@ -151,6 +160,8 @@ export function DeckTracker({
   setDeck: (deck: DeckSlot[]) => void;
   shrineMode: boolean;
   toggleShrineMode: () => void;
+  deckMaximized: boolean;
+  toggleMaxView: () => void;
 }) {
   const [deckDataModal, setDeckDataModal] = useState(false);
   const [saveDeckModal, setSaveDeckModal] = useState(false);
@@ -180,6 +191,7 @@ export function DeckTracker({
     [4, 0],
     [5, 0],
     [6, 0],
+    [7, 0],
   ]);
 
   for (const ds of deck) {
@@ -200,6 +212,10 @@ export function DeckTracker({
     costs.set(cost, (costs.get(cost) as any as number) + 1);
   }
 
+  if (costs.get(7) === 0) {
+    costs.delete(7);
+  }
+
   const costDisplay = [] as any;
   costs.forEach((count, cost) => {
     costDisplay.push(
@@ -212,17 +228,16 @@ export function DeckTracker({
 
   return (
     <div className="deck-widget-container">
-      <TernaryButton
-        state={shrineMode}
-        labelOne="Shrine Mode"
-        labelTwo="Deck Mode"
-        setState={toggleShrineMode}
-      ></TernaryButton>
-      {/* <div className="shrine-switch">
-        <Typography>Shrine</Typography>
-        <Switch checked={!shrineMode} onChange={toggleShrineMode} />
-        <Typography>Deck</Typography>
-      </div> */}
+      <div className="shrine-deck-mode">
+        {!deckMaximized && (
+          <TernaryButton
+            state={shrineMode}
+            labelOne="Shrine Mode"
+            labelTwo="Deck Mode"
+            setState={toggleShrineMode}
+          ></TernaryButton>
+        )}
+      </div>
       {/* save deck */}
       <div className="modals">
         <IconButton onClick={toggleSaveDeckModal}>
@@ -265,24 +280,37 @@ export function DeckTracker({
           </span>
         </div>
       </div>
+      {deck.length > 0 ? (
+        <Tooltip title="Curve (Numerical costs of cards)">
+          <div className="curve-display">
+            <Box className="circle letter">C</Box>
+            <div className="curve-tracker-icons">{costDisplay}</div>
+          </div>
+        </Tooltip>
+      ) : (
+        <div className="spacer"></div>
+      )}
       <ColorDisplay
         title="Souls (Total resource pips in the costs of cards)"
         colors={souls}
       ></ColorDisplay>
       <ColorDisplay
-        title="Resources (Number of Essences that provide each resources; multicolor counts for both)"
-        colors={resources}
-      ></ColorDisplay>
-      <ColorDisplay
         title="Identities (For each Element, number of cards having that color identity, after Essence cost increases)"
         colors={identities}
       ></ColorDisplay>
-      <Tooltip title="Curve (Numerical costs of cards)">
-        <div className="curve-display">
-          <Box className="circle letter">C</Box>
-          <div className="curve-tracker-icons">{costDisplay}</div>
-        </div>
-      </Tooltip>
+      <ColorDisplay
+        title="Resources (Number of Essences that provide each resources; multicolor counts for both)"
+        colors={resources}
+      ></ColorDisplay>
+      <div className="minmax">
+        <IconButton onClick={toggleMaxView}>
+          {deckMaximized ? (
+            <CloseFullscreen></CloseFullscreen>
+          ) : (
+            <OpenInFull></OpenInFull>
+          )}
+        </IconButton>
+      </div>
     </div>
   );
 }

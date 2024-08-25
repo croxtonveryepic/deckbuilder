@@ -1,14 +1,6 @@
-import {
-  Container,
-  IconButton,
-  Stack,
-  Switch,
-  Typography,
-} from '@mui/material';
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { LibraryBooks, SaveAs } from '@mui/icons-material';
+import { Container } from '@mui/material';
+import { ComponentPropsWithoutRef } from 'react';
 import { Essence } from './cardlists/essences';
-import { LoadDeckModal, SaveDeckModal } from './components/deck-encoder';
 import { DeckTracker } from './components/deck-tracker';
 import { DeckSlot } from './page';
 import { ShrineSlot } from './cardlists/shrines';
@@ -39,6 +31,8 @@ interface DeckSectionProps extends ComponentPropsWithoutRef<'div'> {
   onClickDeckSlot: (id: number) => void;
   onDropEssence: (id: number, essence: Essence) => void;
   onDropBaseCard: (c: BaseCard) => void;
+  deckMaximized: boolean;
+  toggleMaxView: () => void;
 }
 
 export function DeckSection({
@@ -52,12 +46,17 @@ export function DeckSection({
   onClickDeckSlot,
   onDropEssence,
   onDropBaseCard,
+  deckMaximized,
+  toggleMaxView,
   ...rest
 }: DeckSectionProps) {
   const sortedDeck = sortDeck(deck);
+  const containerClassName = deckMaximized
+    ? 'deck-container max'
+    : 'deck-container min';
 
   return (
-    <Container className="deck-container" {...rest}>
+    <Container className={containerClassName} {...rest}>
       <DeckTracker
         deck={deck}
         setDeck={setDeck}
@@ -65,6 +64,8 @@ export function DeckSection({
         setShrine={setShrine}
         shrineMode={shrineMode}
         toggleShrineMode={toggleShrineMode}
+        deckMaximized={deckMaximized}
+        toggleMaxView={toggleMaxView}
       ></DeckTracker>
       <Deck
         shrineSlot={shrine}
@@ -79,6 +80,7 @@ export function DeckSection({
           setShrine(new ShrineSlot(shrine.shrine, si))
         }
         onDropBaseCard={onDropBaseCard}
+        deckMaximized={deckMaximized}
       ></Deck>
     </Container>
   );

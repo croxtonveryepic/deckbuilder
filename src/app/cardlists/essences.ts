@@ -600,7 +600,7 @@ export const essences: Essence[] = [
     name: 'Essence of Light and Water',
     filename: 'essenceoflightandwater-1',
     id: 29,
-    cost: [Element.Light, Element.Water],
+    cost: [],
     text: '',
     resources: [Element.Light, Element.Water],
     unlimited: false,

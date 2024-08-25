@@ -26,6 +26,7 @@ time worked
 8/17: 6 hours (fixed filteredAndSorted to be calculated only once, added filters for essences)
 8/18: 4 hours (shrine improvement query filter, organized css, refactored all of the major sections into individual components)
 8/23: 2 hours (reworking the styling of the deck widget container)
+8/24: 6 hours (min/max button, stlying max mode, making card sizes more legible, make some deck widgets disappear when they have no information to display, 7 cost card bug)
 
 todo:
 high priority
@@ -33,7 +34,6 @@ polish dark mode (cannot read filter dropdowns, some modals weird)
 polish modals (legible and styled reasonably, sections for click-to-copy deck code and traditional deck list)
 when adding cards to the deck using the modal, an indicator/popup should show the new quantity
 deck zone indicators
-    cards in deck
     number of creatures, spells, locations, and weapons
 make clear filters button
 shrine mode switch tooltip to indicate that filters will be reset

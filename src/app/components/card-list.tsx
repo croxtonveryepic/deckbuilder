@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, IconButton } from '@mui/material';
 import { Card } from './card';
 import { CardType } from './card';
 import { ImprovedShrine, ImbuedCard } from './card';
@@ -182,6 +182,10 @@ function onLeaveUnwarn(e: React.DragEvent) {
   e.currentTarget.classList.remove('warn');
 }
 
+function calcClusterWidth(isMaximized: boolean, dupeCount: number): string {
+  return (isMaximized ? 6.5 + 4.875 * dupeCount : 5 + 3.75 * dupeCount) + 'vw';
+}
+
 export function Deck({
   shrineSlot,
   mainDeck,
@@ -191,6 +195,7 @@ export function Deck({
   setShrine,
   setShrineImprovement,
   onDropBaseCard,
+  deckMaximized,
 }: {
   shrineSlot: ShrineSlot;
   mainDeck: DeckSlot[];
@@ -200,6 +205,7 @@ export function Deck({
   setShrine: (shrine: Shrine | null) => void;
   setShrineImprovement: (shrineImprovement: ShrineImprovement | null) => void;
   onDropBaseCard: (c: BaseCard) => void;
+  deckMaximized: boolean;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
 
@@ -294,7 +300,7 @@ export function Deck({
       <Grid
         item
         className="card-cluster"
-        style={{ width: 7.55 + 5.66 * dupes.length + 'vw' }}
+        style={{ width: calcClusterWidth(deckMaximized, dupes.length) }}
         key={c.id}
       >
         {dupes}

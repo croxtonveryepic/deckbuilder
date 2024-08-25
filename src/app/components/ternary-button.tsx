@@ -14,10 +14,8 @@ export function TernaryButton({
   className?: string;
 }) {
   return (
-    <FormControl>
-      <button onClick={(e) => setState(!state)} className={className}>
-        {state ? labelOne : labelTwo}
-      </button>
-    </FormControl>
+    <button onClick={(e) => setState(!state)} className={className}>
+      {state ? labelOne : labelTwo}
+    </button>
   );
 }

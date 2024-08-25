@@ -1,5 +1,5 @@
 'use client';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { baseCards, BaseCard } from './cardlists/base-cards';
 import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
@@ -39,6 +39,7 @@ export default function Home() {
   const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
   const [deck, setDeck] = useLocalStorageDeck();
   const [heldCard, setHeldCard] = useState(null as HeldCard);
+  const [maxView, setMaxView] = useState(false);
 
   function addBaseCard(card: BaseCard) {
     setDeck([...deck, new DeckSlot(card, null)]);
@@ -167,33 +168,37 @@ export default function Home() {
             onClickDeckSlot={removeLayer}
             onDropEssence={applyEssence}
             onDropBaseCard={addBaseCard}
+            deckMaximized={maxView}
+            toggleMaxView={() => setMaxView(!maxView)}
           ></DeckSection>
-          {shrineMode ? (
-            <ShrineSection
-              {...collectionDropProps}
-              shrines={shrines}
-              onClickShrine={(s) =>
-                setShrine(new ShrineSlot(s, shrine.shrineImprovement))
-              }
-            ></ShrineSection>
-          ) : (
-            <BaseCardSection
-              {...collectionDropProps}
-              cards={baseCards}
-              onClickBaseCard={(card_name) => addBaseCard(card_name)}
-            ></BaseCardSection>
-          )}
-          {shrineMode ? (
-            <ShrineImprovementSection
-              {...collectionDropProps}
-              shrineImprovements={shrineImprovements}
-              onClickShrineImprovement={(si) =>
-                setShrine(new ShrineSlot(shrine.shrine, si))
-              }
-            ></ShrineImprovementSection>
-          ) : (
-            <EssenceSection essences={essences}></EssenceSection>
-          )}
+          {!maxView &&
+            (shrineMode ? (
+              <ShrineSection
+                {...collectionDropProps}
+                shrines={shrines}
+                onClickShrine={(s) =>
+                  setShrine(new ShrineSlot(s, shrine.shrineImprovement))
+                }
+              ></ShrineSection>
+            ) : (
+              <BaseCardSection
+                {...collectionDropProps}
+                cards={baseCards}
+                onClickBaseCard={(card_name) => addBaseCard(card_name)}
+              ></BaseCardSection>
+            ))}
+          {!maxView &&
+            (shrineMode ? (
+              <ShrineImprovementSection
+                {...collectionDropProps}
+                shrineImprovements={shrineImprovements}
+                onClickShrineImprovement={(si) =>
+                  setShrine(new ShrineSlot(shrine.shrine, si))
+                }
+              ></ShrineImprovementSection>
+            ) : (
+              <EssenceSection essences={essences}></EssenceSection>
+            ))}
         </DeckContext.Provider>
       </AlertPickup.Provider>
     </Box>
