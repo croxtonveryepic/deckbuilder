@@ -9,12 +9,16 @@ import {
   Card,
   CardHeader,
   Container,
+  FormControl,
+  Grid,
+  IconButton,
   Modal,
   Paper,
   TextField,
 } from '@mui/material';
 import { Button } from '@mui/material';
 import { checkOrX } from './check-or-x';
+import { SaveAs } from '@mui/icons-material';
 const BASE = 92;
 const OFFSET = 35;
 const EMPTY = '"" ';
@@ -133,97 +137,79 @@ function encodeFullDeckCode(ss: ShrineSlot, deck: DeckSlot[]): string {
   return encodeShrine(ss) + encodeDeck(deck);
 }
 
-export function SaveDeckModal({
-  open,
-  toggle,
+export function SaveDeck({
   shrine,
   deck,
 }: {
-  open: boolean;
-  toggle: () => void;
   shrine: ShrineSlot;
   deck: DeckSlot[];
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [nameQuery, setNameQuery] = useState('');
   const [warnModal, setWarnModal] = useState({
     open: false,
     name: '',
     decks: {} as any,
   });
 
-  function handleSubmit(e: any) {
-    e.preventDefault();
-    let name = e.target.deckname.value;
-    let decks = JSON.parse(localStorage.getItem('decks') || '{}');
-    if (decks[name]) {
+  let decks = new Map<string, string>();
+  useEffect(() => {
+    const stored = localStorage.getItem('decks');
+    if (stored) {
+      decks = new Map<string, string>(JSON.parse(stored));
+    }
+  }, []);
+
+  function toggle() {
+    setIsOpen(!isOpen);
+  }
+
+  function handleSubmit(name: string) {
+    if (decks.has(name)) {
       setWarnModal({ open: true, name: name, decks: decks });
     } else {
-      onConfirm(name, decks);
+      onConfirm(name);
       toggle();
     }
   }
 
-  function onConfirm(name: string, decks: any) {
-    decks[name] = encodeShrine(shrine) + ' ' + encodeDeck(deck);
+  function onConfirm(name: string) {
+    decks.set(name, encodeShrine(shrine) + ' ' + encodeDeck(deck));
     localStorage.setItem('decks', JSON.stringify(decks));
   }
 
-  const essences = deck.reduce((sum, ds) => {
-    return ds.essence ? sum + 1 : sum;
-  }, 0);
-
   return (
-    <Modal open={open} className="modal-parent">
-      <div
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') {
-            toggle();
-          }
-        }}
-      >
-        <Modal open={warnModal.open}>
-          <Container className="modal-center">
-            <span>
-              Deck &apos;{warnModal.name}&apos; already exists. Would you like
-              to replace it?
-            </span>
-            <span>
-              <Button
-                onClick={() => {
-                  onConfirm(warnModal.name, warnModal.decks);
-                  setWarnModal({ ...warnModal, open: false });
-                  toggle();
-                }}
-              >
-                Confirm
-              </Button>
-              <Button
-                onClick={() => setWarnModal({ ...warnModal, open: false })}
-              >
-                Cancel
-              </Button>
-            </span>
-          </Container>
-        </Modal>
-        <Container className="modal thin-bg">
-          Deck Legality:
-          <br></br>Shrine and Shrine Improvement present:
-          {checkOrX(
-            shrine.shrine !== null && shrine.shrineImprovement !== null
-          )}
-          <br></br>
-          Exactly 50 cards:
-          {checkOrX(deck.length === 50, `${deck.length} cards`)}
-          <br></br>
-          Essences for all cards:{' '}
-          {checkOrX(essences === 50, `${deck.length - essences} missing`)}
-          <br></br>
-          <form onSubmit={handleSubmit}>
-            <TextField label="Deck Name" name="deckname"></TextField>
-            <button type="submit">Submit</button>
-          </form>
-        </Container>
-      </div>
-    </Modal>
+    <div>
+      <IconButton onClick={toggle}>
+        <SaveAs></SaveAs>
+      </IconButton>
+      <Modal open={isOpen} className="modal-parent">
+        <div
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              toggle();
+            }
+          }}
+        >
+          <div className="modal thin-bg">
+            <FormControl onSubmit={(e) => handleSubmit(nameQuery)}>
+              <TextField
+                label="Deck Name"
+                value={nameQuery}
+                onChange={(e) => setNameQuery(e.target.value)}
+                // color="secondary"
+              ></TextField>
+              {/* <TextField label="Deck Name" name="deckname"></TextField> */}
+              <button type="submit">Submit</button>
+              <DeckSummaries
+                decks={decks}
+                onClick={(d) => handleSubmit(d.name)}
+              ></DeckSummaries>
+            </FormControl>
+          </div>
+        </div>
+      </Modal>
+    </div>
   );
 }
 
@@ -237,6 +223,43 @@ function decodeFullDeckCode(name: string, code: string): Deck {
   let ss = decodeShrine(code);
   let deck = decodeDeck(code.substring(7));
   return { name: name, shrine: ss, deck: deck };
+}
+
+function DeckSummaries({
+  decks,
+  onClick,
+}: {
+  decks: Map<string, string>;
+  onClick: (d: Deck) => void;
+}) {
+  let deckObjects = [] as Deck[];
+  for (const [key, value] of decks) {
+    let cards = decodeFullDeckCode(key, value);
+    deckObjects.push(cards);
+  }
+  let cards = deckObjects.map((deck) => {
+    let src, media;
+    if (deck.shrine.shrine?.filename) {
+      src = `/assets/shrines/${deck.shrine.shrine?.filename}.png`;
+    } else if (deck.deck[0]) {
+      src = `/assets/base-card/${deck.deck[0].baseCard.filename}.png`;
+    }
+    if (src) {
+      media = <img src={src}></img>;
+    }
+    return (
+      <Grid
+        item
+        key={deck.name}
+        className="deck-summary"
+        onClick={() => onClick(deck)}
+      >
+        <div>{media}</div>
+        <div>{deck.name}</div>
+      </Grid>
+    );
+  });
+  return <Grid container>{cards}</Grid>;
 }
 
 export function LoadDeckModal({

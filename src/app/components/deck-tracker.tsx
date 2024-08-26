@@ -9,9 +9,9 @@ import {
   OpenInFull,
   SaveAs,
 } from '@mui/icons-material';
-import { LoadDeckModal, SaveDeckModal } from './deck-encoder';
 import { useState } from 'react';
 import { TernaryButton } from './ternary-button';
+import { SaveDeck } from './deck-encoder';
 
 class Colors {
   air = 0;
@@ -163,22 +163,6 @@ export function DeckTracker({
   deckMaximized: boolean;
   toggleMaxView: () => void;
 }) {
-  const [deckDataModal, setDeckDataModal] = useState(false);
-  const [saveDeckModal, setSaveDeckModal] = useState(false);
-  const [loadDeckModal, setLoadDeckModal] = useState(false);
-
-  function toggleDeckDataModal() {
-    setDeckDataModal(!deckDataModal);
-  }
-
-  function toggleSaveDeckModal() {
-    setSaveDeckModal(!saveDeckModal);
-  }
-
-  function toggleLoadDeckModal() {
-    setLoadDeckModal(!loadDeckModal);
-  }
-
   let numCards = deck.length;
   let numEssences = 0;
   let resources = new Colors();
@@ -240,17 +224,9 @@ export function DeckTracker({
       </div>
       {/* save deck */}
       <div className="modals">
-        <IconButton onClick={toggleSaveDeckModal}>
-          <SaveAs></SaveAs>
-        </IconButton>
-        <SaveDeckModal
-          open={saveDeckModal}
-          toggle={toggleSaveDeckModal}
-          deck={deck}
-          shrine={shrine}
-        ></SaveDeckModal>
+        <SaveDeck deck={deck} shrine={shrine}></SaveDeck>
         {/* load deck */}
-        <IconButton onClick={toggleLoadDeckModal}>
+        {/* <IconButton onClick={toggleLoadDeckModal}>
           <LibraryBooks></LibraryBooks>
         </IconButton>
         <LoadDeckModal
@@ -260,7 +236,7 @@ export function DeckTracker({
             setShrine(ss);
             setDeck(ds);
           }}
-        ></LoadDeckModal>
+        ></LoadDeckModal> */}
       </div>
       <div className="card-counts">
         <div>
