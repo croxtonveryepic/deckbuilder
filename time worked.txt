@@ -28,26 +28,32 @@ time worked
 8/23: 2 hours (reworking the styling of the deck widget container)
 8/24: 6 hours (min/max button, stlying max mode, making card sizes more legible, make some deck widgets disappear when they have no information to display, 7 cost card bug)
 8/25: 4 hours (begin fixing up save modal)
+8/27: 3 hours (save/load/delete modal)
+8/29: 3 hours (continue to import/export modals)
+8/31: 10 hours (import/export modal completed and styled, begin alert system)
 
 todo:
 high priority
-polish dark mode (cannot read filter dropdowns, some modals weird)
-polish modals (legible and styled reasonably, sections for click-to-copy deck code and traditional deck list)
-when adding cards to the deck using the modal, an indicator/popup should show the new quantity
-deck zone indicators
-    number of creatures, spells, locations, and weapons
-make clear filters button
-shrine mode switch tooltip to indicate that filters will be reset
-wh = 20px
+    polish dark mode (cannot read filter dropdowns, some modals weird)
+    polish save modal
+    polish filters 
+    make clear filters button
+    shrine mode switch tooltip to indicate that filters will be reset
+    wh = 20px
+    code for soulful and soulless
 
 medium priority:
-code for soulful and soulless
-modify the deck modal to allow browsing overlay cards
+    modify the deck modal to allow browsing overlay cards
+    deck zone indicators
+        number of creatures, spells, locations, and weapons (will this even fit?)
+    alert system
+        when adding cards to the deck using the modal, show the new quantity
+        when importing, exporting, saving, or deleting decks
 
 low priority:
-fix pathing to be build env agnostic // currently using dev/master cherry-pick, which is fine
-manual dark mode switch
-proxies
-options for how to sort the deck
-deck codes, saving and importing features
-change background to something flawed themed
+    fix pathing to be build env agnostic // currently using dev/master cherry-pick, which is fine
+    manual dark mode switch
+    proxies
+    options for how to sort the deck
+    deck codes, saving and importing features
+    change background to something flawed themed

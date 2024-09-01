@@ -41,7 +41,7 @@ body {
 
 /* ## Sections ## */
 .deck-container {
-  overflow: scroll;
+  overflow: auto;
   position: fixed;
   top: 0;
   right: 0;
@@ -50,6 +50,10 @@ body {
   flex-direction: column;
   align-items: baseline;
   &.min {
+    border-bottom: black;
+    border-bottom-width: 4px;
+    border-style: inset;
+
     height: 72.9%;
     width: 77.4%;
     padding: 0;
@@ -66,8 +70,8 @@ body {
     top: 0;
     right: 0;
     max-width: 1600px;
-    padding-left: 1%;
-    padding-right: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
     display: flex;
     flex-direction: row;
     align-self: center;
@@ -98,6 +102,11 @@ body {
       flex-direction: row;
       flex-grow: 0.5;
       justify-content: center;
+      margin-left: 0.5%;
+      /* > div {
+        margin-left: 1%;
+        margin-right: 1%;
+      } */
     }
     .card-counts {
       flex-grow: 0.75;
@@ -177,6 +186,10 @@ body {
 }
 
 .base-card-container {
+  border-right: black;
+  border-right-width: 4px;
+  border-style: inset;
+
   position: fixed;
   height: 100%;
   width: 22.6%;
@@ -258,7 +271,7 @@ body {
   }
   .base-card-list-container {
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
     .MuiGrid-container {
       display: flex;
       flex-direction: row;
@@ -276,7 +289,7 @@ body {
   right: 0;
   max-width: none;
   padding: 0;
-  overflow: scroll;
+  overflow: auto;
   .overlay-card-widget-container {
     position: relative;
     height: 15%;
@@ -313,12 +326,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    width: 120%;
     &.thin-bg {
-      border-radius: 5%;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 10%;
-      color: whitesmoke;
+      background-color: whitesmoke;
+      border-radius: 1rem;
     }
   }
 
@@ -463,6 +473,15 @@ body {
   flex-grow: 1;
 }
 
+.deck-summaries {
+  .deck-summary {
+    img {
+      width: 100px;
+      height: 140px;
+    }
+  }
+}
+
 /* ## Misc ## */
 
 .logo-card {
@@ -480,4 +499,15 @@ body {
 
 .MuiGrid-item {
   margin: 0.75vw;
+}
+
+/* .multiline-input {
+  > div {
+    height: 100%;
+    overflow: hidden;
+  }
+} */
+
+.warn {
+  color: #a32224;
 }

@@ -1,5 +1,5 @@
 'use client';
-import { Box, IconButton } from '@mui/material';
+import { Alert, Box, Button, Fade, IconButton } from '@mui/material';
 import { baseCards, BaseCard } from './cardlists/base-cards';
 import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
@@ -19,6 +19,9 @@ import { BaseCardSection } from './base-card-section';
 import { ShrineImprovementSection } from './shrine-improvement-section';
 import { EssenceSection } from './essence-section';
 import { DeckSection } from './deck-section';
+import { Check } from '@mui/icons-material';
+import zIndex from '@mui/material/styles/zIndex';
+import { styleText } from 'util';
 
 export class DeckSlot {
   baseCard: BaseCard;
@@ -28,18 +31,20 @@ export class DeckSlot {
   constructor(baseCard: BaseCard, essence: Essence | null) {
     this.baseCard = baseCard;
     this.essence = essence;
-    this.id = newId();
+    this.id = newCardSlotId();
   }
 }
 
-const newId = idGenerator();
-
+const newCardSlotId = idGenerator();
+const newAlertId = idGenerator();
 export default function Home() {
   const [shrineMode, setShrineMode] = useState(true);
   const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
   const [deck, setDeck] = useLocalStorageDeck();
   const [heldCard, setHeldCard] = useState(null as HeldCard);
   const [maxView, setMaxView] = useState(false);
+  const [alertMessages, setAlertMessages] = useState({} as any);
+  const [alertVisible, setAlertVisible] = useState(false);
 
   function addBaseCard(card: BaseCard) {
     setDeck([...deck, new DeckSlot(card, null)]);
@@ -139,6 +144,40 @@ export default function Home() {
     }
   };
 
+  function alert(message: string) {
+    let id = newAlertId();
+    setAlertMessages((prev) => {
+      return { ...prev, [id]: message };
+    });
+    setTimeout(() => {
+      // if (currAlert === message) {
+      // setAlertVisible(false);
+      // }
+
+      setAlertMessages((prev) => {
+        const { [id]: _, ...newAlerts } = alertMessages;
+        return newAlerts;
+      });
+    }, 2500);
+  }
+
+  const alerts = Object.values(alertMessages).map((message) => (
+    <div style={{ position: 'absolute', left: '50%' }}>
+      <Alert
+        icon={<Check fontSize="inherit" />}
+        severity="success"
+        style={{
+          position: 'relative',
+          left: '-50%',
+          top: '70vh',
+          zIndex: '999',
+        }}
+      >
+        {message as string}
+      </Alert>
+    </div>
+  ));
+
   const collectionDropProps = new ConditionalDroppable(
     (heldCard && !Number.isNaN(heldCard.id)) as boolean,
     handleCollectionDrop
@@ -157,6 +196,18 @@ export default function Home() {
             essences: essenceCounts,
           }}
         >
+          {/* <Fade in={alertVisible}>
+            
+          </Fade> */}
+          {alerts}
+          <Button
+            onClick={() => {
+              alert(`${newAlertId()}`);
+            }}
+            style={{ position: 'absolute', zIndex: '10' }}
+          >
+            push message
+          </Button>
           <DeckSection
             deck={deck}
             setDeck={setDeck}

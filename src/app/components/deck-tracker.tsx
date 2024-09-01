@@ -11,7 +11,7 @@ import {
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { TernaryButton } from './ternary-button';
-import { SaveDeck } from './deck-encoder';
+import { ExportDeck, SaveDeck } from './deck-encoder';
 
 class Colors {
   air = 0;
@@ -224,7 +224,18 @@ export function DeckTracker({
       </div>
       {/* save deck */}
       <div className="modals">
-        <SaveDeck deck={deck} shrine={shrine}></SaveDeck>
+        <SaveDeck
+          deck={deck}
+          shrine={shrine}
+          setShrine={setShrine}
+          setDeck={setDeck}
+        ></SaveDeck>
+        <ExportDeck
+          deck={deck}
+          shrine={shrine}
+          setShrine={setShrine}
+          setDeck={setDeck}
+        ></ExportDeck>
         {/* load deck */}
         {/* <IconButton onClick={toggleLoadDeckModal}>
           <LibraryBooks></LibraryBooks>
