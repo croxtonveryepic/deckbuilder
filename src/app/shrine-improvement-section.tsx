@@ -34,7 +34,8 @@ export function ShrineImprovementSection({
         <FormGroup className="element-filter">
           <div className="search-filter-container">
             <TextField
-              label="Search"
+              label="Search Shrine Improvements"
+              size="small"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="query"

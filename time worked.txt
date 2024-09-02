@@ -34,13 +34,11 @@ time worked
 
 todo:
 high priority
-    polish dark mode (cannot read filter dropdowns, some modals weird)
     polish save modal
     polish filters 
-    make clear filters button
-    shrine mode switch tooltip to indicate that filters will be reset
     wh = 20px
     code for soulful and soulless
+    polish dark mode (cannot read filter dropdowns, some modals weird)
 
 medium priority:
     modify the deck modal to allow browsing overlay cards

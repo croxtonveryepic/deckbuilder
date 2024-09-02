@@ -212,16 +212,26 @@ export function DeckTracker({
 
   return (
     <div className="deck-widget-container">
-      <div className="shrine-deck-mode">
-        {!deckMaximized && (
-          <TernaryButton
-            state={shrineMode}
-            labelOne="Shrine Mode"
-            labelTwo="Deck Mode"
-            setState={toggleShrineMode}
-          ></TernaryButton>
-        )}
-      </div>
+      <Tooltip
+        title={
+          (shrineMode
+            ? 'Switch to editing your main deck and essences.'
+            : 'Switch to choosing your shrine and shrine improvement.') +
+          ' This will clear your queries and filters.'
+        }
+        enterDelay={500}
+      >
+        <div className="shrine-deck-mode">
+          {!deckMaximized && (
+            <TernaryButton
+              state={shrineMode}
+              labelOne="Shrine Mode"
+              labelTwo="Deck Mode"
+              setState={toggleShrineMode}
+            ></TernaryButton>
+          )}
+        </div>
+      </Tooltip>
       {/* save deck */}
       <div className="modals">
         <SaveDeck
