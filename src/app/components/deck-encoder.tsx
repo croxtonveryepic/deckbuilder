@@ -6,7 +6,6 @@ import { baseCards } from '../cardlists/base-cards';
 import { essences } from '../cardlists/essences';
 import { useState, useEffect } from 'react';
 import {
-  Card,
   CardHeader,
   Container,
   Divider,
@@ -17,6 +16,7 @@ import {
   Modal,
   Paper,
   TextField,
+  Typography,
 } from '@mui/material';
 import { Button } from '@mui/material';
 import { checkOrX } from './check-or-x';
@@ -29,6 +29,10 @@ import {
   SaveAs,
 } from '@mui/icons-material';
 import clipboardCopy from 'clipboard-copy';
+import { Card, ImprovedShrine } from './card';
+import { Placeholder } from './drag-context';
+import { Element } from '../cardlists/enums';
+import { SomeElements } from './element-buttons';
 const BASE = 92;
 const OFFSET = 35;
 const EMPTY = '""';
@@ -159,6 +163,9 @@ function encodeFullDeckCode(ss: ShrineSlot, deck: DeckSlot[]): string {
   return encodeShrine(ss) + encodeDeck(deck);
 }
 
+const TOP_LEVEL_DECKS = 'decks';
+const DEFAULT_DECK_LIBRARY = 'library1';
+
 export function SaveDeck({
   shrine,
   deck,
@@ -183,8 +190,10 @@ export function SaveDeck({
   const [decks, setDecks] = useState(fallbackValue);
   useEffect(() => {
     unlocked = false;
-    const stored = localStorage.getItem('decks');
-    setDecks(stored ? (JSON.parse(stored) as any) : fallbackValue);
+    const stored = localStorage.getItem(TOP_LEVEL_DECKS);
+    setDecks(
+      stored ? (JSON.parse(stored) as any)[DEFAULT_DECK_LIBRARY] : fallbackValue
+    );
     return () => {
       unlocked = true;
     };
@@ -192,12 +201,16 @@ export function SaveDeck({
 
   useEffect(() => {
     if (unlocked) {
-      localStorage.setItem('decks', JSON.stringify(decks));
+      localStorage.setItem(
+        TOP_LEVEL_DECKS,
+        JSON.stringify({ [DEFAULT_DECK_LIBRARY]: decks })
+      );
     }
   }, [decks]);
 
   function toggle() {
     setIsOpen(!isOpen);
+    setNameQuery('');
   }
 
   function handleSubmitSave(name: string) {
@@ -213,8 +226,7 @@ export function SaveDeck({
       ...decks,
       [name]: encodeShrine(shrine) + encodeDeck(deck),
     });
-    setIsOpen(false);
-    setNameQuery('');
+    toggle();
   }
 
   function handleSubmitDelete(name: string) {
@@ -242,8 +254,26 @@ export function SaveDeck({
     const deckToLoad = deckObjects.find((d) => d.name === name);
     setShrine(deckToLoad!.shrine);
     setDeck(deckToLoad!.deck);
-    setIsOpen(false);
-    setNameQuery('');
+    toggle();
+  }
+
+  function onConfirmAction() {
+    switch (warnModal.action) {
+      case 'overwrite':
+        onConfirmSave(warnModal.deck);
+        break;
+      case 'delete':
+        onConfirmDelete(warnModal.deck);
+        break;
+      case 'load':
+        onConfirmLoad(warnModal.deck);
+        break;
+    }
+    hideWarnModal();
+  }
+
+  function hideWarnModal() {
+    setWarnModal({ ...warnModal, open: false });
   }
 
   return (
@@ -253,24 +283,71 @@ export function SaveDeck({
       </IconButton>
       <Modal open={isOpen} className="modal-parent" onClick={toggle}>
         <div
+          style={{
+            width: '70vw',
+            height: '55vh',
+            padding: '1.5rem',
+            // display: 'flex',
+            // flexDirection: 'row',
+          }}
           className="modal thin-bg"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && nameQuery !== '') {
-              handleSubmitSave(nameQuery);
+              handleSubmitSave(
+                deckObjects.length === 1 ? deckObjects[0].name : nameQuery
+              );
             } else if (e.key === 'Escape') {
               toggle();
             }
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <TextField
-            label="Deck Name"
-            value={nameQuery}
-            onChange={(e) => setNameQuery(e.target.value)}
-            // color="secondary"
-          ></TextField>
-          {/* <TextField label="Deck Name" name="deckname"></TextField> */}
-          <button onClick={(e) => handleSubmitSave(nameQuery)}>Save</button>
+          <div style={{ margin: '1rem' }}>
+            <Typography variant="h4">Local Library</Typography>
+          </div>
+          <div
+            style={{
+              margin: '1rem',
+              display: 'flex',
+              flexDirection: 'row',
+              alignContent: 'center',
+              justifyContent: 'start',
+            }}
+          >
+            <TextField
+              label="Deck Name"
+              value={nameQuery}
+              onChange={(e) => setNameQuery(e.target.value)}
+              style={{ marginRight: '2rem' }}
+            ></TextField>
+            {nameQuery !== '' &&
+              !(
+                deckObjects.length === 1 && deckObjects[0].name === nameQuery
+              ) && (
+                <Button
+                  style={{ marginInline: '1rem' }}
+                  onClick={() => handleSubmitSave(nameQuery)}
+                  disableFocusRipple
+                >
+                  Save New
+                </Button>
+              )}
+            {deckObjects.length === 1 && (
+              <Button
+                style={{ marginInline: '1rem' }}
+                disableFocusRipple
+                onClick={() => handleSubmitSave(deckObjects[0].name)}
+              >
+                Save
+              </Button>
+            )}
+            {/* <Button
+              disableFocusRipple
+              onClick={() => handleSubmitLoad(nameQuery)}
+            >
+              Load
+            </Button> */}
+          </div>
           <DeckSummaries
             decks={deckObjects}
             onSave={(d) => {
@@ -285,31 +362,27 @@ export function SaveDeck({
           ></DeckSummaries>
         </div>
       </Modal>
-      <Modal open={warnModal.open} className="modal-parent">
-        <div className="modal thin-bg">
+      <Modal
+        open={warnModal.open}
+        className="modal-parent"
+        onClick={hideWarnModal}
+      >
+        <div
+          className="modal thin-bg"
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+            if (e.key === 'Enter') {
+              onConfirmAction();
+            } else if (e.key === 'Escape') {
+              hideWarnModal();
+            }
+          }}
+        >
           Are you sure you'd like to {warnModal.action} {warnModal.deck}?{' '}
           {warnModal.action === 'load' && 'This will clear your current deck.'}
-          <button
-            onClick={() => {
-              switch (warnModal.action) {
-                case 'overwrite':
-                  onConfirmSave(warnModal.deck);
-                  break;
-                case 'delete':
-                  onConfirmDelete(warnModal.deck);
-                  break;
-                case 'load':
-                  onConfirmLoad(warnModal.deck);
-                  break;
-              }
-              setWarnModal({ ...warnModal, open: false });
-            }}
-          >
-            Confirm
-          </button>
-          <button onClick={() => setWarnModal({ ...warnModal, open: false })}>
-            Cancel
-          </button>
+          <button onClick={onConfirmAction}>Confirm</button>
+          <button onClick={hideWarnModal}>Cancel</button>
         </div>
       </Modal>
     </div>
@@ -328,28 +401,57 @@ function DeckSummaries({
   onLoad: (d: Deck) => void;
 }) {
   let cards = decks.map((deck) => {
-    let src, media;
-    if (deck.shrine.shrine?.filename) {
-      src = `/assets/shrines/${deck.shrine.shrine?.filename}.png`;
-    } else if (deck.deck[0]) {
-      src = `/assets/base-cards/${deck.deck[0].baseCard.filename}.png`;
+    const colors = new Set<Element>();
+    deck.deck.forEach((ds) => {
+      if (ds.essence === null) {
+        ds.baseCard.pips.forEach((p) => colors.add(p));
+      } else if (ds.essence.id !== 69) {
+        // souless
+        ds.baseCard.pips.forEach((p) => colors.add(p));
+        ds.essence.cost.forEach((p) => colors.add(p));
+      }
+    });
+
+    const shrineSlot = deck.shrine;
+    let thumbnail;
+    if (shrineSlot.shrine) {
+      thumbnail = shrineSlot.shrineImprovement ? (
+        <ImprovedShrine shrineSlot={shrineSlot}></ImprovedShrine>
+      ) : (
+        <Card card={shrineSlot.shrine}></Card>
+      );
+    } else {
+      thumbnail = shrineSlot.shrineImprovement ? (
+        <Card card={shrineSlot.shrineImprovement}></Card>
+      ) : (
+        <Card card={new Placeholder()}></Card>
+      );
     }
-    if (src) {
-      media = <img src={src}></img>;
-    }
+
     return (
-      <Grid item key={deck.name} className="deck-summary">
-        <div>{media}</div>
+      <Grid
+        item
+        key={deck.name}
+        className="deck-summary"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
         <div>{deck.name}</div>
+        <SomeElements elements={colors}></SomeElements>
+        <div>{thumbnail}</div>
         <div>
           <IconButton onClick={() => onSave(deck)}>
             <SaveAs></SaveAs>
           </IconButton>
-          <IconButton onClick={() => onDelete(deck)}>
-            <Delete></Delete>
-          </IconButton>
           <IconButton onClick={() => onLoad(deck)}>
             <OpenInBrowser></OpenInBrowser>
+          </IconButton>
+          <IconButton onClick={() => onDelete(deck)}>
+            <Delete></Delete>
           </IconButton>
         </div>
       </Grid>
@@ -434,6 +536,7 @@ export function ExportDeck({
             setIsOpen(false);
           }
         }}
+        onClick={() => setIsOpen(false)}
       >
         <div
           style={{
@@ -443,6 +546,7 @@ export function ExportDeck({
             flexDirection: 'row',
           }}
           className="modal thin-bg"
+          onClick={(e) => e.stopPropagation()}
         >
           <div
             style={{
@@ -521,7 +625,7 @@ export function ExportDeck({
               style={{
                 whiteSpace: 'pre-line',
                 background: 'inherit',
-                height: '84%',
+                height: '85.5%',
                 overflow: 'auto',
                 padding: '1rem',
                 // background: '#97a1af',
@@ -538,7 +642,7 @@ export function ExportDeck({
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                height: '16%',
+                height: '15.5%',
               }}
             >
               <Button onClick={() => clipboardCopy(full)}>Copy Full</Button>

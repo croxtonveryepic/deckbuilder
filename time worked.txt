@@ -31,6 +31,7 @@ time worked
 8/27: 3 hours (save/load/delete modal)
 8/29: 3 hours (continue to import/export modals)
 8/31: 10 hours (import/export modal completed and styled, begin alert system)
+9/2: 6 hours (save modal polish, base card container)
 
 todo:
 high priority

@@ -18,6 +18,7 @@ import { BaseCardType, Element, Rarity } from './cardlists/enums';
 import { BaseCard, BaseCardFilters } from './cardlists/base-cards';
 import { Search } from '@mui/icons-material';
 import { PipButtons } from './components/pip-button';
+import { TernaryButton } from './components/ternary-button';
 
 interface BaseCardSectionProps extends ComponentPropsWithoutRef<'div'> {
   cards: BaseCard[];
@@ -89,7 +90,7 @@ export function BaseCardSection({
   return (
     <div className="base-card-container" {...rest}>
       <div className="base-card-widget-container">
-        <FormGroup>
+        <FormGroup style={{ width: '90%' }}>
           <div className="search-filter-container">
             <TextField
               label="Search"
@@ -104,16 +105,18 @@ export function BaseCardSection({
                 ),
               }}
               color="secondary"
-              sx={{ type: 'search' }}
+              fullWidth
+              // style={{ width: '100%' }}
+              // sx={{ type: 'search' }}
             ></TextField>
             {/* <IconButton onClick={() => setBcQuery('')}>
                         <HighlightOff></HighlightOff>
                       </IconButton> */}
           </div>
         </FormGroup>
-        <FormGroup>
+        <FormGroup style={{ width: '90%' }}>
           <div className="type-rarity-container">
-            <FormControl>
+            <FormControl style={{ marginRight: '1rem' }}>
               <InputLabel>Supertype</InputLabel>
               <Select
                 label="Supertype"
@@ -154,7 +157,7 @@ export function BaseCardSection({
             </FormControl>
           </div>
         </FormGroup>
-        <FormGroup className="element-filter">
+        <FormGroup style={{ width: '90%' }} className="element-filter">
           <ElementButtons
             selected={bcElements}
             onElementClicked={(e: Element) =>
@@ -164,7 +167,8 @@ export function BaseCardSection({
           <Stack
             direction="row"
             alignItems="center"
-            sx={{ marginLeft: '.5em' }}
+            // width="30%"
+            sx={{ marginLeft: '.5rem' }}
           >
             <Typography>Or</Typography>
             <Switch
@@ -174,8 +178,10 @@ export function BaseCardSection({
             <Typography>And</Typography>
           </Stack>
         </FormGroup>
-        <FormGroup className="cost-filter-container">
+        <FormGroup style={{ width: '90%' }} className="cost-filter-container">
           <Select
+            size="small"
+            style={{ width: '5rem', marginRight: '.5rem' }}
             value={bcCostOperator}
             onChange={(e) => {
               let val = e.target.value;
@@ -192,7 +198,7 @@ export function BaseCardSection({
             <MenuItem value={'<=>'}>&lt;=&gt;</MenuItem>
           </Select>
           <PipButtons
-            count={7}
+            count={6}
             selectedOne={bcCostValOne}
             selectedTwo={bcCostValTwo}
             onClick={handleCostFilterClicked}

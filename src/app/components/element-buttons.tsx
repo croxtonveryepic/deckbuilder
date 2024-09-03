@@ -1,6 +1,7 @@
 import { Element } from '../cardlists/enums';
 import Image from 'next/image';
 
+const wh = 1500;
 export function ElementButtons({
   selected,
   onElementClicked,
@@ -8,7 +9,6 @@ export function ElementButtons({
   selected: Element[];
   onElementClicked: (e: Element) => void;
 }) {
-  const wh = 50;
   let airClass, darkClass, earthClass, fireClass, lightClass, waterClass;
   selected.forEach((el) => {
     switch (el) {
@@ -101,6 +101,61 @@ export function ElementButtons({
           height={wh}
         ></Image>
       </button>
+    </div>
+  );
+}
+
+export function SomeElements({ elements }: { elements: Set<Element> }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      {elements.has(Element.Air) && (
+        <Image
+          src="/assets/misc/airwhiteongrey.png"
+          alt="Air Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      )}
+      {elements.has(Element.Dark) && (
+        <Image
+          src="/assets/misc/darkwhiteonpurple.png"
+          alt="Dark Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      )}
+      {elements.has(Element.Fire) && (
+        <Image
+          src="/assets/misc/firewhiteonred.png"
+          alt="Fire Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      )}
+      {elements.has(Element.Earth) && (
+        <Image
+          src="/assets/misc/earth2whiteongreen.png"
+          alt="Earth Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      )}
+      {elements.has(Element.Light) && (
+        <Image
+          src="/assets/misc/lightwhiteonyellow.png"
+          alt="Light Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      )}
+      {elements.has(Element.Water) && (
+        <Image
+          src="/assets/misc/waterwhiteonblue.png"
+          alt="Water Icon"
+          width={wh}
+          height={wh}
+        ></Image>
+      )}
     </div>
   );
 }

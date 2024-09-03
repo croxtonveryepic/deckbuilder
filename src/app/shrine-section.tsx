@@ -35,7 +35,7 @@ export function ShrineSection({
   return (
     <div className="base-card-container" {...rest}>
       <div className="base-card-widget-container">
-        <FormGroup className="element-filter">
+        <FormGroup className="element-filter" style={{ height: '3rem' }}>
           <ElementButtons
             selected={elements}
             onElementClicked={(e: Element) =>
