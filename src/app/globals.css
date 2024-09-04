@@ -41,7 +41,6 @@ body {
 
 /* ## Sections ## */
 .deck-container {
-  overflow: auto;
   position: fixed;
   top: 0;
   right: 0;
@@ -54,7 +53,7 @@ body {
     border-bottom-width: 4px;
     border-style: inset;
 
-    height: 72.9%;
+    height: 71.9%;
     width: 77.4%;
     padding: 0;
   }
@@ -65,7 +64,7 @@ body {
 
   .deck-widget-container {
     position: relative;
-    height: 9%;
+    height: 11.5%;
     width: 100%;
     top: 0;
     right: 0;
@@ -179,6 +178,7 @@ body {
     }
   }
   .main-deck {
+    overflow: auto;
     max-width: none;
     padding-left: 3%;
     padding-right: 3%;
@@ -289,7 +289,7 @@ body {
     }
   }
   .base-card-list-container {
-    height: 100%;
+    /* max-height: none; */
     overflow: auto;
     .MuiGrid-container {
       display: flex;
@@ -302,25 +302,90 @@ body {
 
 .overlay-card-container {
   position: fixed;
-  height: 27.1%;
+  height: 28.1%;
   width: 77.4%;
   bottom: 0;
   right: 0;
   max-width: none;
   padding: 0;
-  overflow: auto;
   .overlay-card-widget-container {
     position: relative;
-    height: 15%;
-    width: 77.4%;
+    height: 20%;
     top: 0;
     max-width: none;
     padding: 0;
     display: flex;
     flex-direction: row;
-    button {
-      margin-right: 1rem;
+    padding-left: 24px;
+    padding-right: 6rem;
+    margin-left: 0.75vw;
+    justify-content: space-between;
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      /* flex-grow: 1; */
     }
+    .element-filter {
+      .element-button-container {
+        display: flex;
+        flex-direction: row;
+        /* justify-content: center; */
+        justify-content: space-around;
+        align-items: center;
+        button {
+          width: 3rem;
+          /* width: auto; */
+          height: 100%;
+          img {
+            padding: 10%;
+          }
+          &.selected img {
+            padding: 0;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: black;
+            border-width: medium;
+            box-sizing: border-box;
+          }
+        }
+      }
+    }
+    .stat-filters {
+      button {
+        padding: 1rem;
+        width: 6rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        border-color: black;
+        border-width: thin;
+        padding: 0.3rem;
+        border-radius: 0.5rem;
+        &.true {
+          background-color: aqua;
+        }
+        &.false {
+          background-color: grey;
+        }
+      }
+    }
+    .ccc-filters {
+      .dropdown {
+        width: 4rem;
+      }
+      .pip-container {
+        margin-left: 0.5rem;
+        .mana-pip {
+          margin-left: 0.2rem;
+          margin-right: 0.2rem;
+        }
+      }
+    }
+  }
+  .overlays {
+    overflow: auto;
+    height: 80%;
   }
 }
 
@@ -493,10 +558,43 @@ body {
 }
 
 .deck-summaries {
+  overflow: auto;
   .deck-summary {
-    img {
-      width: 100px;
-      height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 14%;
+    .title {
+      margin-bottom: 0.25rem;
+      text-align: center;
+      /* display: inline-block;
+      width: calc(80%);
+      text-overflow: ellipsis; */
+    }
+    .some-elements {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      height: 1.5rem;
+      margin-bottom: 0.5rem;
+      img {
+        height: 100%;
+        width: auto;
+        margin-left: 0.1rem;
+        margin-right: 0.1rem;
+      }
+    }
+    .thumbnail .card {
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+      /* text-align: center; */
+      img {
+        width: 80%;
+        height: auto;
+        margin-left: 10%;
+        margin-right: 10%;
+      }
     }
   }
 }

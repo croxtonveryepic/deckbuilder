@@ -14,122 +14,115 @@ import { TernaryButton } from './ternary-button';
 import { ExportDeck, SaveDeck } from './deck-encoder';
 
 class Colors {
-  air = 0;
-  dark = 0;
-  earth = 0;
-  fire = 0;
-  light = 0;
-  water = 0;
-  neutral = 0;
+  colors: Map<Element, number>;
+
+  constructor() {
+    this.colors = new Map<Element, number>([
+      [Element.Air, 0],
+      [Element.Dark, 0],
+      [Element.Earth, 0],
+      [Element.Fire, 0],
+      [Element.Light, 0],
+      [Element.Water, 0],
+      [Element.Neutral, 0],
+    ]);
+  }
 
   record(list: Element[]) {
     for (let i = 0; i < list.length; i++) {
-      switch (list[i]) {
-        case Element.Air:
-          this.air++;
-          break;
-        case Element.Dark:
-          this.dark++;
-          break;
-        case Element.Earth:
-          this.earth++;
-          break;
-        case Element.Fire:
-          this.fire++;
-          break;
-        case Element.Light:
-          this.light++;
-          break;
-        case Element.Water:
-          this.water++;
-          break;
-        case Element.Neutral:
-          this.neutral++;
-          break;
-      }
+      this.colors.set(list[i], this.colors.get(list[i])! + 1);
     }
   }
 
   nonEmpty(): boolean {
-    return (
-      this.air + this.dark + this.earth + this.fire + this.light + this.water >
-      0
-    );
+    let sum = this.colors.get(Element.Neutral)! * -1;
+    this.colors.forEach((val) => (sum += val));
+    return sum > 0;
+  }
+
+  getCount(el: Element): number {
+    return this.colors.get(el)!;
   }
 }
 
 const wh = 20;
 
 function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
+  const air = colors.getCount(Element.Air);
+  const dark = colors.getCount(Element.Dark);
+  const earth = colors.getCount(Element.Earth);
+  const fire = colors.getCount(Element.Fire);
+  const light = colors.getCount(Element.Light);
+  const water = colors.getCount(Element.Water);
   return colors.nonEmpty() ? (
     <Tooltip title={title}>
       <div className="color-display">
         <div className="circle letter">{title.substring(0, 1)}</div>
         <div className="color-tracker-icons">
-          {colors.air > 0 && (
-            <span style={{ order: -colors.air }}>
+          {air > 0 && (
+            <span style={{ order: -air }}>
               <Image
                 src="/assets/misc/airwhiteongrey.png"
                 alt="Air Icon"
                 width={wh}
                 height={wh}
               ></Image>
-              {colors.air}
+              {air}
             </span>
           )}
-          {colors.dark > 0 && (
-            <span style={{ order: -colors.dark }}>
+          {dark > 0 && (
+            <span style={{ order: -dark }}>
               <Image
                 src="/assets/misc/darkwhiteonpurple.png"
                 alt="Dark Icon"
                 width={wh}
                 height={wh}
               ></Image>
-              {colors.dark}
+              {dark}
             </span>
           )}
-          {colors.earth > 0 && (
-            <span style={{ order: -colors.earth }}>
+          {earth > 0 && (
+            <span style={{ order: -earth }}>
               <Image
                 src="/assets/misc/earth2whiteongreen.png"
                 alt="Earth Icon"
                 width={wh}
                 height={wh}
               ></Image>
-              {colors.earth}
+              {earth}
             </span>
           )}
-          {colors.fire > 0 && (
-            <span style={{ order: -colors.fire }}>
+          {fire > 0 && (
+            <span style={{ order: -fire }}>
               <Image
                 src="/assets/misc/firewhiteonred.png"
                 alt="Fire Icon"
                 width={wh}
                 height={wh}
               ></Image>
-              {colors.fire}
+              {fire}
             </span>
           )}
-          {colors.light > 0 && (
-            <span style={{ order: -colors.light }}>
+          {light > 0 && (
+            <span style={{ order: -light }}>
               <Image
                 src="/assets/misc/lightwhiteonyellow.png"
                 alt="Light Icon"
                 width={wh}
                 height={wh}
               ></Image>
-              {colors.light}
+              {light}
             </span>
           )}
-          {colors.water > 0 && (
-            <span style={{ order: -colors.water }}>
+          {water > 0 && (
+            <span style={{ order: -water }}>
               <Image
                 src="/assets/misc/waterwhiteonblue.png"
                 alt="Water Icon"
                 width={wh}
                 height={wh}
               ></Image>
-              {colors.water}
+              {water}
             </span>
           )}
         </div>
@@ -188,10 +181,13 @@ export function DeckTracker({
     } else {
       r = [] as Element[];
     }
-    i = [...new Set(s)];
     resources.record(r);
     souls.record(s);
-    identities.record(i);
+    if (ds.essence?.id !== 69) {
+      // soulless
+      i = [...new Set(s)];
+      identities.record(i);
+    }
     const cost = ds.baseCard.cost + (ds.essence?.cost.length || 0);
     costs.set(cost, (costs.get(cost) as any as number) + 1);
   }
@@ -209,6 +205,13 @@ export function DeckTracker({
       </span>
     );
   });
+
+  let shrinesColor;
+  let shrineColorCount = 0;
+  if (shrine.shrine) {
+    shrinesColor = shrine.shrine.identity;
+    shrineColorCount = identities.getCount(shrinesColor);
+  }
 
   return (
     <div className="deck-widget-container">
@@ -276,6 +279,13 @@ export function DeckTracker({
             {numEssences + '/50 Essences'}
           </span>
         </div>
+        {shrinesColor && (
+          <div style={{ width: '100%', textAlign: 'center' }}>
+            <span className={shrineColorCount >= 20 ? 'valid' : 'warn'}>
+              {shrineColorCount + '/20 ' + shrinesColor + ' cards'}
+            </span>
+          </div>
+        )}
       </div>
       {deck.length > 0 ? (
         <Tooltip title="Curve (Numerical costs of cards)">

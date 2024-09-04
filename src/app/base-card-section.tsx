@@ -89,7 +89,7 @@ export function BaseCardSection({
 
   return (
     <div className="base-card-container" {...rest}>
-      <div className="base-card-widget-container">
+      <div className="base-card-widget-container" style={{ height: '27%' }}>
         <FormGroup style={{ width: '90%' }}>
           <div className="search-filter-container">
             <TextField
@@ -206,6 +206,7 @@ export function BaseCardSection({
         </FormGroup>
       </div>
       <BaseCardList
+        style={{ height: '73%' }}
         cards={filteredAndSortedBaseCards}
         onClickBaseCard={onClickBaseCard}
       ></BaseCardList>

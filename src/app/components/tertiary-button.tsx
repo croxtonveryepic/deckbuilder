@@ -1,13 +1,16 @@
 import { FormControl } from '@mui/material';
+import { CSSProperties } from 'react';
 
 export function TertiaryButton({
   state,
   labels,
   setState,
+  style,
 }: {
   state: boolean | undefined;
   labels: string[];
   setState: (val: boolean | undefined) => void;
+  style?: CSSProperties | undefined;
 }) {
   if (labels.length < 3) {
     throw new Error('Too few lables in TertiaryButton component');
@@ -23,6 +26,8 @@ export function TertiaryButton({
   return (
     <FormControl>
       <button
+        className={String(state === undefined ? false : true)}
+        style={style}
         onClick={(e) => {
           switch (state) {
             case undefined:

@@ -5,7 +5,7 @@ import { ImprovedShrine, ImbuedCard } from './card';
 import { DeckSlot } from '../page';
 import { ShrineSlot } from '../cardlists/shrines';
 import { CardModal, DeckModal } from './card-modal';
-import { useContext, useState } from 'react';
+import { CSSProperties, useContext, useState } from 'react';
 import { Shrine } from '../cardlists/shrines';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 import { BaseCard } from '../cardlists/base-cards';
@@ -99,9 +99,11 @@ export function ShrineImprovementList({
 export function BaseCardList({
   cards,
   onClickBaseCard,
+  style,
 }: {
   cards: BaseCard[];
   onClickBaseCard: (arg0: BaseCard) => void;
+  style?: CSSProperties;
 }) {
   const [modalCard, setModalCard] = useState(-1);
   const decklistContext = useContext(DeckContext);
@@ -124,7 +126,7 @@ export function BaseCardList({
   });
 
   return (
-    <Container className="base-card-list-container">
+    <Container className="base-card-list-container" style={style}>
       <CardModal
         cardType={CardType.BaseCard}
         list={cards}

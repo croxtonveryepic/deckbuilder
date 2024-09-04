@@ -5,7 +5,7 @@ export function TernaryButton({
   labelOne,
   labelTwo,
   setState,
-  className,
+  className = '',
 }: {
   state: boolean;
   labelOne: string;
@@ -13,8 +13,9 @@ export function TernaryButton({
   setState: (val: boolean) => void;
   className?: string;
 }) {
+  const classes = `${state} ${className}`;
   return (
-    <button onClick={(e) => setState(!state)} className={className}>
+    <button onClick={(e) => setState(!state)} className={classes}>
       {state ? labelOne : labelTwo}
     </button>
   );

@@ -30,8 +30,16 @@ export function ShrineImprovementSection({
 
   return (
     <div className="overlay-card-container" {...rest}>
-      <div className="overlay-card-widget-container">
-        <FormGroup className="element-filter">
+      <div
+        className="overlay-card-widget-container"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'start',
+          alignItems: 'center',
+        }}
+      >
+        <FormGroup>
           <div className="search-filter-container">
             <TextField
               label="Search Shrine Improvements"
@@ -47,6 +55,7 @@ export function ShrineImprovementSection({
                 ),
               }}
               color="secondary"
+              style={{ marginBottom: '-.5vw' }}
               sx={{ type: 'search' }}
             ></TextField>
           </div>

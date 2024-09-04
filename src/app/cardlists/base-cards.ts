@@ -226,7 +226,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     rarity: Rarity.Epic,
     type: CardType.BaseCard,
     isValidEssence: (e) => {
-      return e.name === 'Soulful' || e.resources.indexOf(Element.Light) >= 0;
+      return e.id === 68 || e.resources.indexOf(Element.Light) >= 0;
     },
   },
   {
@@ -415,7 +415,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     rarity: Rarity.Common,
     type: CardType.BaseCard,
     isValidEssence: (e) => {
-      return e.name === 'Soulful' || e.resources.indexOf(Element.Air) >= 0;
+      return e.id === 68 || e.resources.indexOf(Element.Air) >= 0;
     },
   },
   {
@@ -2557,7 +2557,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     rarity: Rarity.Epic,
     type: CardType.BaseCard,
     isValidEssence: (e) => {
-      return e.name === 'Soulful' || e.resources.indexOf(Element.Water) >= 0;
+      return e.id === 68 || e.resources.indexOf(Element.Water) >= 0;
     },
   },
   {
@@ -2870,7 +2870,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     rarity: Rarity.Epic,
     type: CardType.BaseCard,
     isValidEssence: (e) => {
-      return e.name === 'Soulful' || e.resources.indexOf(Element.Fire) >= 0;
+      return e.id === 68 || e.resources.indexOf(Element.Fire) >= 0;
     },
   },
   {

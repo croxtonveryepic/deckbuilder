@@ -16,6 +16,7 @@ import {
   Modal,
   Paper,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { Button } from '@mui/material';
@@ -285,7 +286,7 @@ export function SaveDeck({
         <div
           style={{
             width: '70vw',
-            height: '55vh',
+            height: '65vh',
             padding: '1.5rem',
             // display: 'flex',
             // flexDirection: 'row',
@@ -429,27 +430,26 @@ function DeckSummaries({
     }
 
     return (
-      <Grid
-        item
-        key={deck.name}
-        className="deck-summary"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
-      >
-        <div>{deck.name}</div>
+      <Grid item key={deck.name} className="deck-summary">
+        <Typography variant="subtitle1" className="title">
+          {deck.name}
+        </Typography>
         <SomeElements elements={colors}></SomeElements>
-        <div>{thumbnail}</div>
+        <div className="thumbnail">{thumbnail}</div>
         <div>
-          <IconButton onClick={() => onSave(deck)}>
-            <SaveAs></SaveAs>
-          </IconButton>
-          <IconButton onClick={() => onLoad(deck)}>
-            <OpenInBrowser></OpenInBrowser>
-          </IconButton>
+          <Tooltip
+            title={`Overwrite ${deck.name} with current list`}
+            enterDelay={200}
+          >
+            <IconButton onClick={() => onSave(deck)}>
+              <SaveAs></SaveAs>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={`Load ${deck.name} to deckbuilder`} enterDelay={200}>
+            <IconButton onClick={() => onLoad(deck)}>
+              <OpenInBrowser></OpenInBrowser>
+            </IconButton>
+          </Tooltip>
           <IconButton onClick={() => onDelete(deck)}>
             <Delete></Delete>
           </IconButton>

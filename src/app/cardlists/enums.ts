@@ -8,13 +8,13 @@ export enum BaseCardType {
 }
 
 export enum Element {
-  Air,
-  Dark,
-  Earth,
-  Fire,
-  Light,
-  Water,
-  Neutral,
+  Air = 'Air',
+  Dark = 'Dark',
+  Earth = 'Earth',
+  Fire = 'Fire',
+  Light = 'Light',
+  Water = 'Water',
+  Neutral = 'Neutral',
 }
 
 export enum Rarity {

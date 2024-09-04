@@ -1,6 +1,10 @@
 import {
   Box,
+  Divider,
+  FormControl,
   FormGroup,
+  FormLabel,
+  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -15,6 +19,7 @@ import { Element } from './cardlists/enums';
 import { Essence, EssenceFilters } from './cardlists/essences';
 import { TertiaryButton } from './components/tertiary-button';
 import { PipButtons } from './components/pip-button';
+import { TernaryButton } from './components/ternary-button';
 
 interface EssenceSectionProps extends ComponentPropsWithoutRef<'div'> {
   essences: Essence[];
@@ -73,31 +78,53 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
             <Typography>And</Typography>
           </Stack>
         </FormGroup>
-        <div className="stat-filters">
-          <button onClick={() => setSpeed(!speed)}>
-            <Box className="stat-filter">Spd</Box>
-          </button>
-          <button onClick={() => setPower(!power)}>
-            <Box className="stat-filter">Pwr</Box>
-          </button>
-          <button onClick={() => setHp(!hp)}>
-            <Box className="stat-filter">Hp</Box>
-          </button>
-        </div>
-        <TertiaryButton
-          state={cost}
-          labels={['Cost', '+1', '+0']}
-          setState={setCost}
-        ></TertiaryButton>
-        <FormGroup>
-          <Select
-            value={cccOperator}
-            onChange={(e) => setCccOperator(e.target.value)}
-          >
-            <MenuItem value={'='}>=</MenuItem>
-            <MenuItem value={'<='}>&lt;=</MenuItem>
-            <MenuItem value={'>='}>&gt;=</MenuItem>
-          </Select>
+        <FormGroup className="stat-filters">
+          <TernaryButton
+            state={speed}
+            labelOne={'Speed'}
+            labelTwo={'Speed'}
+            setState={() => setSpeed(!speed)}
+          ></TernaryButton>
+          <TernaryButton
+            state={power}
+            labelOne={'Power'}
+            labelTwo={'Power'}
+            setState={() => setPower(!power)}
+          ></TernaryButton>
+          <TernaryButton
+            state={hp}
+            labelOne={'HP'}
+            labelTwo={'HP'}
+            setState={() => setHp(!hp)}
+          ></TernaryButton>
+          <TertiaryButton
+            // style={{ width: '7rem' }}
+            state={cost}
+            labels={['Cost', 'Cost: +1', 'Cost: +0']}
+            setState={setCost}
+          ></TertiaryButton>
+          <TertiaryButton
+            // style={{ width: '7rem' }}
+            state={unlimited}
+            labels={['Quantity', 'Quantity: ∞', 'Quantity: 3']}
+            setState={setUnlimited}
+          ></TertiaryButton>
+        </FormGroup>
+        <FormGroup className="ccc-filters">
+          <FormControl>
+            <InputLabel>CCC</InputLabel>
+            <Select
+              label="CCC"
+              size="small"
+              value={cccOperator}
+              onChange={(e) => setCccOperator(e.target.value)}
+              className="dropdown"
+            >
+              <MenuItem value={'='}>=</MenuItem>
+              <MenuItem value={'<='}>&lt;=</MenuItem>
+              <MenuItem value={'>='}>&gt;=</MenuItem>
+            </Select>
+          </FormControl>
           <PipButtons
             count={7}
             selectedOne={ccc}
@@ -105,11 +132,6 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
             zeroIndex={true}
           ></PipButtons>
         </FormGroup>
-        <TertiaryButton
-          state={unlimited}
-          labels={['Quantity', 'Quantity: ∞', 'Quantity: 3']}
-          setState={setUnlimited}
-        ></TertiaryButton>
       </div>
 
       <EssenceList essences={filteredAndSortedEssences}></EssenceList>

@@ -32,16 +32,14 @@ time worked
 8/29: 3 hours (continue to import/export modals)
 8/31: 10 hours (import/export modal completed and styled, begin alert system)
 9/2: 6 hours (save modal polish, base card container)
+9/3: 6 hours (save modal polish, essence filter section styling, deck tracking improvements, soulful and soulless, 20 card check) => ready for release!
+
 
 todo:
 high priority
-    polish save modal
-    polish filters 
-    wh = 20px
-    code for soulful and soulless
-    polish dark mode (cannot read filter dropdowns, some modals weird)
 
 medium priority:
+    polish dark mode (cannot read filter dropdowns, some modals weird)
     modify the deck modal to allow browsing overlay cards
     deck zone indicators
         number of creatures, spells, locations, and weapons (will this even fit?)

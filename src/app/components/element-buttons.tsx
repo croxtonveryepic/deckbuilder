@@ -107,7 +107,7 @@ export function ElementButtons({
 
 export function SomeElements({ elements }: { elements: Set<Element> }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <div className="some-elements">
       {elements.has(Element.Air) && (
         <Image
           src="/assets/misc/airwhiteongrey.png"
