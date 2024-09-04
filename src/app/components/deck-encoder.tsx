@@ -380,7 +380,7 @@ export function SaveDeck({
             }
           }}
         >
-          Are you sure you'd like to {warnModal.action} {warnModal.deck}?{' '}
+          Are you sure you&apos;d like to {warnModal.action} {warnModal.deck}?{' '}
           {warnModal.action === 'load' && 'This will clear your current deck.'}
           <button onClick={onConfirmAction}>Confirm</button>
           <button onClick={hideWarnModal}>Cancel</button>
