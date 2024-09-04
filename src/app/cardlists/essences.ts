@@ -102,22 +102,6 @@ export class EssenceFilters {
   }
 }
 
-export class Essence {
-  name: string;
-  filename: string;
-  id: number;
-  cost: Element[];
-  text: string;
-  resources: Element[];
-  unlimited: boolean;
-  ccc: number;
-  hp: number;
-  power: number;
-  speed: number;
-  type: CardType;
-  isValidBase: (c: any) => boolean;
-}
-
 export const essences: Essence[] = [
   {
     name: 'Advanced Essence',
