@@ -110,7 +110,7 @@ export function SomeElements({ elements }: { elements: Set<Element> }) {
     <div className="some-elements">
       {elements.has(Element.Air) && (
         <Image
-          src="/assets/misc/airwhiteongrey.png"
+          src="/deckbuilder/assets/misc/airwhiteongrey.png"
           alt="Air Icon"
           width={wh}
           height={wh}
@@ -118,7 +118,7 @@ export function SomeElements({ elements }: { elements: Set<Element> }) {
       )}
       {elements.has(Element.Dark) && (
         <Image
-          src="/assets/misc/darkwhiteonpurple.png"
+          src="/deckbuilder/assets/misc/darkwhiteonpurple.png"
           alt="Dark Icon"
           width={wh}
           height={wh}
@@ -126,7 +126,7 @@ export function SomeElements({ elements }: { elements: Set<Element> }) {
       )}
       {elements.has(Element.Fire) && (
         <Image
-          src="/assets/misc/firewhiteonred.png"
+          src="/deckbuilder/assets/misc/firewhiteonred.png"
           alt="Fire Icon"
           width={wh}
           height={wh}
@@ -134,7 +134,7 @@ export function SomeElements({ elements }: { elements: Set<Element> }) {
       )}
       {elements.has(Element.Earth) && (
         <Image
-          src="/assets/misc/earth2whiteongreen.png"
+          src="/deckbuilder/assets/misc/earth2whiteongreen.png"
           alt="Earth Icon"
           width={wh}
           height={wh}
@@ -142,7 +142,7 @@ export function SomeElements({ elements }: { elements: Set<Element> }) {
       )}
       {elements.has(Element.Light) && (
         <Image
-          src="/assets/misc/lightwhiteonyellow.png"
+          src="/deckbuilder/assets/misc/lightwhiteonyellow.png"
           alt="Light Icon"
           width={wh}
           height={wh}
@@ -150,7 +150,7 @@ export function SomeElements({ elements }: { elements: Set<Element> }) {
       )}
       {elements.has(Element.Water) && (
         <Image
-          src="/assets/misc/waterwhiteonblue.png"
+          src="/deckbuilder/assets/misc/waterwhiteonblue.png"
           alt="Water Icon"
           width={wh}
           height={wh}

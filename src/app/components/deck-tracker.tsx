@@ -62,7 +62,7 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
           {air > 0 && (
             <span style={{ order: -air }}>
               <Image
-                src="/assets/misc/airwhiteongrey.png"
+                src="/deckbuilder/assets/misc/airwhiteongrey.png"
                 alt="Air Icon"
                 width={wh}
                 height={wh}
@@ -73,7 +73,7 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
           {dark > 0 && (
             <span style={{ order: -dark }}>
               <Image
-                src="/assets/misc/darkwhiteonpurple.png"
+                src="/deckbuilder/assets/misc/darkwhiteonpurple.png"
                 alt="Dark Icon"
                 width={wh}
                 height={wh}
@@ -84,7 +84,7 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
           {earth > 0 && (
             <span style={{ order: -earth }}>
               <Image
-                src="/assets/misc/earth2whiteongreen.png"
+                src="/deckbuilder/assets/misc/earth2whiteongreen.png"
                 alt="Earth Icon"
                 width={wh}
                 height={wh}
@@ -95,7 +95,7 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
           {fire > 0 && (
             <span style={{ order: -fire }}>
               <Image
-                src="/assets/misc/firewhiteonred.png"
+                src="/deckbuilder/assets/misc/firewhiteonred.png"
                 alt="Fire Icon"
                 width={wh}
                 height={wh}
@@ -106,7 +106,7 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
           {light > 0 && (
             <span style={{ order: -light }}>
               <Image
-                src="/assets/misc/lightwhiteonyellow.png"
+                src="/deckbuilder/assets/misc/lightwhiteonyellow.png"
                 alt="Light Icon"
                 width={wh}
                 height={wh}
@@ -117,7 +117,7 @@ function ColorDisplay({ title, colors }: { title: string; colors: Colors }) {
           {water > 0 && (
             <span style={{ order: -water }}>
               <Image
-                src="/assets/misc/waterwhiteonblue.png"
+                src="/deckbuilder/assets/misc/waterwhiteonblue.png"
                 alt="Water Icon"
                 width={wh}
                 height={wh}
