@@ -105,6 +105,25 @@ export function BaseCardSection({
 
   const filteredAndSortedBaseCards = filterAndSortBaseCards();
 
+  let costOptOne, costOptTwo;
+  switch (bcCostOperator) {
+    case '=':
+      costOptOne = bcCostValOne;
+      costOptTwo = NaN;
+      break;
+    case '<=':
+      costOptOne = -1;
+      costOptTwo = bcCostValOne;
+      break;
+    case '>=':
+      costOptOne = bcCostValOne;
+      costOptTwo = 7;
+      break;
+    default: // <=>
+      costOptOne = bcCostValOne;
+      costOptTwo = bcCostValTwo;
+  }
+
   return (
     <div className="base-card-container" {...rest}>
       <div className="base-card-widget-container" style={{ height: '27%' }}>
@@ -214,8 +233,8 @@ export function BaseCardSection({
           </Select>
           <PipButtons
             count={6}
-            selectedOne={bcCostValOne}
-            selectedTwo={bcCostValTwo}
+            selectedOne={costOptOne}
+            selectedTwo={costOptTwo}
             onClick={handleCostFilterClicked}
           ></PipButtons>
         </FormGroup>
