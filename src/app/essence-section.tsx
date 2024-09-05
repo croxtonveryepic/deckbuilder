@@ -77,6 +77,21 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
 
   const filteredAndSortedEssences = filterAndSortEssences();
 
+  let cccOptOne, cccOptTwo;
+  switch (cccOperator) {
+    case '<=':
+      cccOptOne = -1;
+      cccOptTwo = ccc;
+      break;
+    case '>=':
+      cccOptOne = ccc;
+      cccOptTwo = 7;
+      break;
+    default:
+      cccOptOne = ccc;
+      cccOptTwo = NaN;
+  }
+
   return (
     <div className="overlay-card-container" {...rest}>
       <div className="overlay-card-widget-container">
@@ -165,7 +180,8 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
           </FormControl>
           <PipButtons
             count={6}
-            selectedOne={ccc}
+            selectedOne={cccOptOne}
+            selectedTwo={cccOptTwo}
             onClick={(num: number) => setCcc(num === ccc ? NaN : num)}
             zeroIndex={true}
           ></PipButtons>
