@@ -14,7 +14,7 @@ export class BaseCardFilters {
   constructor({
     typeChoice,
     elementChoices,
-    elementAnd,
+    elementOperator,
     costChoiceOne,
     costChoiceTwo,
     costOperator,
@@ -23,7 +23,7 @@ export class BaseCardFilters {
   }: {
     typeChoice: BaseCardType;
     elementChoices: Element[];
-    elementAnd: boolean;
+    elementOperator: boolean | undefined;
     costChoiceOne: number;
     costChoiceTwo: number;
     costOperator: string;
@@ -37,13 +37,22 @@ export class BaseCardFilters {
             return typeChoice === supertype;
           };
     if (elementChoices.length > 0) {
-      this.identity = elementAnd
-        ? (pips: Element[]) => {
-            return elementChoices.every((el) => pips.includes(el));
-          }
-        : (pips: Element[]) => {
+      switch (elementOperator) {
+        case undefined: // or
+          this.identity = (pips: Element[]) => {
             return elementChoices.some((el) => pips.includes(el));
           };
+          break;
+        case false: // and
+          this.identity = (pips: Element[]) => {
+            return elementChoices.every((el) => pips.includes(el));
+          };
+          break;
+        case true: // only
+          this.identity = (pips: Element[]) => {
+            return pips.every((el) => elementChoices.includes(el));
+          };
+      }
     } else {
       this.identity = (pips: Element[]) => true;
     }
@@ -81,9 +90,7 @@ export class BaseCardFilters {
     this.query = query
       ? (fields: string[]) =>
           fields.some((s) => {
-            return (
-              s.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) >= 0
-            );
+            return s.toLocaleLowerCase().includes(query.toLocaleLowerCase());
           })
       : (fields: string[]) => true;
     this.rarity =

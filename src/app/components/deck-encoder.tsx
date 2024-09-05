@@ -321,27 +321,27 @@ export function SaveDeck({
               onChange={(e) => setNameQuery(e.target.value)}
               style={{ marginRight: '2rem' }}
             ></TextField>
-            {nameQuery !== '' &&
-              !(
-                deckObjects.length === 1 && deckObjects[0].name === nameQuery
-              ) && (
-                <Button
-                  style={{ marginInline: '1rem' }}
-                  onClick={() => handleSubmitSave(nameQuery)}
-                  disableFocusRipple
-                >
-                  Save New
-                </Button>
-              )}
-            {deckObjects.length === 1 && (
+            {nameQuery !== '' && !(deckObjects[0]?.name === nameQuery) && (
               <Button
+                variant="outlined"
                 style={{ marginInline: '1rem' }}
+                onClick={() => handleSubmitSave(nameQuery)}
                 disableFocusRipple
-                onClick={() => handleSubmitSave(deckObjects[0].name)}
               >
-                Save
+                Save New
               </Button>
             )}
+            {deckObjects.length === 1 ||
+              (deckObjects[0]?.name === nameQuery && (
+                <Button
+                  variant="outlined"
+                  style={{ marginInline: '1rem' }}
+                  disableFocusRipple
+                  onClick={() => handleSubmitSave(deckObjects[0].name)}
+                >
+                  Save
+                </Button>
+              ))}
             {/* <Button
               disableFocusRipple
               onClick={() => handleSubmitLoad(nameQuery)}
@@ -369,6 +369,15 @@ export function SaveDeck({
         onClick={hideWarnModal}
       >
         <div
+          style={{
+            height: '20vh',
+            width: '25vw',
+            padding: '3rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
           className="modal thin-bg"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => {
@@ -380,10 +389,48 @@ export function SaveDeck({
             }
           }}
         >
-          Are you sure you&apos;d like to {warnModal.action} {warnModal.deck}?{' '}
-          {warnModal.action === 'load' && 'This will clear your current deck.'}
-          <button onClick={onConfirmAction}>Confirm</button>
-          <button onClick={hideWarnModal}>Cancel</button>
+          <div>
+            Are you sure you&apos;d like to {warnModal.action} {warnModal.deck}?{' '}
+            {warnModal.action === 'load' &&
+              'This will clear your current deck.'}
+          </div>
+
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}
+          >
+            <div>
+              <Button
+                style={{
+                  padding: '1rem',
+                  paddingLeft: '2rem',
+                  paddingRight: '2rem',
+                }}
+                variant="contained"
+                onClick={onConfirmAction}
+              >
+                Confirm
+              </Button>
+            </div>
+            <div>
+              <Button
+                style={{
+                  padding: '1rem',
+                  paddingLeft: '2rem',
+                  paddingRight: '2rem',
+                }}
+                color="warning"
+                variant="contained"
+                onClick={hideWarnModal}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
         </div>
       </Modal>
     </div>
@@ -516,9 +563,13 @@ export function ExportDeck({
   function onImport() {
     setShrine(importDeck!.shrine);
     setDeck(importDeck!.deck);
+    close();
+    setImportDeck(null);
+  }
+
+  function close() {
     setIsOpen(false);
     setPasteInput('');
-    setImportDeck(null);
   }
 
   const importDisabled = importDeck === null || pasteInput.length < 6;
@@ -533,10 +584,10 @@ export function ExportDeck({
         className="modal-parent"
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
-            setIsOpen(false);
+            close();
           }
         }}
-        onClick={() => setIsOpen(false)}
+        onClick={close}
       >
         <div
           style={{

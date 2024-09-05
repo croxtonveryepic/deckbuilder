@@ -4,14 +4,16 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
   Stack,
   Switch,
+  TextField,
   Typography,
 } from '@mui/material';
-import { ComponentPropsWithoutRef, useState } from 'react';
+import { ComponentPropsWithoutRef, useEffect, useState } from 'react';
 import { ElementButtons } from './components/element-buttons';
 import { EssenceList } from './components/card-list';
 import { handleElementFilterClicked } from './utils';
@@ -20,14 +22,18 @@ import { Essence, EssenceFilters } from './cardlists/essences';
 import { TertiaryButton } from './components/tertiary-button';
 import { PipButtons } from './components/pip-button';
 import { TernaryButton } from './components/ternary-button';
+import { Search } from '@mui/icons-material';
 
 interface EssenceSectionProps extends ComponentPropsWithoutRef<'div'> {
   essences: Essence[];
 }
 
 export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
+  const [query, setQuery] = useState('');
   const [elements, setElements] = useState([] as Element[]);
-  const [elementAnd, setElementAnd] = useState(true);
+  const [elementOperator, setElementOperator] = useState(
+    true as boolean | undefined
+  );
   const [speed, setSpeed] = useState(false);
   const [power, setPower] = useState(false);
   const [hp, setHp] = useState(false);
@@ -36,10 +42,26 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
   const [cccOperator, setCccOperator] = useState('<=');
   const [unlimited, setUnlimited] = useState(undefined as boolean | undefined);
 
+  useEffect(() => {
+    const handleEscape = (e: any) => {
+      setQuery('');
+      const rootElement = document.documentElement;
+      rootElement.setAttribute('tabindex', '-1');
+      rootElement.focus();
+    };
+
+    window.addEventListener('escape', handleEscape);
+
+    return () => {
+      window.removeEventListener('escape', handleEscape);
+    };
+  }, []);
+
   function filterAndSortEssences() {
     const filters = new EssenceFilters({
+      query: query,
       elementChoices: elements,
-      elementAnd: elementAnd,
+      elementOperator: elementOperator,
       speedChoice: speed,
       powerChoice: power,
       hpChoice: hp,
@@ -58,25 +80,41 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
   return (
     <div className="overlay-card-container" {...rest}>
       <div className="overlay-card-widget-container">
+        <FormGroup className="search-filter-container">
+          <TextField
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                window.dispatchEvent(new CustomEvent('escape'));
+              }
+            }}
+            style={{ maxWidth: '12rem' }}
+            label="Search Essences"
+            size="small"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="query"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+        </FormGroup>
         <FormGroup className="element-filter">
+          <TertiaryButton
+            state={elementOperator}
+            labels={['Or', 'Only', 'And']}
+            setState={setElementOperator}
+            className="element-operator"
+          ></TertiaryButton>
           <ElementButtons
             selected={elements}
             onElementClicked={(e: Element) =>
               handleElementFilterClicked(e, elements, setElements)
             }
           ></ElementButtons>
-          <Stack
-            direction="row"
-            alignItems="center"
-            sx={{ marginLeft: '.5em' }}
-          >
-            <Typography>Or</Typography>
-            <Switch
-              checked={elementAnd}
-              onChange={(e) => setElementAnd(e.target.checked)}
-            />
-            <Typography>And</Typography>
-          </Stack>
         </FormGroup>
         <FormGroup className="stat-filters">
           <TernaryButton
@@ -98,13 +136,13 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
             setState={() => setHp(!hp)}
           ></TernaryButton>
           <TertiaryButton
-            // style={{ width: '7rem' }}
+            style={{ width: '6.5rem' }}
             state={cost}
             labels={['Cost', 'Cost: +1', 'Cost: +0']}
             setState={setCost}
           ></TertiaryButton>
           <TertiaryButton
-            // style={{ width: '7rem' }}
+            style={{ width: '6.5rem' }}
             state={unlimited}
             labels={['Quantity', 'Quantity: ∞', 'Quantity: 3']}
             setState={setUnlimited}
@@ -126,7 +164,7 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
             </Select>
           </FormControl>
           <PipButtons
-            count={7}
+            count={6}
             selectedOne={ccc}
             onClick={(num: number) => setCcc(num === ccc ? NaN : num)}
             zeroIndex={true}

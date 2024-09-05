@@ -244,6 +244,7 @@ body {
         align-items: center;
         flex-grow: 1;
         height: 100%;
+        width: 75%;
         button {
           width: auto;
           height: 100%;
@@ -258,6 +259,18 @@ body {
           border-color: black;
           border-width: medium;
           box-sizing: border-box;
+        }
+      }
+      .element-operator {
+        width: 25%;
+        button {
+          width: 5rem;
+          padding: 1rem;
+          margin-right: 0.5rem;
+          border-color: black;
+          border-width: thin;
+          padding: 0.3rem;
+          border-radius: 0.5rem;
         }
       }
     }
@@ -335,7 +348,7 @@ body {
         justify-content: space-around;
         align-items: center;
         button {
-          width: 3rem;
+          width: 2.5rem;
           /* width: auto; */
           height: 100%;
           img {
@@ -351,11 +364,21 @@ body {
           }
         }
       }
+      .element-operator button {
+        padding: 1rem;
+        width: 4rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        border-color: black;
+        border-width: thin;
+        padding: 0.3rem;
+        border-radius: 0.5rem;
+      }
     }
     .stat-filters {
       button {
         padding: 1rem;
-        width: 6rem;
+        width: 4rem;
         margin-left: 0.5rem;
         margin-right: 0.5rem;
         border-color: black;
@@ -372,7 +395,8 @@ body {
     }
     .ccc-filters {
       .dropdown {
-        width: 4rem;
+        /* width: 4rem; */
+        width: 5rem;
       }
       .pip-container {
         margin-left: 0.5rem;
