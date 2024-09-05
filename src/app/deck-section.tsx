@@ -14,7 +14,7 @@ function sortDeck(deck: DeckSlot[]) {
     let bc = b.baseCard;
     return (
       a.baseCard.supertype.localeCompare(b.baseCard.supertype) ||
-      ac.cost + ac.pips.length - (bc.cost + bc.pips.length) ||
+      ac.cost - bc.cost ||
       ac.name.localeCompare(bc.name)
     );
   });
