@@ -6,11 +6,13 @@ export function TertiaryButton({
   labels,
   setState,
   style,
+  className,
 }: {
   state: boolean | undefined;
   labels: string[];
   setState: (val: boolean | undefined) => void;
   style?: CSSProperties | undefined;
+  className?: string;
 }) {
   if (labels.length < 3) {
     throw new Error('Too few lables in TertiaryButton component');
@@ -24,7 +26,7 @@ export function TertiaryButton({
     label = state ? labels[1] : labels[2];
   }
   return (
-    <FormControl>
+    <FormControl className={className}>
       <button
         className={String(state === undefined ? false : true)}
         style={style}

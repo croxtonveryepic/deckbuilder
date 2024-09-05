@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ComponentPropsWithoutRef, useState } from 'react';
+import { ComponentPropsWithoutRef, useEffect, useState } from 'react';
 import { ElementButtons } from './components/element-buttons';
 import { BaseCardList } from './components/card-list';
 import { handleElementFilterClicked } from './utils';
@@ -19,6 +19,7 @@ import { BaseCard, BaseCardFilters } from './cardlists/base-cards';
 import { Search } from '@mui/icons-material';
 import { PipButtons } from './components/pip-button';
 import { TernaryButton } from './components/ternary-button';
+import { TertiaryButton } from './components/tertiary-button';
 
 interface BaseCardSectionProps extends ComponentPropsWithoutRef<'div'> {
   cards: BaseCard[];
@@ -33,11 +34,28 @@ export function BaseCardSection({
   const [bcType, setBcType] = useState(BaseCardType.Any);
   const [bcRarity, setBcRarity] = useState(Rarity.Any);
   const [bcElements, setBcElements] = useState([] as Element[]);
-  const [bcElementAnd, setBcElementAnd] = useState(false);
+  const [bcElementOperator, setBcElementOperator] = useState(
+    true as boolean | undefined
+  );
   const [bcCostValOne, setBcCostValOne] = useState(NaN);
   const [bcCostValTwo, setBcCostValTwo] = useState(NaN);
   const [bcCostOperator, setBcCostOperator] = useState('=');
   const [bcQuery, setBcQuery] = useState('');
+
+  useEffect(() => {
+    const handleEscape = (e: any) => {
+      setBcQuery('');
+      const rootElement = document.documentElement;
+      rootElement.setAttribute('tabindex', '-1');
+      rootElement.focus();
+    };
+
+    window.addEventListener('escape', handleEscape);
+
+    return () => {
+      window.removeEventListener('escape', handleEscape);
+    };
+  }, []);
 
   function handleCostFilterClicked(x: number) {
     if (bcCostOperator === '<=>') {
@@ -73,7 +91,7 @@ export function BaseCardSection({
     const filters = new BaseCardFilters({
       typeChoice: bcType,
       elementChoices: bcElements,
-      elementAnd: bcElementAnd,
+      elementOperator: bcElementOperator,
       costChoiceOne: bcCostValOne,
       costChoiceTwo: bcCostValTwo,
       costOperator: bcCostOperator,
@@ -93,6 +111,11 @@ export function BaseCardSection({
         <FormGroup style={{ width: '90%' }}>
           <div className="search-filter-container">
             <TextField
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  window.dispatchEvent(new CustomEvent('escape'));
+                }
+              }}
               label="Search"
               value={bcQuery}
               onChange={(e) => setBcQuery(e.target.value)}
@@ -104,7 +127,6 @@ export function BaseCardSection({
                   </InputAdornment>
                 ),
               }}
-              color="secondary"
               fullWidth
               // style={{ width: '100%' }}
               // sx={{ type: 'search' }}
@@ -158,25 +180,18 @@ export function BaseCardSection({
           </div>
         </FormGroup>
         <FormGroup style={{ width: '90%' }} className="element-filter">
+          <TertiaryButton
+            state={bcElementOperator}
+            labels={['Or', 'Only', 'And']}
+            setState={setBcElementOperator}
+            className="element-operator"
+          ></TertiaryButton>
           <ElementButtons
             selected={bcElements}
             onElementClicked={(e: Element) =>
               handleElementFilterClicked(e, bcElements, setBcElements)
             }
           ></ElementButtons>
-          <Stack
-            direction="row"
-            alignItems="center"
-            // width="30%"
-            sx={{ marginLeft: '.5rem' }}
-          >
-            <Typography>Or</Typography>
-            <Switch
-              checked={bcElementAnd}
-              onChange={(e) => setBcElementAnd(e.target.checked)}
-            />
-            <Typography>And</Typography>
-          </Stack>
         </FormGroup>
         <FormGroup style={{ width: '90%' }} className="cost-filter-container">
           <Select

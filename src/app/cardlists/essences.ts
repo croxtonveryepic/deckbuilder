@@ -18,6 +18,7 @@ export class Essence {
 }
 
 export class EssenceFilters {
+  private query: (fields: string[]) => boolean;
   private identity: (pips: Element[]) => boolean;
   private stats: (speed: number, power: number, hp: number) => boolean;
   private cost: (cost: number) => boolean;
@@ -25,8 +26,9 @@ export class EssenceFilters {
   private unlimited: (unlimited: boolean) => boolean;
 
   constructor({
+    query,
     elementChoices,
-    elementAnd,
+    elementOperator,
     speedChoice,
     powerChoice,
     hpChoice,
@@ -35,8 +37,9 @@ export class EssenceFilters {
     cccOperator,
     unlimitedChoice,
   }: {
+    query: string;
     elementChoices: Element[];
-    elementAnd: boolean;
+    elementOperator: boolean | undefined;
     speedChoice: boolean;
     powerChoice: boolean;
     hpChoice: boolean;
@@ -45,14 +48,29 @@ export class EssenceFilters {
     hasCost?: boolean;
     unlimitedChoice?: boolean;
   }) {
+    this.query = query
+      ? (fields: string[]) =>
+          fields.some((s) => {
+            return s.toLocaleLowerCase().includes(query.toLocaleLowerCase());
+          })
+      : (fields: string[]) => true;
     if (elementChoices.length > 0) {
-      this.identity = elementAnd
-        ? (pips: Element[]) => {
-            return elementChoices.every((el) => pips.includes(el));
-          }
-        : (pips: Element[]) => {
+      switch (elementOperator) {
+        case undefined: // or
+          this.identity = (pips: Element[]) => {
             return elementChoices.some((el) => pips.includes(el));
           };
+          break;
+        case false: // and
+          this.identity = (pips: Element[]) => {
+            return elementChoices.every((el) => pips.includes(el));
+          };
+          break;
+        case true: // only
+          this.identity = (pips: Element[]) => {
+            return pips.every((el) => elementChoices.includes(el));
+          };
+      }
     } else {
       this.identity = (pips: Element[]) => true;
     }
@@ -93,6 +111,7 @@ export class EssenceFilters {
 
   keep(e: Essence): boolean {
     return (
+      this.query([e.name, e.text]) &&
       this.identity(e.resources) &&
       this.stats(e.speed, e.power, e.hp) &&
       this.cost(e.cost.length) &&
@@ -1268,7 +1287,7 @@ export const essences: Essence[] = [
     id: 68,
     cost: [],
     text: 'This Essence is all Elements.\n (R): (tap): Produce a Soul that any other Card in your resource zone could produce.',
-    resources: [],
+    resources: [Element.Neutral],
     unlimited: false,
     ccc: 4,
     hp: 0,

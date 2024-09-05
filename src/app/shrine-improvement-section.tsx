@@ -1,5 +1,5 @@
 import { FormGroup, InputAdornment, TextField } from '@mui/material';
-import { ComponentPropsWithoutRef, useState } from 'react';
+import { ComponentPropsWithoutRef, useEffect, useState } from 'react';
 import { ShrineImprovementList } from './components/card-list';
 import {
   ShrineImprovement,
@@ -19,6 +19,21 @@ export function ShrineImprovementSection({
   ...rest
 }: ShrineImprovementSectionProps) {
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const handleEscape = (e: any) => {
+      setQuery('');
+      const rootElement = document.documentElement;
+      rootElement.setAttribute('tabindex', '-1');
+      rootElement.focus();
+    };
+
+    window.addEventListener('escape', handleEscape);
+
+    return () => {
+      window.removeEventListener('escape', handleEscape);
+    };
+  }, []);
 
   function filterAndSortShrineImprovements() {
     const filters = new ShrineImprovementFilters({
@@ -42,6 +57,11 @@ export function ShrineImprovementSection({
         <FormGroup>
           <div className="search-filter-container">
             <TextField
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  window.dispatchEvent(new CustomEvent('escape'));
+                }
+              }}
               label="Search Shrine Improvements"
               size="small"
               value={query}
@@ -54,7 +74,6 @@ export function ShrineImprovementSection({
                   </InputAdornment>
                 ),
               }}
-              color="secondary"
               style={{ marginBottom: '-.5vw' }}
               sx={{ type: 'search' }}
             ></TextField>

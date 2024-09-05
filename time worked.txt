@@ -33,6 +33,7 @@ time worked
 8/31: 10 hours (import/export modal completed and styled, begin alert system)
 9/2: 6 hours (save modal polish, base card container)
 9/3: 6 hours (save modal polish, essence filter section styling, deck tracking improvements, soulful and soulless, 20 card check) => ready for release!
+9/4: 3 hours (confirm modal, 404s on master, element filter "only" option, final styling tweaks, esc to clear query inputs)
 
 
 todo:
