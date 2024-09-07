@@ -41,6 +41,8 @@ export function BaseCardSection({
   const [bcCostValTwo, setBcCostValTwo] = useState(NaN);
   const [bcCostOperator, setBcCostOperator] = useState('=');
   const [bcQuery, setBcQuery] = useState('');
+  const [ccc, setCcc] = useState(NaN);
+  const [cccOperator, setCccOperator] = useState('=');
 
   useEffect(() => {
     const handleEscape = (e: any) => {
@@ -95,6 +97,8 @@ export function BaseCardSection({
       costChoiceOne: bcCostValOne,
       costChoiceTwo: bcCostValTwo,
       costOperator: bcCostOperator,
+      cccChoice: ccc,
+      cccOperator: cccOperator,
       query: bcQuery,
       rarityFilter: bcRarity,
     });
@@ -124,9 +128,24 @@ export function BaseCardSection({
       costOptTwo = bcCostValTwo;
   }
 
+  let cccOptOne, cccOptTwo;
+  switch (cccOperator) {
+    case '<=':
+      cccOptOne = -1;
+      cccOptTwo = ccc;
+      break;
+    case '>=':
+      cccOptOne = ccc;
+      cccOptTwo = 7;
+      break;
+    default:
+      cccOptOne = ccc;
+      cccOptTwo = NaN;
+  }
+
   return (
     <div className="base-card-container" {...rest}>
-      <div className="base-card-widget-container" style={{ height: '27%' }}>
+      <div className="base-card-widget-container" style={{ height: '26%' }}>
         <FormGroup style={{ width: '90%' }}>
           <div className="search-filter-container">
             <TextField
@@ -212,35 +231,68 @@ export function BaseCardSection({
             }
           ></ElementButtons>
         </FormGroup>
-        <FormGroup style={{ width: '90%' }} className="cost-filter-container">
-          <Select
-            size="small"
-            style={{ width: '5rem', marginRight: '.5rem' }}
-            value={bcCostOperator}
-            onChange={(e) => {
-              let val = e.target.value;
-              if (bcCostOperator === '<=>') {
-                setBcCostValTwo(NaN);
-              }
-              setBcCostOperator(val);
-            }}
-          >
+        <FormGroup
+          className="cost-filter-container"
+          style={{ marginTop: '.5rem' }}
+        >
+          <FormControl>
             <InputLabel>Cost</InputLabel>
-            <MenuItem value={'='}>=</MenuItem>
-            <MenuItem value={'<='}>&lt;=</MenuItem>
-            <MenuItem value={'>='}>&gt;=</MenuItem>
-            <MenuItem value={'<=>'}>&lt;=&gt;</MenuItem>
-          </Select>
-          <PipButtons
-            count={6}
-            selectedOne={costOptOne}
-            selectedTwo={costOptTwo}
-            onClick={handleCostFilterClicked}
-          ></PipButtons>
+            <Select
+              label="Cost"
+              size="small"
+              style={{ width: '5rem', marginRight: '.5rem' }}
+              value={bcCostOperator}
+              onChange={(e) => {
+                let val = e.target.value;
+                if (bcCostOperator === '<=>') {
+                  setBcCostValTwo(NaN);
+                }
+                setBcCostOperator(val);
+              }}
+            >
+              <InputLabel>Cost</InputLabel>
+              <MenuItem value={'='}>=</MenuItem>
+              <MenuItem value={'<='}>&lt;=</MenuItem>
+              <MenuItem value={'>='}>&gt;=</MenuItem>
+              <MenuItem value={'<=>'}>&lt;=&gt;</MenuItem>
+            </Select>
+            <PipButtons
+              count={6}
+              selectedOne={costOptOne}
+              selectedTwo={costOptTwo}
+              onClick={handleCostFilterClicked}
+            ></PipButtons>
+          </FormControl>
+        </FormGroup>
+        <FormGroup
+          className="cost-filter-container"
+          style={{ marginTop: '.75rem' }}
+        >
+          <FormControl>
+            <InputLabel>CCC</InputLabel>
+            <Select
+              label="CCC"
+              size="small"
+              style={{ width: '5rem', marginRight: '.5rem' }}
+              value={cccOperator}
+              onChange={(e) => setCccOperator(e.target.value)}
+            >
+              <MenuItem value={'='}>=</MenuItem>
+              <MenuItem value={'<='}>&lt;=</MenuItem>
+              <MenuItem value={'>='}>&gt;=</MenuItem>
+            </Select>
+            <PipButtons
+              count={7}
+              zeroIndex={true}
+              selectedOne={cccOptOne}
+              selectedTwo={cccOptTwo}
+              onClick={(num: number) => setCcc(num === ccc ? NaN : num)}
+            ></PipButtons>
+          </FormControl>
         </FormGroup>
       </div>
       <BaseCardList
-        style={{ height: '73%' }}
+        style={{ height: '71%' }}
         cards={filteredAndSortedBaseCards}
         onClickBaseCard={onClickBaseCard}
       ></BaseCardList>

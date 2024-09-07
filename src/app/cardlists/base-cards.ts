@@ -7,9 +7,8 @@ export class BaseCardFilters {
   private cost: (cost: number) => boolean;
   private query: (fields: string[]) => boolean;
   private rarity: (rarity: Rarity) => boolean;
+  ccc: (ccc: number) => boolean;
   // speed: (speed: number) => boolean;
-  // ccc: (ccc: number) => boolean;
-  // epic: (epic: boolean) => boolean;
 
   constructor({
     typeChoice,
@@ -18,6 +17,8 @@ export class BaseCardFilters {
     costChoiceOne,
     costChoiceTwo,
     costOperator,
+    cccChoice,
+    cccOperator,
     query,
     rarityFilter,
   }: {
@@ -27,6 +28,8 @@ export class BaseCardFilters {
     costChoiceOne: number;
     costChoiceTwo: number;
     costOperator: string;
+    cccChoice: number;
+    cccOperator: string;
     query: string;
     rarityFilter: Rarity;
   }) {
@@ -87,6 +90,23 @@ export class BaseCardFilters {
     } else {
       this.cost = (cost: number) => true;
     }
+    if (Number.isNaN(cccChoice)) {
+      this.ccc = (ccc: number) => true;
+    } else {
+      switch (cccOperator) {
+        case '<=':
+          this.ccc = (ccc: number) => ccc <= cccChoice;
+          break;
+        case '=':
+          this.ccc = (ccc: number) => ccc === cccChoice;
+          break;
+        case '>=':
+          this.ccc = (ccc: number) => ccc >= cccChoice;
+          break;
+        default:
+          console.warn('Invalid cost filter operator');
+      }
+    }
     this.query = query
       ? (fields: string[]) =>
           fields.some((s) => {
@@ -104,6 +124,7 @@ export class BaseCardFilters {
       this.type(c.supertype) &&
       this.identity(c.pips) &&
       this.cost(c.cost) &&
+      this.ccc(c.ccc) &&
       this.query([c.name, c.subtype, c.text, c.artist]) &&
       this.rarity(c.rarity)
     );
