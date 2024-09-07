@@ -258,6 +258,16 @@ export function SaveDeck({
     toggle();
   }
 
+  function handleSubmitClear() {
+    setWarnModal({ open: true, action: 'clear', deck: 'your current deck' });
+  }
+
+  function onConfirmClear() {
+    setShrine({ shrine: null, shrineImprovement: null });
+    setDeck([] as DeckSlot[]);
+    toggle();
+  }
+
   function onConfirmAction() {
     switch (warnModal.action) {
       case 'overwrite':
@@ -268,6 +278,9 @@ export function SaveDeck({
         break;
       case 'load':
         onConfirmLoad(warnModal.deck);
+        break;
+      case 'clear':
+        onConfirmClear();
         break;
     }
     hideWarnModal();
@@ -312,7 +325,6 @@ export function SaveDeck({
               display: 'flex',
               flexDirection: 'row',
               alignContent: 'center',
-              justifyContent: 'start',
             }}
           >
             <TextField
@@ -342,12 +354,14 @@ export function SaveDeck({
                   Save
                 </Button>
               ))}
-            {/* <Button
+            <Button
+              variant="outlined"
+              style={{ justifySelf: 'flex-end' }}
               disableFocusRipple
-              onClick={() => handleSubmitLoad(nameQuery)}
+              onClick={handleSubmitClear}
             >
-              Load
-            </Button> */}
+              Clear Deck
+            </Button>
           </div>
           <DeckSummaries
             decks={deckObjects}
