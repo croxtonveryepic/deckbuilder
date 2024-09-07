@@ -39,7 +39,7 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
   const [hp, setHp] = useState(false);
   const [cost, setCost] = useState(undefined as boolean | undefined);
   const [ccc, setCcc] = useState(NaN);
-  const [cccOperator, setCccOperator] = useState('<=');
+  const [cccOperator, setCccOperator] = useState('=');
   const [unlimited, setUnlimited] = useState(undefined as boolean | undefined);
 
   useEffect(() => {

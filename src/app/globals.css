@@ -204,8 +204,8 @@ body {
     top: 0;
     left: 0;
     padding: 0;
-    padding-bottom: 4%;
-    padding-top: 4%;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
     .search-filter-container {
       display: flex;
       flex-direction: row;
@@ -278,25 +278,28 @@ body {
       height: 3rem;
       padding-left: 1rem;
       padding-right: 1rem;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      .pip-container {
+      width: 90%;
+
+      > div {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        flex-grow: 1;
-        .mana-pip {
-          height: 70%;
-          width: auto;
-          /* position: relative; */
-          /* max-width: 12.5%; */
-          font-weight: bolder;
-          padding-left: 1%;
-          padding-right: 1%;
+        justify-content: space-around;
+
+        .pip-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          flex-grow: 1;
+          .mana-pip {
+            height: 70%;
+            width: auto;
+            /* position: relative; */
+            /* max-width: 12.5%; */
+            font-weight: bolder;
+            padding-left: 1%;
+            padding-right: 1%;
+          }
         }
       }
     }
