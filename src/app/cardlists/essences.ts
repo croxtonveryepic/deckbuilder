@@ -1227,7 +1227,10 @@ export const essences: Essence[] = [
     speed: 1,
     type: CardType.Essence,
     isValidBase: (c) => {
-      return c.supertype === BaseCardType.Event;
+      return (
+        c.supertype === BaseCardType.Event ||
+        c.supertype === BaseCardType.ContinuousEvent
+      );
     },
   },
   {
@@ -1483,7 +1486,9 @@ export const essences: Essence[] = [
     type: CardType.Essence,
     isValidBase: (c) => {
       return (
-        c.supertype === BaseCardType.Event && c.pips.indexOf(Element.Dark) >= 0
+        (c.supertype === BaseCardType.Event ||
+          c.supertype === BaseCardType.ContinuousEvent) &&
+        c.pips.indexOf(Element.Dark) >= 0
       );
     },
   },
