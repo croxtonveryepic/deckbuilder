@@ -61,3 +61,4 @@ low priority:
     change background to something flawed themed
 
 keyword glossary, referenced cards (like war kitten)
+indicate which card in a cluster is being inspected in the modal, at least an alert when using the arrow keys
