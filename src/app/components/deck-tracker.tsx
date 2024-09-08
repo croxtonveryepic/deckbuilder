@@ -156,7 +156,7 @@ export function DeckTracker({
   deckMaximized: boolean;
   toggleMaxView: () => void;
 }) {
-  let numCards = deck.length;
+  let numCards = 0;
   let numEssences = 0;
   let resources = new Colors();
   let souls = new Colors();
@@ -189,6 +189,7 @@ export function DeckTracker({
       identities.record(i);
     }
     if (ds.baseCard) {
+      numCards++;
       const cost = ds.baseCard.cost + (ds.essence?.cost.length || 0);
       costs.set(cost, (costs.get(cost) as any as number) + 1);
     }
