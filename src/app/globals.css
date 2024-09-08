@@ -178,6 +178,7 @@ body {
     }
   }
   .main-deck {
+    height: 90%;
     overflow: auto;
     max-width: none;
     padding-left: 3%;
