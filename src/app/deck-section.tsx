@@ -5,7 +5,7 @@ import { DeckTracker } from './components/deck-tracker';
 import { DeckSlot } from './page';
 import { ShrineSlot } from './cardlists/shrines';
 import { Deck } from './components/card-list';
-import { HeldCard } from './components/drag-context';
+import { AnyCard, HeldCard } from './components/drag-context';
 import { BaseCard } from './cardlists/base-cards';
 
 function sortDeck(deck: DeckSlot[]) {
@@ -39,7 +39,7 @@ interface DeckSectionProps extends ComponentPropsWithoutRef<'div'> {
   heldCard: HeldCard;
   onClickDeckSlot: (id: number) => void;
   onDropEssence: (id: number, essence: Essence) => void;
-  onDropBaseCard: (c: BaseCard) => void;
+  onDropInDeck: (c: AnyCard) => void;
   deckMaximized: boolean;
   toggleMaxView: () => void;
 }
@@ -54,7 +54,7 @@ export function DeckSection({
   heldCard,
   onClickDeckSlot,
   onDropEssence,
-  onDropBaseCard,
+  onDropInDeck,
   deckMaximized,
   toggleMaxView,
   ...rest
@@ -88,7 +88,7 @@ export function DeckSection({
         setShrineImprovement={(si) =>
           setShrine(new ShrineSlot(shrine.shrine, si))
         }
-        onDropBaseCard={onDropBaseCard}
+        onDropInDeck={onDropInDeck}
         deckMaximized={deckMaximized}
       ></Deck>
     </Container>
