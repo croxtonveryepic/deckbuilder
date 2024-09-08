@@ -12,11 +12,20 @@ function sortDeck(deck: DeckSlot[]) {
   return Array.from(deck).sort((a, b) => {
     let ac = a.baseCard;
     let bc = b.baseCard;
-    return (
-      a.baseCard.supertype.localeCompare(b.baseCard.supertype) ||
-      ac.cost - bc.cost ||
-      ac.name.localeCompare(bc.name)
-    );
+    if (ac && bc) {
+      return (
+        ac.supertype.localeCompare(bc.supertype) ||
+        ac.cost - bc.cost ||
+        ac.name.localeCompare(bc.name)
+      );
+    } else if (ac && !bc) {
+      return -1;
+    } else if (!ac && bc) {
+      return 1;
+    } else {
+      // both only essences
+      return a.essence!.name.localeCompare(b.essence!.name);
+    }
   });
 }
 
@@ -58,7 +67,7 @@ export function DeckSection({
   return (
     <Container className={containerClassName} {...rest}>
       <DeckTracker
-        deck={deck}
+        deck={sortedDeck}
         setDeck={setDeck}
         shrine={shrine}
         setShrine={setShrine}

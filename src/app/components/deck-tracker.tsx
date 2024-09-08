@@ -173,7 +173,7 @@ export function DeckTracker({
 
   for (const ds of deck) {
     let r, s, i;
-    s = [...ds.baseCard.pips];
+    s = ds.baseCard ? [...ds.baseCard.pips] : [];
     if (ds.essence) {
       numEssences++;
       r = ds.essence.resources;
@@ -188,8 +188,10 @@ export function DeckTracker({
       i = [...new Set(s)];
       identities.record(i);
     }
-    const cost = ds.baseCard.cost + (ds.essence?.cost.length || 0);
-    costs.set(cost, (costs.get(cost) as any as number) + 1);
+    if (ds.baseCard) {
+      const cost = ds.baseCard.cost + (ds.essence?.cost.length || 0);
+      costs.set(cost, (costs.get(cost) as any as number) + 1);
+    }
   }
 
   if (costs.get(7) === 0) {

@@ -24,11 +24,11 @@ import zIndex from '@mui/material/styles/zIndex';
 import { styleText } from 'util';
 
 export class DeckSlot {
-  baseCard: BaseCard;
+  baseCard: BaseCard | null;
   essence: Essence | null;
   id: number;
 
-  constructor(baseCard: BaseCard, essence: Essence | null) {
+  constructor(baseCard: BaseCard | null, essence: Essence | null) {
     this.baseCard = baseCard;
     this.essence = essence;
     this.id = newCardSlotId();
@@ -50,6 +50,10 @@ export default function Home() {
     setDeck([...deck, new DeckSlot(card, null)]);
   }
 
+  function addEssence(card: Essence) {
+    setDeck([...deck, new DeckSlot(null, card)]);
+  }
+
   function toggleShrineMode() {
     setShrineMode(!shrineMode);
   }
@@ -64,6 +68,8 @@ export default function Home() {
           return id !== card.id;
         })
       );
+    } else if (!c.baseCard) {
+      setDeck(deck.filter((ds) => ds.id !== id));
     } else {
       setDeck(
         deck.map((ds) => {
@@ -93,31 +99,46 @@ export default function Home() {
       // from elsewhere in the deck zone
       const targetDeckSlot = deck.find((ds) => ds.id === id);
       const sourceDeckSlot = deck.find((ds) => ds.id === heldCard?.id);
-      const essenceToTransfer =
+      const essenceToSwapBack =
         targetDeckSlot?.essence &&
-        sourceDeckSlot?.baseCard.validEssences.has(targetDeckSlot.essence.id)
+        (!sourceDeckSlot?.baseCard ||
+          sourceDeckSlot?.baseCard.validEssences.has(targetDeckSlot.essence.id))
           ? targetDeckSlot.essence
           : null;
-      setDeck(
-        deck.map((ds) => {
+      let newDeck;
+      if (sourceDeckSlot?.baseCard === null && essenceToSwapBack === null) {
+        newDeck = deck
+          .filter((ds) => ds.id !== sourceDeckSlot.id)
+          .map((ds) => {
+            if (ds.id === id) {
+              return { ...ds, essence: incomingEssence };
+            } else {
+              return ds;
+            }
+          });
+      } else {
+        newDeck = deck.map((ds) => {
           if (ds.id === id) {
             return { ...ds, essence: incomingEssence };
           } else if (ds.id === heldCard?.id) {
-            return { ...ds, essence: essenceToTransfer };
+            return { ...ds, essence: essenceToSwapBack };
           } else {
             return ds;
           }
-        })
-      );
+        });
+      }
+      setDeck(newDeck);
       setHeldCard(null); // must re-do here because the source will re-render, which will cause heldCard state to hang if it's a transfer instead of a swap
     }
   }
 
   let cards = new Map<number, number>();
   deck.forEach((ds) => {
-    let id = ds.baseCard.id;
-    let count = cards.get(id);
-    cards.set(id, count ? count + 1 : 1);
+    let id = ds.baseCard?.id;
+    if (id) {
+      let count = cards.get(id);
+      cards.set(id, count ? count + 1 : 1);
+    }
   });
   let essenceCounts = new Map<number, number>();
   deck.forEach((ds) => {
@@ -248,7 +269,10 @@ export default function Home() {
                 }
               ></ShrineImprovementSection>
             ) : (
-              <EssenceSection essences={essences}></EssenceSection>
+              <EssenceSection
+                essences={essences}
+                onClickEssence={addEssence}
+              ></EssenceSection>
             ))}
         </DeckContext.Provider>
       </AlertPickup.Provider>

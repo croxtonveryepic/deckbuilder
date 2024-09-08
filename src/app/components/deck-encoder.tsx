@@ -66,7 +66,7 @@ function encodeDeck(deck: DeckSlot[]): string {
   let code = '';
   for (let i = 0; i < deck.length; i++) {
     let ds = deck[i];
-    code += encodeNumber(ds.baseCard.id);
+    code += ds.baseCard ? encodeNumber(ds.baseCard.id) : EMPTY;
     code += ds.essence ? encodeNumber(ds.essence.id) : EMPTY;
   }
   return (code += TERMINATOR);
@@ -466,8 +466,10 @@ function DeckSummaries({
     const colors = new Set<Element>();
     deck.deck.forEach((ds) => {
       if (ds.essence === null) {
-        ds.baseCard.pips.forEach((p) => colors.add(p));
-      } else if (ds.essence.id !== 69) {
+        if (ds.baseCard) {
+          ds.baseCard.pips.forEach((p) => colors.add(p));
+        }
+      } else if (ds.essence.id !== 69 && ds.baseCard) {
         // souless
         ds.baseCard.pips.forEach((p) => colors.add(p));
         ds.essence.cost.forEach((p) => colors.add(p));
@@ -540,7 +542,7 @@ export function ExportDeck({
   const [pasteInput, setPasteInput] = useState('');
   const [importDeck, setImportDeck] = useState(null as Deck | null);
 
-  const BLANK = '____________';
+  const BLANK = '________________';
   const code = encodeFullDeckCode(shrine, deck);
   const lines = [] as string[];
   lines.push(
@@ -549,7 +551,9 @@ export function ExportDeck({
       (shrine.shrineImprovement?.name ?? BLANK)
   );
   deck.forEach((ds) => {
-    lines.push(ds.baseCard.name + ' / ' + (ds.essence?.name ?? BLANK));
+    lines.push(
+      (ds.baseCard?.name ?? BLANK) + ' / ' + (ds.essence?.name ?? BLANK)
+    );
   });
   const decklist = lines.join('\n');
   const full = code + '\n' + decklist;

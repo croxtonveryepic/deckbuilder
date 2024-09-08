@@ -141,7 +141,13 @@ export function BaseCardList({
   );
 }
 
-export function EssenceList({ essences }: { essences: Essence[] }) {
+export function EssenceList({
+  essences,
+  onClickEssence,
+}: {
+  essences: Essence[];
+  onClickEssence: (e: Essence) => void;
+}) {
   const [modalCard, setModalCard] = useState(-1);
   const decklistContext = useContext(DeckContext);
 
@@ -156,6 +162,7 @@ export function EssenceList({ essences }: { essences: Essence[] }) {
           card={e}
           onContextMenu={openModal}
           disabled={isAtMax(decklistContext, e)}
+          onClick={onClickEssence}
         ></Card>
       </Grid>
     );
@@ -226,115 +233,172 @@ export function Deck({
     let droppable = false;
     let warn;
     let enterLeaveProps;
-    if (heldCard) {
-      let t = heldCard.card.type;
-      if (t === CardType.Essence) {
-        let e = heldCard.card as Essence;
-        droppable = c.baseCard.validEssences.has(e.id);
-        if (!Number.isNaN(heldCard.id)) {
-          warn = mainDeck.find((ds) => ds.id === heldCard.id);
-        }
-      }
-      if (
-        t === CardType.Essence ||
-        (Number.isNaN(heldCard.id) &&
-          (t === CardType.Shrine || t === CardType.ShrineImprovement))
-      )
-        className = droppable ? ' valid' : ' greyed';
-    }
     let dropProps;
-    while (mainDeck[i + 1]?.baseCard.id === c.baseCard.id) {
-      let dupe = mainDeck[i];
-      i++;
+
+    if (c.baseCard) {
+      if (heldCard) {
+        let t = heldCard.card.type;
+        if (t === CardType.Essence) {
+          let e = heldCard.card as Essence;
+          droppable = c.baseCard.validEssences.has(e.id);
+          if (!Number.isNaN(heldCard.id)) {
+            warn = mainDeck.find((ds) => ds.id === heldCard.id);
+          }
+        }
+        if (
+          t === CardType.Essence ||
+          (Number.isNaN(heldCard.id) &&
+            (t === CardType.Shrine || t === CardType.ShrineImprovement))
+        )
+          className = droppable ? ' valid' : ' greyed';
+      }
+      while (
+        mainDeck[i + 1]?.baseCard &&
+        mainDeck[i + 1]?.baseCard!.id === c.baseCard.id
+      ) {
+        let dupe = mainDeck[i];
+        i++;
+        dropProps = new ConditionalDroppable(
+          droppable,
+          (e: React.DragEvent) => {
+            e.preventDefault();
+            onDropEssence(dupe.id, heldCard?.card as Essence);
+          }
+        );
+        enterLeaveProps = new ConditionalDragEnterLeave(
+          (warn &&
+            warn.baseCard &&
+            !warn.baseCard.validEssences.has(
+              dupe.essence?.id || NaN
+            )) as boolean,
+          onEnterWarn,
+          onLeaveUnwarn
+        );
+        dupes.push(
+          dupe.essence ? (
+            <ImbuedCard
+              key={i}
+              className={'overlapped has-essence' + className}
+              {...enterLeaveProps}
+              {...dropProps}
+              card={dupe.baseCard!}
+              essence={dupe.essence}
+              onClick={() => onClickDeckSlot(dupe.id)}
+              onContextMenu={() => {
+                setModalCard(getIndex(dupe.id));
+              }}
+              cardSlotId={dupe.id}
+            ></ImbuedCard>
+          ) : (
+            <Card
+              key={i}
+              className={'overlapped' + className}
+              // style={style}
+              {...dropProps}
+              card={dupe.baseCard!}
+              onClick={() => onClickDeckSlot(dupe.id)}
+              onContextMenu={(s) => {
+                setModalCard(getIndex(dupe.id));
+              }}
+              cardSlotId={dupe.id}
+            ></Card>
+          )
+        );
+      }
+      c = mainDeck[i];
       dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
         e.preventDefault();
-        onDropEssence(dupe.id, heldCard?.card as Essence);
+        onDropEssence(c.id, heldCard?.card as Essence);
       });
       enterLeaveProps = new ConditionalDragEnterLeave(
         (warn &&
-          !warn.baseCard.validEssences.has(dupe.essence?.id || NaN)) as boolean,
+          warn.baseCard &&
+          !warn.baseCard.validEssences.has(c.essence?.id || NaN)) as boolean,
         onEnterWarn,
         onLeaveUnwarn
       );
-      dupes.push(
-        dupe.essence ? (
-          <ImbuedCard
-            key={i}
-            className={'overlapped has-essence' + className}
-            {...enterLeaveProps}
-            {...dropProps}
-            card={dupe.baseCard}
-            essence={dupe.essence}
-            onClick={() => onClickDeckSlot(dupe.id)}
-            onContextMenu={() => {
-              setModalCard(getIndex(dupe.id));
-            }}
-            cardSlotId={dupe.id}
-          ></ImbuedCard>
-        ) : (
+      deck.push(
+        <Grid
+          item
+          className="card-cluster"
+          style={{ width: calcClusterWidth(deckMaximized, dupes.length) }}
+          key={c.id}
+        >
+          {dupes}
+          {c.essence ? (
+            <ImbuedCard
+              key={i}
+              {...dropProps}
+              {...enterLeaveProps}
+              className={'last has-essence' + className}
+              card={c.baseCard!}
+              essence={c.essence}
+              onClick={() => onClickDeckSlot(c.id)}
+              onContextMenu={() => {
+                setModalCard(getIndex(c.id));
+              }}
+              cardSlotId={c.id}
+            ></ImbuedCard>
+          ) : (
+            <Card
+              key={i}
+              {...dropProps}
+              className={'last' + className}
+              card={c.baseCard!}
+              onClick={() => onClickDeckSlot(c.id)}
+              onContextMenu={(s) => {
+                setModalCard(getIndex(c.id));
+              }}
+              cardSlotId={c.id}
+            ></Card>
+          )}
+        </Grid>
+      );
+    } else {
+      if (heldCard) {
+        className = ' greyed';
+      }
+      while (
+        mainDeck[i + 1]?.essence &&
+        mainDeck[i + 1]?.essence?.id === c.essence?.id
+      ) {
+        let dupe = mainDeck[i];
+        i++;
+        dupes.push(
           <Card
             key={i}
             className={'overlapped' + className}
-            // style={style}
-            {...dropProps}
-            card={dupe.baseCard}
+            card={c.essence!}
             onClick={() => onClickDeckSlot(dupe.id)}
             onContextMenu={(s) => {
               setModalCard(getIndex(dupe.id));
             }}
             cardSlotId={dupe.id}
           ></Card>
-        )
-      );
-    }
-    c = mainDeck[i];
-    dropProps = new ConditionalDroppable(droppable, (e: React.DragEvent) => {
-      e.preventDefault();
-      onDropEssence(c.id, heldCard?.card as Essence);
-    });
-    enterLeaveProps = new ConditionalDragEnterLeave(
-      (warn &&
-        !warn.baseCard.validEssences.has(c.essence?.id || NaN)) as boolean,
-      onEnterWarn,
-      onLeaveUnwarn
-    );
-    deck.push(
-      <Grid
-        item
-        className="card-cluster"
-        style={{ width: calcClusterWidth(deckMaximized, dupes.length) }}
-        key={c.id}
-      >
-        {dupes}
-        {c.essence ? (
-          <ImbuedCard
+        );
+      }
+      c = mainDeck[i];
+      deck.push(
+        <Grid
+          item
+          className="card-cluster"
+          style={{ width: calcClusterWidth(deckMaximized, dupes.length) }}
+          key={c.id}
+        >
+          {dupes}
+          <Card
             key={i}
-            {...dropProps}
-            {...enterLeaveProps}
             className={'last has-essence' + className}
-            card={c.baseCard}
-            essence={c.essence}
+            card={c.essence!}
             onClick={() => onClickDeckSlot(c.id)}
             onContextMenu={() => {
               setModalCard(getIndex(c.id));
             }}
             cardSlotId={c.id}
-          ></ImbuedCard>
-        ) : (
-          <Card
-            key={i}
-            {...dropProps}
-            className={'last' + className}
-            card={c.baseCard}
-            onClick={() => onClickDeckSlot(c.id)}
-            onContextMenu={(s) => {
-              setModalCard(getIndex(c.id));
-            }}
-            cardSlotId={c.id}
           ></Card>
-        )}
-      </Grid>
-    );
+        </Grid>
+      );
+    }
   }
 
   let shrine;
