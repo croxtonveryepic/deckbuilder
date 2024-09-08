@@ -145,6 +145,7 @@ export function DeckModal({
   }
 
   let image;
+  let c;
   if (Number.isNaN(activeCard)) {
     image = <div></div>; //render nothing; this should never be displayed anyway
   } else {
@@ -220,9 +221,37 @@ export function DeckModal({
       }
     } else {
       // regular card, not shrine
-      const c = mainDeck[activeCard];
-      image = c.essence ? (
-        <div className="overlayed-modal">
+      c = mainDeck[activeCard];
+      if (c.baseCard) {
+        image = c.essence ? (
+          <div className="overlayed-modal">
+            <Image
+              src={
+                '/deckbuilder/assets/' +
+                CardType.BaseCard +
+                '/' +
+                c.baseCard.filename +
+                '.png'
+              }
+              alt={c.baseCard.name}
+              width="739"
+              height="1035"
+            />
+            <Image
+              src={
+                '/deckbuilder/assets/' +
+                CardType.Essence +
+                '/' +
+                c.essence.filename +
+                '.png'
+              }
+              alt={c.essence.name}
+              width="739"
+              height="1035"
+              className="overlay"
+            />
+          </div>
+        ) : (
           <Image
             src={
               '/deckbuilder/assets/' +
@@ -235,34 +264,24 @@ export function DeckModal({
             width="739"
             height="1035"
           />
+        );
+      } else {
+        image = (
           <Image
             src={
               '/deckbuilder/assets/' +
               CardType.Essence +
               '/' +
-              c.essence.filename +
+              c.essence!.filename +
               '.png'
             }
-            alt={c.essence.name}
+            alt={c.essence!.name}
             width="739"
             height="1035"
-            className="overlay"
-          />
-        </div>
-      ) : (
-        <Image
-          src={
-            '/deckbuilder/assets/' +
-            CardType.BaseCard +
-            '/' +
-            c.baseCard.filename +
-            '.png'
-          }
-          alt={c.baseCard.name}
-          width="739"
-          height="1035"
-        />
-      );
+            className="unbacked-overlay"
+          ></Image>
+        );
+      }
     }
   }
 
@@ -306,7 +325,9 @@ export function DeckModal({
           </IconButton>
         </div>
         <Container
-          className="modal-center"
+          className={
+            c?.baseCard ? 'modal-center' : 'modal-center unbacked-overlay'
+          }
           onClick={(e) => e.stopPropagation()}
         >
           {image}

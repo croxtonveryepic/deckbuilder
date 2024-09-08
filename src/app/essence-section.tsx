@@ -26,9 +26,14 @@ import { Search } from '@mui/icons-material';
 
 interface EssenceSectionProps extends ComponentPropsWithoutRef<'div'> {
   essences: Essence[];
+  onClickEssence: (e: Essence) => void;
 }
 
-export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
+export function EssenceSection({
+  essences,
+  onClickEssence,
+  ...rest
+}: EssenceSectionProps) {
   const [query, setQuery] = useState('');
   const [elements, setElements] = useState([] as Element[]);
   const [elementOperator, setElementOperator] = useState(
@@ -188,7 +193,10 @@ export function EssenceSection({ essences, ...rest }: EssenceSectionProps) {
         </FormGroup>
       </div>
 
-      <EssenceList essences={filteredAndSortedEssences}></EssenceList>
+      <EssenceList
+        essences={filteredAndSortedEssences}
+        onClickEssence={onClickEssence}
+      ></EssenceList>
     </div>
   );
 }
