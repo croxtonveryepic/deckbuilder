@@ -133,17 +133,15 @@ export default function Home() {
   }
 
   let cards = new Map<number, number>();
+  let essenceCounts = new Map<number, number>();
   deck.forEach((ds) => {
     let id = ds.baseCard?.id;
-    if (id) {
+    if (id !== undefined) {
       let count = cards.get(id);
       cards.set(id, count ? count + 1 : 1);
     }
-  });
-  let essenceCounts = new Map<number, number>();
-  deck.forEach((ds) => {
-    let id = ds.essence?.id;
-    if (id) {
+    id = ds.essence?.id;
+    if (id !== undefined) {
       let count = essenceCounts.get(id);
       essenceCounts.set(id, count ? count + 1 : 1);
     }
