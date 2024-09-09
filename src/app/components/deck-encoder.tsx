@@ -38,6 +38,7 @@ const BASE = 92;
 const OFFSET = 35;
 const EMPTY = '""';
 const TERMINATOR = '!!';
+const CODE_BLOCK = '```';
 
 function encodeNumber(x: number): string {
   let lower = (x % BASE) + OFFSET,
@@ -111,6 +112,9 @@ class Deck {
 }
 
 function decodeFullDeckCode(name: string, code: string): Deck {
+  if (code.substring(0, 3) === CODE_BLOCK) {
+    code = code.substring(3);
+  }
   let ss = decodeShrine(code);
   let deck = decodeDeck(code.substring(4));
   return { name: name, shrine: ss, deck: deck };
@@ -161,7 +165,7 @@ export function useLocalStorageDeck() {
 }
 
 function encodeFullDeckCode(ss: ShrineSlot, deck: DeckSlot[]): string {
-  return encodeShrine(ss) + encodeDeck(deck);
+  return CODE_BLOCK + encodeShrine(ss) + encodeDeck(deck) + CODE_BLOCK;
 }
 
 const TOP_LEVEL_DECKS = 'decks';
