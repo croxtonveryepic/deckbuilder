@@ -164,7 +164,7 @@ export const essences: Essence[] = [
     text: '',
     resources: [Element.Air],
     unlimited: false,
-    ccc: 2,
+    ccc: 0,
     hp: 0,
     power: 0,
     speed: 3,
