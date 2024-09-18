@@ -671,7 +671,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     text: 'Target (Combat) Shrine cannot take damage until end of turn. All your future actions this turn must be pass.',
     ccc: 2,
     artist: 'Arte Express Studio',
-    rarity: Rarity.Common,
+    rarity: Rarity.Rare,
     type: CardType.BaseCard,
     isValidEssence: (e) => {
       return true;
