@@ -492,7 +492,14 @@ function DeckSummaries({
       thumbnail = shrineSlot.shrineImprovement ? (
         <Card card={shrineSlot.shrineImprovement}></Card>
       ) : (
-        <Card card={new Placeholder()}></Card>
+        <Card
+          card={
+            new Placeholder(
+              '/assets/misc/card-shaped-logo.png',
+              'Shrine placeholder'
+            )
+          }
+        ></Card>
       );
     }
 

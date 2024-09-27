@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, useState } from 'react';
 import { Essence } from './cardlists/essences';
 import { DeckTracker } from './components/deck-tracker';
 import { DeckSlot } from './page';
@@ -59,10 +59,14 @@ export function DeckSection({
   toggleMaxView,
   ...rest
 }: DeckSectionProps) {
+  const [ttsMode, setTtsMode] = useState(false);
   const sortedDeck = sortDeck(deck);
-  const containerClassName = deckMaximized
+  let containerClassName = deckMaximized
     ? 'deck-container max'
     : 'deck-container min';
+  if (deckMaximized && ttsMode) {
+    containerClassName += ' tts';
+  }
 
   return (
     <Container className={containerClassName} {...rest}>
@@ -75,6 +79,8 @@ export function DeckSection({
         toggleShrineMode={toggleShrineMode}
         deckMaximized={deckMaximized}
         toggleMaxView={toggleMaxView}
+        ttsMode={ttsMode}
+        toggleTtsMode={() => setTtsMode(!ttsMode)}
       ></DeckTracker>
       <Deck
         shrineSlot={shrine}
@@ -90,6 +96,7 @@ export function DeckSection({
         }
         onDropBaseCard={onDropBaseCard}
         deckMaximized={deckMaximized}
+        ttsMode={ttsMode}
       ></Deck>
     </Container>
   );

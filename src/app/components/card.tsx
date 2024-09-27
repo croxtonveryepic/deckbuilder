@@ -47,6 +47,8 @@ export function Card({
   if (card.type === CardType.Placeholder) {
     path = '/deckbuilder/assets/misc/card-shaped-logo.png';
     alt = 'placeholder';
+    // path = card.filename;
+    // alt = card.name;
     cn = 'card unbacked-overlay';
     priority = true;
   } else {

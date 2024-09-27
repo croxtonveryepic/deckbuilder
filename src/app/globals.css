@@ -10,6 +10,8 @@
   --small-card-height: 7vw;
   --medium-card-width: 6.5vw;
   --medium-card-height: 9.1vw;
+  --tts-card-width: 7.5vw;
+  --tts-card-height: 10.5vw;
   --large-card-width: 7.55vw;
   --large-card-height: 10.57vw;
 }
@@ -171,6 +173,24 @@ body {
         }
       }
     }
+    .tts-mode {
+      display: flex;
+      flex-direction: row;
+      /* flex-grow: 1; */
+      align-items: center;
+      justify-content: center;
+      button {
+        width: 14rem;
+        border-color: black;
+        border-width: medium;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        margin-right: 1rem;
+        &.true {
+          background-color: aqua;
+        }
+      }
+    }
     .minmax {
       display: flex;
       align-items: center;
@@ -182,6 +202,9 @@ body {
     max-width: none;
     padding-left: 3%;
     padding-right: 3%;
+    .MuiGrid-container.tts .MuiGrid-item {
+      margin: 0;
+    }
   }
 }
 
@@ -505,7 +528,7 @@ body {
   }
 }
 
-.deck-container.max .main-deck .card {
+.deck-container.max .main-deck .standard .card {
   img {
     width: var(--medium-card-width);
     min-width: var(--medium-card-width);
@@ -519,13 +542,28 @@ body {
   }
 }
 
+.deck-container.max.tts {
+  padding-left: 0;
+  padding-right: 0;
+  .main-deck {
+    padding-left: 1.25vw;
+    padding-right: 1.25vw;
+    .card img {
+      width: var(--tts-card-width);
+      min-width: var(--tts-card-width);
+      height: var(--tts-card-height);
+    }
+  }
+}
+
+.MuiGrid-container.standard .card-cluster img {
+  border-color: black;
+  border-width: thin;
+  border-radius: 5%;
+}
+
 .card-cluster {
   display: flex;
-  img {
-    border-color: black;
-    border-width: thin;
-    border-radius: 5%;
-  }
   .card:hover {
     z-index: 1;
   }

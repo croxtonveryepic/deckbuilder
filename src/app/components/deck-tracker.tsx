@@ -146,6 +146,8 @@ export function DeckTracker({
   toggleShrineMode,
   deckMaximized,
   toggleMaxView,
+  ttsMode,
+  toggleTtsMode,
 }: {
   shrine: ShrineSlot;
   setShrine: (ss: ShrineSlot) => void;
@@ -155,6 +157,8 @@ export function DeckTracker({
   toggleShrineMode: () => void;
   deckMaximized: boolean;
   toggleMaxView: () => void;
+  ttsMode: boolean;
+  toggleTtsMode: () => void;
 }) {
   let numCards = 0;
   let numEssences = 0;
@@ -305,13 +309,28 @@ export function DeckTracker({
         colors={souls}
       ></ColorDisplay>
       <ColorDisplay
-        title="Identities (For each Element, number of cards having that color identity, after Essence cost increases)"
-        colors={identities}
-      ></ColorDisplay>
-      <ColorDisplay
         title="Resources (Number of Essences that provide each resources; multicolor counts for both)"
         colors={resources}
       ></ColorDisplay>
+      <ColorDisplay
+        title="Identities (For each Element, number of cards having that color identity, after Essence cost increases)"
+        colors={identities}
+      ></ColorDisplay>
+      {deckMaximized && (
+        <Tooltip
+          title="Arrange the deck so it can be screenshotted and uploaded to Tabletop Simulator"
+          enterDelay={300}
+        >
+          <div className="tts-mode">
+            <TernaryButton
+              state={ttsMode}
+              labelOne="Tabletop Simulator Mode"
+              labelTwo="Tabletop Simulator Mode"
+              setState={toggleTtsMode}
+            ></TernaryButton>
+          </div>
+        </Tooltip>
+      )}
       <div className="minmax">
         <IconButton onClick={toggleMaxView}>
           {deckMaximized ? (

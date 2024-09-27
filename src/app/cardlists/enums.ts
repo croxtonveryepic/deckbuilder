@@ -24,3 +24,8 @@ export enum Rarity {
   Epic = 'd',
   Any = '',
 }
+
+export let expansions = new Map<number, string>([
+  [0, '2024 Promo'],
+  [1, 'A New Way'],
+]);
