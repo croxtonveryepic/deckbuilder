@@ -10,7 +10,7 @@ import { Shrine } from '../cardlists/shrines';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
-import { AnyCard, HeldCard, Placeholder } from './drag-context';
+import { HeldCard, Placeholder } from './drag-context';
 import { ConditionalDroppable } from './conditional-droppable';
 import { DeckContext } from './decklist-context';
 import { ConditionalDragEnterLeave } from './conditional-drag-enter-leave';
@@ -203,7 +203,7 @@ export function Deck({
   onDropEssence,
   setShrine,
   setShrineImprovement,
-  onDropInDeck,
+  onDropBaseCard,
   deckMaximized,
 }: {
   shrineSlot: ShrineSlot;
@@ -213,7 +213,7 @@ export function Deck({
   onDropEssence: (id: number, essence: Essence) => void;
   setShrine: (shrine: Shrine | null) => void;
   setShrineImprovement: (shrineImprovement: ShrineImprovement | null) => void;
-  onDropInDeck: (c: AnyCard) => void;
+  onDropBaseCard: (c: BaseCard) => void;
   deckMaximized: boolean;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
@@ -355,7 +355,7 @@ export function Deck({
         </Grid>
       );
     } else {
-      if (heldCard && heldCard.card.type !== CardType.BaseCard) {
+      if (heldCard) {
         className = ' greyed';
       }
       while (
@@ -450,12 +450,10 @@ export function Deck({
     );
   }
   const deckDroppable = new ConditionalDroppable(
-    true ||
-      heldCard?.card.type !== CardType.BaseCard ||
-      Number.isNaN(heldCard?.id),
+    heldCard?.card.type === CardType.BaseCard && Number.isNaN(heldCard?.id),
     (e) => {
       e.preventDefault();
-      onDropInDeck(heldCard?.card as AnyCard);
+      onDropBaseCard(heldCard?.card as BaseCard);
     }
   );
 

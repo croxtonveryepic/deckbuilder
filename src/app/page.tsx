@@ -1,12 +1,9 @@
 'use client';
 import { Alert, Box, Button, Fade, IconButton } from '@mui/material';
 import { baseCards, BaseCard } from './cardlists/base-cards';
-import { Shrine, shrines, ShrineSlot } from './cardlists/shrines';
+import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
-import {
-  ShrineImprovement,
-  shrineImprovements,
-} from './cardlists/shrine-improvements';
+import { shrineImprovements } from './cardlists/shrine-improvements';
 import { CardType } from './components/card';
 import { useState } from 'react';
 import { idGenerator } from './utils';
@@ -14,7 +11,7 @@ import {
   useLocalStorageDeck,
   useLocalStorageShrine,
 } from './components/deck-encoder';
-import { HeldCard, AlertPickup, AnyCard } from './components/drag-context';
+import { HeldCard, AlertPickup } from './components/drag-context';
 import { DeckContext } from './components/decklist-context';
 import { ConditionalDroppable } from './components/conditional-droppable';
 import { ShrineSection } from './shrine-section';
@@ -166,23 +163,6 @@ export default function Home() {
     }
   };
 
-  function onDropInDeck(c: AnyCard) {
-    switch (c.type) {
-      case CardType.BaseCard:
-        addBaseCard(c as BaseCard);
-        break;
-      case CardType.Essence:
-        addEssence(c as Essence);
-        break;
-      case CardType.Shrine:
-        setShrine({ ...shrine, shrine: c as Shrine });
-        break;
-      case CardType.ShrineImprovement:
-        setShrine({ ...shrine, shrineImprovement: c as ShrineImprovement });
-        break;
-    }
-  }
-
   // function alert(message: string) {
   //   let id = newAlertId();
   //   setAlertMessages((prev) => {
@@ -257,7 +237,7 @@ export default function Home() {
             heldCard={heldCard}
             onClickDeckSlot={removeLayer}
             onDropEssence={applyEssence}
-            onDropInDeck={onDropInDeck}
+            onDropBaseCard={addBaseCard}
             deckMaximized={maxView}
             toggleMaxView={() => setMaxView(!maxView)}
           ></DeckSection>
