@@ -45,10 +45,8 @@ export function Card({
 
   let path, alt, cn, priority;
   if (card.type === CardType.Placeholder) {
-    path = '/assets/misc/card-shaped-logo.png';
-    alt = 'placeholder';
-    // path = card.filename;
-    // alt = card.name;
+    path = card.filename;
+    alt = card.name;
     cn = 'card unbacked-overlay';
     priority = true;
   } else {
