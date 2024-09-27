@@ -262,7 +262,8 @@ export function Deck({
           className = droppable ? ' valid' : ' greyed';
       }
       while (
-        // !(deckMaximized && ttsMode) &&
+        // (!deckMaximized || !ttsMode) &&
+        !(deckMaximized && ttsMode) && // error
         mainDeck[i + 1]?.baseCard &&
         mainDeck[i + 1]?.baseCard!.id === c.baseCard.id
       ) {
@@ -371,7 +372,7 @@ export function Deck({
         className = ' greyed';
       }
       while (
-        // !(deckMaximized && ttsMode) &&
+        !(deckMaximized && ttsMode) &&
         mainDeck[i + 1]?.essence &&
         mainDeck[i + 1]?.essence?.id === c.essence?.id
       ) {
@@ -416,24 +417,29 @@ export function Deck({
     }
   }
 
-  // if (deckMaximized && ttsMode) {
-  //   deck.push(
-  //     <Grid
-  //       item
-  //       className="card-cluster"
-  //       style={{
-  //         width: calcClusterWidth(deckMaximized, 0, ttsMode),
-  //       }}
-  //       key={-1}
-  //     >
-  //       <Card
-  //         key={-1}
-  //         className={'last'}
-  //         card={new Placeholder('/assets/misc/card-back.png', 'Card back')}
-  //       ></Card>
-  //     </Grid>
-  //   );
-  // }
+  if (deckMaximized && ttsMode) {
+    deck.push(
+      <Grid
+        item
+        className="card-cluster"
+        style={{
+          width: calcClusterWidth(deckMaximized, 0, ttsMode),
+        }}
+        key={-1}
+      >
+        <Card
+          key={-1}
+          className={'last'}
+          card={
+            new Placeholder(
+              '/deckbuilder/assets/misc/card-back.png',
+              'Card back'
+            )
+          }
+        ></Card>
+      </Grid>
+    );
+  }
 
   let shrine;
   let shrineDroppable = new ConditionalDroppable(
