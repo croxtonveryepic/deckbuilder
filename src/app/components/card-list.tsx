@@ -191,7 +191,14 @@ function onLeaveUnwarn(e: React.DragEvent) {
   e.currentTarget.classList.remove('warn');
 }
 
-function calcClusterWidth(isMaximized: boolean, dupeCount: number): string {
+function calcClusterWidth(
+  isMaximized: boolean,
+  dupeCount: number,
+  isTtsMode = false
+): string {
+  if (isMaximized && isTtsMode) {
+    return '7.5vw';
+  }
   return (isMaximized ? 6.5 + 4.875 * dupeCount : 5 + 3.75 * dupeCount) + 'vw';
 }
 
@@ -205,6 +212,7 @@ export function Deck({
   setShrineImprovement,
   onDropBaseCard,
   deckMaximized,
+  ttsMode,
 }: {
   shrineSlot: ShrineSlot;
   mainDeck: DeckSlot[];
@@ -215,6 +223,7 @@ export function Deck({
   setShrineImprovement: (shrineImprovement: ShrineImprovement | null) => void;
   onDropBaseCard: (c: BaseCard) => void;
   deckMaximized: boolean;
+  ttsMode: boolean;
 }) {
   const [modalCard, setModalCard] = useState(NaN);
 
@@ -253,6 +262,7 @@ export function Deck({
           className = droppable ? ' valid' : ' greyed';
       }
       while (
+        // !(deckMaximized && ttsMode) &&
         mainDeck[i + 1]?.baseCard &&
         mainDeck[i + 1]?.baseCard!.id === c.baseCard.id
       ) {
@@ -321,7 +331,9 @@ export function Deck({
         <Grid
           item
           className="card-cluster"
-          style={{ width: calcClusterWidth(deckMaximized, dupes.length) }}
+          style={{
+            width: calcClusterWidth(deckMaximized, dupes.length, ttsMode),
+          }}
           key={c.id}
         >
           {dupes}
@@ -359,6 +371,7 @@ export function Deck({
         className = ' greyed';
       }
       while (
+        // !(deckMaximized && ttsMode) &&
         mainDeck[i + 1]?.essence &&
         mainDeck[i + 1]?.essence?.id === c.essence?.id
       ) {
@@ -382,7 +395,9 @@ export function Deck({
         <Grid
           item
           className="card-cluster"
-          style={{ width: calcClusterWidth(deckMaximized, dupes.length) }}
+          style={{
+            width: calcClusterWidth(deckMaximized, dupes.length, ttsMode),
+          }}
           key={c.id}
         >
           {dupes}
@@ -400,6 +415,25 @@ export function Deck({
       );
     }
   }
+
+  // if (deckMaximized && ttsMode) {
+  //   deck.push(
+  //     <Grid
+  //       item
+  //       className="card-cluster"
+  //       style={{
+  //         width: calcClusterWidth(deckMaximized, 0, ttsMode),
+  //       }}
+  //       key={-1}
+  //     >
+  //       <Card
+  //         key={-1}
+  //         className={'last'}
+  //         card={new Placeholder('/assets/misc/card-back.png', 'Card back')}
+  //       ></Card>
+  //     </Grid>
+  //   );
+  // }
 
   let shrine;
   let shrineDroppable = new ConditionalDroppable(
@@ -443,7 +477,12 @@ export function Deck({
       ></Card>
     ) : (
       <Card
-        card={new Placeholder()}
+        card={
+          new Placeholder(
+            '/assets/misc/card-shaped-logo.png',
+            'Shrine placeholder'
+          )
+        }
         onContextMenu={(s) => setModalCard(-1)} //ignoring the card name that Card passes up
         {...shrineDroppable}
       ></Card>
@@ -457,6 +496,8 @@ export function Deck({
     }
   );
 
+  const gridClass = deckMaximized && ttsMode ? 'tts' : 'standard';
+
   return (
     <div className="main-deck" {...deckDroppable}>
       <DeckModal
@@ -465,7 +506,7 @@ export function Deck({
         activeCard={modalCard}
         setActiveCard={setModalCard}
       ></DeckModal>
-      <Grid container>
+      <Grid container className={gridClass}>
         <Grid item>{shrine}</Grid>
         {deck}
       </Grid>

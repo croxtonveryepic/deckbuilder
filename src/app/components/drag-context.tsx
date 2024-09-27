@@ -7,13 +7,13 @@ import { Essence } from '../cardlists/essences';
 
 export class Placeholder {
   type: CardType.Placeholder;
-  filename: '';
-  name: '';
+  filename: string;
+  name: string;
 
-  constructor() {
+  constructor(filename: string, name: string) {
     this.type = CardType.Placeholder;
-    this.filename = '';
-    this.name = '';
+    this.filename = filename;
+    this.name = name;
   }
 }
 

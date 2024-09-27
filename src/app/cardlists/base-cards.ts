@@ -1,5 +1,5 @@
 import { CardType } from '../components/card';
-import { BaseCardType, Element, Rarity } from './enums';
+import { BaseCardType, Element, expansions, Rarity } from './enums';
 import { Essence, essences } from './essences';
 export class BaseCardFilters {
   private type: (supertype: BaseCardType) => boolean;
@@ -125,13 +125,20 @@ export class BaseCardFilters {
       this.identity(c.pips) &&
       this.cost(c.cost) &&
       this.ccc(c.ccc) &&
-      this.query([c.name, c.subtype, c.text, c.artist]) &&
+      this.query([
+        c.name,
+        c.subtype,
+        c.text,
+        c.artist,
+        expansions.get(c.set)!,
+      ]) &&
       this.rarity(c.rarity)
     );
   }
 }
 
 class UncalculatedBaseCard {
+  set: number;
   name: string;
   filename: string;
   id: number;
@@ -152,6 +159,7 @@ class UncalculatedBaseCard {
 }
 
 export class BaseCard {
+  set: number;
   name: string;
   filename: string;
   id: number;
@@ -174,6 +182,7 @@ export class BaseCard {
 
 const uncalculatedBaseCards: UncalculatedBaseCard[] = [
   {
+    set: 1,
     name: 'Absorb Magic',
     filename: 'absorbmagic',
     id: 0,
@@ -195,6 +204,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Aegis Greenhorn',
     filename: 'aegisgreenhorn',
     id: 1,
@@ -216,6 +226,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Alleyway Intimidator',
     filename: 'alleywayintimidator',
     id: 2,
@@ -237,6 +248,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Armentia - Celestial Spear',
     filename: 'armentiacelestialspear',
     id: 3,
@@ -258,6 +270,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Arsonist',
     filename: 'arsonist',
     id: 4,
@@ -279,6 +292,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Avarisa Darkhart - Silver Tongued',
     filename: 'avarisadarkhartsilvertongued',
     id: 5,
@@ -300,6 +314,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Backstab',
     filename: 'backstab',
     id: 6,
@@ -321,6 +336,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Banishment',
     filename: 'banishment',
     id: 7,
@@ -342,6 +358,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Barracks',
     filename: 'barracks',
     id: 8,
@@ -363,6 +380,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Battlefield Headsman',
     filename: 'battlefieldheadsman',
     id: 9,
@@ -384,6 +402,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Best Laid Plans',
     filename: 'bestlaidplans',
     id: 10,
@@ -405,6 +424,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Binding Chains',
     filename: 'bindingchains',
     id: 11,
@@ -426,6 +446,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Bladeborne Dreng',
     filename: 'bladebornedreng',
     id: 12,
@@ -447,6 +468,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Blue Back Strategist',
     filename: 'bluebackstrategist',
     id: 13,
@@ -468,6 +490,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Brute',
     filename: 'brute',
     id: 14,
@@ -489,6 +512,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Burst of Speed',
     filename: 'burstofspeed',
     id: 15,
@@ -510,6 +534,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Bury Magic',
     filename: 'burymagic',
     id: 16,
@@ -531,6 +556,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Call Lightning',
     filename: 'calllightning',
     id: 17,
@@ -552,6 +578,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Call Wind',
     filename: 'callwind',
     id: 18,
@@ -573,6 +600,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Careful Sneak',
     filename: 'carefulsneak',
     id: 19,
@@ -594,6 +622,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Churn',
     filename: 'churn',
     id: 20,
@@ -615,6 +644,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Cleanse',
     filename: 'cleanse',
     id: 21,
@@ -636,6 +666,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Combat Medic',
     filename: 'combatmedic',
     id: 22,
@@ -657,6 +688,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Conjure Barrier',
     filename: 'conjurebarrier',
     id: 23,
@@ -678,6 +710,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Counter Assassin',
     filename: 'counterassassin',
     id: 24,
@@ -699,6 +732,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Covert Operation',
     filename: 'covertoperation',
     id: 25,
@@ -720,6 +754,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Cutthroat',
     filename: 'cutthroat',
     id: 26,
@@ -741,6 +776,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Demolition Vanguard',
     filename: 'demolitionvanguard',
     id: 27,
@@ -762,6 +798,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Devoted Defender',
     filename: 'devoteddefender',
     id: 28,
@@ -783,6 +820,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Disbelief',
     filename: 'disbelief',
     id: 29,
@@ -804,6 +842,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Disgraced Veteran',
     filename: 'disgracedveteran',
     id: 30,
@@ -825,6 +864,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Distrust',
     filename: 'distrust',
     id: 31,
@@ -846,6 +886,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "D'Marque Heirloom - Gilded Mask",
     filename: 'dmarqueheirloomgildedmask',
     id: 32,
@@ -867,6 +908,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Driis Palisade',
     filename: 'driispalisade',
     id: 33,
@@ -888,6 +930,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Driis Sentry',
     filename: 'driissentry',
     id: 34,
@@ -909,6 +952,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Drown',
     filename: 'drown',
     id: 35,
@@ -930,6 +974,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Dying Breath',
     filename: 'dyingbreath',
     id: 36,
@@ -951,6 +996,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Earthquake',
     filename: 'earthquake',
     id: 37,
@@ -972,6 +1018,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "Earth's Elite",
     filename: 'earthselite',
     id: 38,
@@ -993,6 +1040,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Elvyrra - Slayer Squad Commander',
     filename: 'elvyrraslayersquadcommander',
     id: 39,
@@ -1014,6 +1062,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Eternal Flame Soldier',
     filename: 'eternalflamesoldier',
     id: 40,
@@ -1035,6 +1084,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Expert Combatant',
     filename: 'expertcombatant',
     id: 41,
@@ -1056,6 +1106,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Exploit Might',
     filename: 'exploitmight',
     id: 42,
@@ -1077,6 +1128,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Fablemonger',
     filename: 'fablemonger',
     id: 43,
@@ -1098,6 +1150,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Fierce Protector',
     filename: 'fierceprotector',
     id: 44,
@@ -1119,6 +1172,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "Fighter's Heart",
     filename: 'fightersheart',
     id: 45,
@@ -1140,6 +1194,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Finishing Move',
     filename: 'finishingmove',
     id: 46,
@@ -1161,6 +1216,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Firebomb',
     filename: 'firebomb',
     id: 47,
@@ -1182,6 +1238,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Fire Palm Strike',
     filename: 'firepalmstrike',
     id: 48,
@@ -1203,6 +1260,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'First Strike',
     filename: 'firststrike',
     id: 49,
@@ -1224,6 +1282,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Fountain of Life',
     filename: 'fountainoflife',
     id: 50,
@@ -1245,6 +1304,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Funeral Pyre',
     filename: 'funeralpyre',
     id: 51,
@@ -1266,6 +1326,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Gale Warrior',
     filename: 'galewarrior',
     id: 52,
@@ -1287,6 +1348,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Garrison',
     filename: 'garrison',
     id: 53,
@@ -1308,6 +1370,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Griffin IV - Earth Splitter',
     filename: 'griffinivearthsplitter',
     id: 54,
@@ -1329,6 +1392,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Grizzled Crop Keeper',
     filename: 'grizzledcropkeeper',
     id: 55,
@@ -1350,6 +1414,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Grunt',
     filename: 'grunt',
     id: 56,
@@ -1371,6 +1436,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Guardian of The Sacred Grove',
     filename: 'guardianofthesacredgrove',
     id: 57,
@@ -1392,6 +1458,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Guard Shack',
     filename: 'guardshack',
     id: 58,
@@ -1413,6 +1480,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Gust',
     filename: 'gust',
     id: 59,
@@ -1434,6 +1502,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Hatred',
     filename: 'hatred',
     id: 60,
@@ -1455,6 +1524,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Heat Stroke',
     filename: 'heatstroke',
     id: 61,
@@ -1476,6 +1546,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Highland Isolationist',
     filename: 'highlandisolationist',
     id: 62,
@@ -1497,6 +1568,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Holy Symbol',
     filename: 'holysymbol',
     id: 63,
@@ -1518,6 +1590,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Hurricane',
     filename: 'hurricane',
     id: 64,
@@ -1539,6 +1612,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Icy Skin',
     filename: 'icyskin',
     id: 65,
@@ -1560,6 +1634,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Intelligence Operative',
     filename: 'intelligenceoperative',
     id: 66,
@@ -1581,6 +1656,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Invisible Force',
     filename: 'invisibleforce',
     id: 67,
@@ -1602,6 +1678,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Knife Expert',
     filename: 'knifeexpert',
     id: 68,
@@ -1623,6 +1700,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Life Cycle Warden',
     filename: 'lifecyclewarden',
     id: 69,
@@ -1644,6 +1722,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Light Lance',
     filename: 'lightlance',
     id: 70,
@@ -1665,6 +1744,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Lightning Warrior',
     filename: 'lightningwarrior',
     id: 71,
@@ -1686,6 +1766,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Little Breeze - A New Way',
     filename: 'littlebreezeanewway',
     id: 72,
@@ -1707,6 +1788,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Lowland Hunter',
     filename: 'lowlandhunter',
     id: 73,
@@ -1728,6 +1810,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Melee Alumnus',
     filename: 'meleealumnus',
     id: 74,
@@ -1749,6 +1832,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Mend',
     filename: 'mend',
     id: 75,
@@ -1770,6 +1854,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Might of the Earth',
     filename: 'mightoftheearth',
     id: 76,
@@ -1791,6 +1876,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Mikiri Frontliner',
     filename: 'mikirifrontliner',
     id: 77,
@@ -1812,6 +1898,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Natural Forces',
     filename: 'naturalforces',
     id: 78,
@@ -1833,6 +1920,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "Nature's Divinity",
     filename: 'naturesdivinity',
     id: 79,
@@ -1854,6 +1942,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Night Watch',
     filename: 'nightwatch',
     id: 80,
@@ -1875,6 +1964,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Novice Sellsword',
     filename: 'novicesellsword',
     id: 81,
@@ -1896,6 +1986,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Nullifier',
     filename: 'nullifier',
     id: 82,
@@ -1917,6 +2008,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Old Man Gerhalt - Trinity Speaker',
     filename: 'oldmangerhalttrinityspeaker',
     id: 83,
@@ -1938,6 +2030,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Partisan',
     filename: 'partisan',
     id: 84,
@@ -1959,6 +2052,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Payday',
     filename: 'payday',
     id: 85,
@@ -1980,6 +2074,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Pillory',
     filename: 'pillory',
     id: 86,
@@ -2001,6 +2096,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Pincer Maneuver',
     filename: 'pincermaneuver',
     id: 87,
@@ -2022,6 +2118,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Planting',
     filename: 'planting',
     id: 88,
@@ -2043,6 +2140,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Prayers Answered',
     filename: 'prayersanswered',
     id: 89,
@@ -2064,6 +2162,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Quarterstaff',
     filename: 'quarterstaff',
     id: 90,
@@ -2085,6 +2184,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Quicksilver Wings - Mystic Headpiece',
     filename: 'quicksilverwingsmysticheadpiece',
     id: 91,
@@ -2106,6 +2206,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Ram the Gates',
     filename: 'ramthegates',
     id: 92,
@@ -2127,6 +2228,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Re-equip',
     filename: 're-equip',
     id: 93,
@@ -2148,6 +2250,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Refugee',
     filename: 'refugee',
     id: 94,
@@ -2169,6 +2272,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Root Tender',
     filename: 'roottender',
     id: 95,
@@ -2190,6 +2294,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Royal Custodian',
     filename: 'royalcustodian',
     id: 96,
@@ -2211,6 +2316,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "Ruebane - Fury's Avatar",
     filename: 'ruebanefurysavatar',
     id: 97,
@@ -2232,6 +2338,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Ruffian',
     filename: 'ruffian',
     id: 98,
@@ -2253,6 +2360,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Sabotage',
     filename: 'sabotage',
     id: 99,
@@ -2274,6 +2382,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Scourge Opportunist',
     filename: 'scourgeopportunist',
     id: 100,
@@ -2295,6 +2404,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Scourge Shooter',
     filename: 'scourgeshooter',
     id: 101,
@@ -2316,6 +2426,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Secret Keeper',
     filename: 'secretkeeper',
     id: 102,
@@ -2337,6 +2448,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Secrets in the Dark',
     filename: 'secretsinthedark',
     id: 103,
@@ -2358,6 +2470,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Siege Master',
     filename: 'siegemaster',
     id: 104,
@@ -2379,6 +2492,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Siege Trebuchet',
     filename: 'siegetrebuchet',
     id: 105,
@@ -2400,6 +2514,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Sky Devotee',
     filename: 'skydevotee',
     id: 106,
@@ -2421,6 +2536,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Sky Totem',
     filename: 'skytotem',
     id: 107,
@@ -2442,6 +2558,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Slayer Squad Recruit',
     filename: 'slayersquadrecruit',
     id: 108,
@@ -2463,6 +2580,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Standard Issue Falchion',
     filename: 'standardissuefalchion',
     id: 109,
@@ -2484,6 +2602,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "Stranger's Fanatic",
     filename: 'strangersfanatic',
     id: 110,
@@ -2505,6 +2624,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Strongarm Thug',
     filename: 'strongarmthug',
     id: 111,
@@ -2526,6 +2646,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Sudden Strength',
     filename: 'suddenstrength',
     id: 112,
@@ -2547,6 +2668,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Take Root',
     filename: 'takeroot',
     id: 113,
@@ -2568,6 +2690,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Talia - The Waveshaper',
     filename: 'taliathewaveshaper',
     id: 114,
@@ -2589,6 +2712,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Targeted Strike',
     filename: 'targetedstrike',
     id: 115,
@@ -2610,6 +2734,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Temple Dedicant',
     filename: 'templededicant',
     id: 116,
@@ -2631,6 +2756,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "Thaddeus's Neophyte",
     filename: 'thaddeussneophyte',
     id: 117,
@@ -2652,6 +2778,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Thaddeus - Stranger',
     filename: 'thaddeusstranger',
     id: 118,
@@ -2673,6 +2800,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'The Abyss',
     filename: 'theabyss',
     id: 119,
@@ -2694,6 +2822,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Through the Keyhole',
     filename: 'throughthekeyhole',
     id: 120,
@@ -2715,6 +2844,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Totem Keeper',
     filename: 'totemkeeper',
     id: 121,
@@ -2736,6 +2866,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Towerwright',
     filename: 'towerwright',
     id: 122,
@@ -2757,6 +2888,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Triage',
     filename: 'triage',
     id: 123,
@@ -2778,6 +2910,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'True Believer',
     filename: 'truebeliever',
     id: 124,
@@ -2799,6 +2932,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Underwater Spearman',
     filename: 'underwaterspearman',
     id: 125,
@@ -2820,6 +2954,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Unseen Duelist',
     filename: 'unseenduelist',
     id: 126,
@@ -2841,6 +2976,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Unseen Tactics',
     filename: 'unseentactics',
     id: 127,
@@ -2864,7 +3000,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
   // {
   //   name: 'War Kitten',
   //   filename: 'wakittentoken',
-  // id: ,
+  //   id: ,
   //   epic: false,
   //   supertype: BaseCardType.Unit,
   //   subtype: 'Cat - Fire',
@@ -2881,6 +3017,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
   // isValidEssence: (e) => {return true;},
   //},
   {
+    set: 1,
     name: "War Cat's Mane - Gift of Rage",
     filename: 'warcatsmanegiftofrage',
     id: 128,
@@ -2902,6 +3039,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Wardsmith',
     filename: 'wardsmith',
     id: 129,
@@ -2923,6 +3061,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Wash Away',
     filename: 'washaway',
     id: 130,
@@ -2944,6 +3083,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Watch Tower',
     filename: 'watchtower',
     id: 131,
@@ -2965,6 +3105,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Wave Mender',
     filename: 'wavemender',
     id: 132,
@@ -2986,6 +3127,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Whispers in the Wind',
     filename: 'whispersinthewind',
     id: 133,
@@ -3007,6 +3149,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Wind Howler',
     filename: 'windhowler',
     id: 134,
@@ -3028,6 +3171,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Wind Whisperer',
     filename: 'windwhisperer',
     id: 135,
@@ -3049,6 +3193,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Wolf-Heart Shaman',
     filename: 'wolf-heartshaman',
     id: 136,
@@ -3070,6 +3215,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: "X - True King's Sword",
     filename: 'xtruekingssword',
     id: 137,
@@ -3091,6 +3237,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Yawatarara Disciple',
     filename: 'yawataradisciple',
     id: 138,
@@ -3112,6 +3259,7 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     },
   },
   {
+    set: 1,
     name: 'Zi Tapestry - Esoteric Lore',
     filename: 'zitapestryesotericlore',
     id: 139,
@@ -3127,6 +3275,28 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
     ccc: 6,
     artist: 'Arturo Gomez Martinez',
     rarity: Rarity.Epic,
+    type: CardType.BaseCard,
+    isValidEssence: (e) => {
+      return true;
+    },
+  },
+  {
+    set: 0,
+    name: 'Seeker',
+    filename: 'seeker',
+    id: 140,
+    epic: false,
+    supertype: BaseCardType.Unit,
+    subtype: 'Human',
+    cost: 5,
+    pips: [Element.Earth],
+    hp: 3,
+    power: 4,
+    speed: 2,
+    text: '(Combat): When this card enters play, search your deck for an Epic Card, reveal it and put it into your hand. Shuffle.\n (Combat): While you control a (Combat) King, this Card gains the subtype Knight.',
+    ccc: 4,
+    artist: 'A. Z. Volt',
+    rarity: Rarity.Rare,
     type: CardType.BaseCard,
     isValidEssence: (e) => {
       return true;

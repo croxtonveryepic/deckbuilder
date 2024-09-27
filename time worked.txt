@@ -35,6 +35,7 @@ time worked
 9/3: 6 hours (save modal polish, essence filter section styling, deck tracking improvements, soulful and soulless, 20 card check) => ready for release!
 9/4: 3 hours (confirm modal, 404s on master, element filter "only" option, final styling tweaks, esc to clear query inputs, pip highlighting for <= and >=)
 9/7: 4 hours (allowing essences to be added to the main deck, ccc filters for base cards, clear deck button)
+9/25: 3 hours (added support for querying based on set, added seeker card, added a mode for tabletop simulator screenshots, moved identity tracker right)
 
 
 todo:
@@ -59,6 +60,4 @@ low priority:
 
 keyword glossary, referenced cards (like war kitten)
 indicate which card in a cluster is being inspected in the modal, at least an alert when using the arrow keys
-add "seeker" card
 make "grizzled crop keeper" count as an earth soul
-move identity tracker left or right
