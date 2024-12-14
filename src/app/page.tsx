@@ -5,7 +5,7 @@ import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
 import { shrineImprovements } from './cardlists/shrine-improvements';
 import { CardType } from './components/card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { idGenerator } from './utils';
 import {
   useLocalStorageDeck,
@@ -22,6 +22,9 @@ import { DeckSection } from './deck-section';
 import { Check } from '@mui/icons-material';
 import zIndex from '@mui/material/styles/zIndex';
 import { styleText } from 'util';
+import { useSearchParams } from 'next/navigation';
+import { decodeFullDeckCode } from './components/deck-encoder';
+import { useRouter } from 'next/navigation';
 
 export class DeckSlot {
   baseCard: BaseCard | null;
@@ -43,6 +46,31 @@ export default function Home() {
   const [deck, setDeck] = useLocalStorageDeck();
   const [heldCard, setHeldCard] = useState(null as HeldCard);
   const [maxView, setMaxView] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchParams.has('import')) {
+      let d;
+      try {
+        const urlDeckCode = searchParams.get('import')!;
+        d = decodeFullDeckCode('import', urlDeckCode);
+        console.log(d);
+        // setShrine(d.shrine);
+        // setDeck(d.deck);
+        localStorage.setItem('tempShrine', urlDeckCode.substring(0, 4));
+        localStorage.setItem('tempDeck', urlDeckCode.substring(4));
+      } catch (e) {
+        console.log('Error importing deck from link');
+        console.log(e);
+        localStorage.removeItem('tempShrine');
+        localStorage.removeItem('tempDeck');
+      } finally {
+        router.push('/');
+      }
+    }
+  });
+
   // const [alertMessages, setAlertMessages] = useState({} as any);
   // const [alertVisible, setAlertVisible] = useState(false);
 
