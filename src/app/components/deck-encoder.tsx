@@ -571,7 +571,7 @@ export function ExportDeck({
   const decklist = lines.join('\n');
   const full = discorded_code + '\n' + decklist;
   const link =
-    'https://croxtonveryepic.github.io/deckbuilder/import/?code=' +
+    'https://croxtonveryepic.github.io/deckbuilder/import?code=' +
     percentEncode(code);
 
   function handlePasteFieldChange(val: string) {
