@@ -34,6 +34,7 @@ import { Card, ImprovedShrine } from './card';
 import { Placeholder } from './drag-context';
 import { Element } from '../cardlists/enums';
 import { SomeElements } from './element-buttons';
+import percentEncode from '@stdlib/string-percent-encode';
 const BASE = 92;
 const OFFSET = 35;
 const EMPTY = '""';
@@ -111,7 +112,7 @@ class Deck {
   deck: DeckSlot[];
 }
 
-function decodeFullDeckCode(name: string, code: string): Deck {
+export function decodeFullDeckCode(name: string, code: string): Deck {
   if (code.substring(0, 3) === CODE_BLOCK) {
     code = code.substring(3);
   }
@@ -165,7 +166,7 @@ export function useLocalStorageDeck() {
 }
 
 function encodeFullDeckCode(ss: ShrineSlot, deck: DeckSlot[]): string {
-  return CODE_BLOCK + encodeShrine(ss) + encodeDeck(deck) + CODE_BLOCK;
+  return encodeShrine(ss) + encodeDeck(deck);
 }
 
 const TOP_LEVEL_DECKS = 'decks';
@@ -555,6 +556,7 @@ export function ExportDeck({
 
   const BLANK = '________________';
   const code = encodeFullDeckCode(shrine, deck);
+  const discorded_code = CODE_BLOCK + code + CODE_BLOCK;
   const lines = [] as string[];
   lines.push(
     (shrine.shrine?.name ?? BLANK) +
@@ -567,7 +569,8 @@ export function ExportDeck({
     );
   });
   const decklist = lines.join('\n');
-  const full = code + '\n' + decklist;
+  const full = discorded_code + '\n' + decklist;
+  const link = 'localhost:3000/import/?code=' + percentEncode(code);
 
   function handlePasteFieldChange(val: string) {
     setPasteInput(val);
@@ -726,8 +729,11 @@ export function ExportDeck({
               }}
             >
               <Button onClick={() => clipboardCopy(full)}>Copy Full</Button>
-              <Button onClick={() => clipboardCopy(code)}>Code Only</Button>
+              <Button onClick={() => clipboardCopy(discorded_code)}>
+                Code Only
+              </Button>
               <Button onClick={() => clipboardCopy(decklist)}>List Only</Button>
+              <Button onClick={() => clipboardCopy(link)}>Link</Button>
             </div>
             {/* click to copy code only and list only button */}
           </div>
