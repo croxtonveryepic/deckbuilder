@@ -22,7 +22,7 @@ function Import() {
         localStorage.removeItem('tempDeck');
       }
     }
-    window.location.replace('http://localhost:3000');
+    window.location.replace('https://croxtonveryepic.github.io/deckbuilder/');
   });
 
   return <div style={{ height: '100vh' }}>Importing deck...</div>;
