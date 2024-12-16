@@ -5,7 +5,7 @@ import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
 import { shrineImprovements } from './cardlists/shrine-improvements';
 import { CardType } from './components/card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { idGenerator } from './utils';
 import {
   useLocalStorageDeck,
@@ -43,6 +43,7 @@ export default function Home() {
   const [deck, setDeck] = useLocalStorageDeck();
   const [heldCard, setHeldCard] = useState(null as HeldCard);
   const [maxView, setMaxView] = useState(false);
+
   // const [alertMessages, setAlertMessages] = useState({} as any);
   // const [alertVisible, setAlertVisible] = useState(false);
 
