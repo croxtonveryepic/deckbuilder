@@ -3302,6 +3302,28 @@ const uncalculatedBaseCards: UncalculatedBaseCard[] = [
       return true;
     },
   },
+  {
+    set: 2,
+    name: 'Annihilate',
+    filename: 'annihilate',
+    id: 141,
+    epic: false,
+    supertype: BaseCardType.Event,
+    subtype: '',
+    cost: 6,
+    pips: [Element.Dark, Element.Water],
+    hp: 0,
+    power: 0,
+    speed: 0,
+    text: '(Stack): Pay (2) less to play this Card if it is played as your action.\n Destroy all (Combat) Units.',
+    ccc: 3,
+    artist: 'John Leo Espiritu',
+    rarity: Rarity.Uncommon,
+    type: CardType.BaseCard,
+    isValidEssence: (e) => {
+      return true;
+    },
+  },
 ];
 
 export const baseCards: BaseCard[] = uncalculatedBaseCards.map((c) => {
