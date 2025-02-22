@@ -570,7 +570,7 @@ export function ExportDeck({
   });
   const decklist = lines.join('\n');
   const full = discorded_code + '\n' + decklist;
-  const link = 'localhost:3000/?import=' + percentEncode(code);
+  const link = 'localhost:3000/import/?code=' + percentEncode(code);
 
   function handlePasteFieldChange(val: string) {
     setPasteInput(val);

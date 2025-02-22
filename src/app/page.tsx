@@ -46,30 +46,6 @@ export default function Home() {
   const [deck, setDeck] = useLocalStorageDeck();
   const [heldCard, setHeldCard] = useState(null as HeldCard);
   const [maxView, setMaxView] = useState(false);
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (searchParams.has('import')) {
-      let d;
-      try {
-        const urlDeckCode = searchParams.get('import')!;
-        d = decodeFullDeckCode('import', urlDeckCode);
-        console.log(d);
-        // setShrine(d.shrine);
-        // setDeck(d.deck);
-        localStorage.setItem('tempShrine', urlDeckCode.substring(0, 4));
-        localStorage.setItem('tempDeck', urlDeckCode.substring(4));
-      } catch (e) {
-        console.log('Error importing deck from link');
-        console.log(e);
-        localStorage.removeItem('tempShrine');
-        localStorage.removeItem('tempDeck');
-      } finally {
-        router.push('/');
-      }
-    }
-  });
 
   // const [alertMessages, setAlertMessages] = useState({} as any);
   // const [alertVisible, setAlertVisible] = useState(false);
