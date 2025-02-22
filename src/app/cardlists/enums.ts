@@ -28,4 +28,5 @@ export enum Rarity {
 export let expansions = new Map<number, string>([
   [0, '2024 Promo'],
   [1, 'A New Way'],
+  [2, '2025 Promo'],
 ]);
