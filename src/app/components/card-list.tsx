@@ -19,9 +19,11 @@ import { isAtMax } from '../utils';
 export function ShrineList({
   shrines,
   onClickShrine,
+  style,
 }: {
   shrines: Shrine[];
   onClickShrine: (shrine: Shrine) => void;
+  style?: CSSProperties;
 }) {
   const [modalCard, setModalCard] = useState(-1);
   const decklistContext = useContext(DeckContext);
@@ -42,7 +44,7 @@ export function ShrineList({
   ));
 
   return (
-    <Container className="base-card-list-container">
+    <Container className="base-card-list-container" style={style}>
       <CardModal
         cardType={CardType.Shrine}
         list={shrines}

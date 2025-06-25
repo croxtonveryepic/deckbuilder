@@ -1,0 +1,83 @@
+Help me convert card image files to Typescript objects of class BaseCard. First, here are the custom types: 
+
+```enum BaseCardType {
+  Unit = 'a',
+  Event = 'b',
+  ContinuousEvent = 'c',
+  Item = 'd',
+  Structure = 'e',
+  Any = '',
+}
+
+export enum Element {
+  Air = 'Air', // grey
+  Dark = 'Dark', // purple
+  Earth = 'Earth', // green
+  Fire = 'Fire', // red
+  Light = 'Light', // yellow
+  Water = 'Water', // blue
+  Neutral = 'Neutral',
+}
+
+enum Rarity {
+  Common = 'white',
+  Uncommon = 'silver',
+  Rare = 'gold',
+  Epic = 'purple',
+  Any = '',
+}
+
+let expansions = new Map<number, string>([
+  [0, '2024 Promo'],
+  [1, 'A New Way'],
+  [2, '2025 Promo'],
+  [3, 'Broken Pair'],
+]);
+
+class BaseCard {
+  set: number;
+  name: string;
+  filename: string;
+  id: number;
+  epic: boolean;
+  supertype: BaseCardType;
+  subtype: string;
+  cost: number;
+  pips: Element[];
+  hp: number;
+  power: number;
+  speed: number;
+  text: string;
+  ccc: number;
+  artist: string;
+  rarity: Rarity;
+  type: CardType;
+  isValidEssence: (e: Essence) => boolean;
+}```
+
+Look at the anatomy of a base card in the first picture. As you can see, the object properties are mostly taken directly from this, but there are a few differences. In my representation, `cost` refers to the total cost of the card, which includes the neutral mana cost (number in the white circle in the top right, if any) plus the number of pips in the top right. Then, the pips are recorded in the `pips` property. (So, `cost -pips.length` should equal the numbered cost in the top right.) In the text of cards, there are a few symbols of a letter in a circle, which refers to a gameplay zone. For the purposes of the `text` representation, these will be recorded as the full word of zone surrounded by parentheses. That is, 'S' in a circle becomes '(Stack)', 'C' becomes '(Combat)', 'D' becomes '(Dead)', and 'R' becomes '(Resource)'. `ccc` is found at the bottom right of the card. Rarity refers to the *color* of the set symbol in the bottom right; for Earth's Elite, the set symbol is the block letter D, for the other cards you will see, the set symbol is two crossed swords. (This is different from Element pips, which have their own symbols, with colors described in the comments near the Element enum.)
+
+For example, Earth's Elite, the card shown in the card anatomy diagram, the object is this:
+```{
+    set: 1,
+    name: "Earth's Elite",
+    filename: 'earthselite',
+    id: 38,
+    epic: false,
+    supertype: BaseCardType.Unit,
+    subtype: 'Human Knight',
+    cost: 4,
+    pips: [Element.Earth, Element.Earth],
+    hp: 4,
+    power: 4,
+    speed: 2,
+    text: '(Combat): Armor 1. (Armor decreases any damage received by 1.)',
+    ccc: 1,
+    artist: 'Robert Nix',
+    rarity: Rarity.Common,
+    type: CardType.BaseCard,
+    isValidEssence: (e) => {
+      return true;
+    },
+}```
+Try converting these other cards for me. All of them will be from set 3, Broken Pair. Put the results in a single TypeScript array so it's easy for me to copy over. Start counting the `id`s at 195. You can ignore `isValidEssence`; use the trivial anonymous function that Earth's Elite has for each.

@@ -48,6 +48,7 @@ export function ShrineSection({
         </FormGroup>
       </div>
       <ShrineList
+        style={{ height: '90%' }}
         shrines={filteredAndSortedShrines}
         onClickShrine={onClickShrine}
       ></ShrineList>

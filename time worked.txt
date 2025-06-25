@@ -37,6 +37,7 @@ time worked
 9/7: 4 hours (allowing essences to be added to the main deck, ccc filters for base cards, clear deck button)
 9/25: 3 hours (added support for querying based on set, added seeker card, added a mode for tabletop simulator screenshots, moved identity tracker right)
 
+6/25/25: 5 hours (transcribing set two cards)
 
 todo:
 high priority
@@ -61,3 +62,9 @@ low priority:
 keyword glossary, referenced cards (like war kitten)
 indicate which card in a cluster is being inspected in the modal, at least an alert when using the arrow keys
 make "grizzled crop keeper" count as an earth soul
+
+more set two cards
+set filters
+format-based deckboxes
+split subtypes into string arrays
+restrict to one per epic of the same character
