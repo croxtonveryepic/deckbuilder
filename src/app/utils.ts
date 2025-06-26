@@ -21,7 +21,9 @@ export function isAtMax(
   switch (c.type) {
     case CardType.BaseCard:
       let count = decklist.cards.get(c.id) || 0;
-      return (c as BaseCard).epic ? count === 1 : count === 3;
+      return (c as BaseCard).epic
+        ? decklist.epics.has((c as BaseCard).epic!)
+        : count === 3;
     case CardType.Essence:
       return (
         (decklist.essences.get(c.id) || 0) === 3 && !(c as Essence).unlimited

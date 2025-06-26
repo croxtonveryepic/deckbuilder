@@ -149,7 +149,7 @@ export class UncalculatedBaseCard {
   name: string;
   filename: string;
   id: number;
-  epic: boolean;
+  epic: string | null;
   supertype: BaseCardType;
   subtype: string;
   cost: number;
@@ -170,7 +170,7 @@ export class BaseCard {
   name: string;
   filename: string;
   id: number;
-  epic: boolean;
+  epic: string | null;
   supertype: BaseCardType;
   subtype: string;
   cost: number;

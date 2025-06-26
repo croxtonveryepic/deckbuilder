@@ -138,12 +138,16 @@ export default function Home() {
   }
 
   let cards = new Map<number, number>();
+  let epics = new Set<string>();
   let essenceCounts = new Map<number, number>();
   deck.forEach((ds) => {
     let id = ds.baseCard?.id;
     if (id !== undefined) {
       let count = cards.get(id);
       cards.set(id, count ? count + 1 : 1);
+      if (ds.baseCard?.epic) {
+        epics.add(ds.baseCard.epic);
+      }
     }
     id = ds.essence?.id;
     if (id !== undefined) {
@@ -218,6 +222,7 @@ export default function Home() {
             shrine: shrine,
             cards: cards,
             essences: essenceCounts,
+            epics: epics,
           }}
         >
           {/* <Fade in={alertVisible}>
