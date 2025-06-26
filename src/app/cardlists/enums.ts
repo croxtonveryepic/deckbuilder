@@ -8,12 +8,12 @@ export enum BaseCardType {
 }
 
 export enum Element {
-  Air = 'Air',
-  Dark = 'Dark',
-  Earth = 'Earth',
-  Fire = 'Fire',
-  Light = 'Light',
-  Water = 'Water',
+  Air = 'Air', // grey
+  Dark = 'Dark', // purple
+  Earth = 'Earth', // green
+  Fire = 'Fire', // red
+  Light = 'Light', // yellow
+  Water = 'Water', // blue
   Neutral = 'Neutral',
 }
 
@@ -29,4 +29,5 @@ export let expansions = new Map<number, string>([
   [0, '2024 Promo'],
   [1, 'A New Way'],
   [2, '2025 Promo'],
+  [3, 'Broken Pair']
 ]);

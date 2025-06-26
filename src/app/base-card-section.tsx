@@ -43,6 +43,7 @@ export function BaseCardSection({
   const [bcQuery, setBcQuery] = useState('');
   const [ccc, setCcc] = useState(NaN);
   const [cccOperator, setCccOperator] = useState('=');
+  const [setFilter, setSetFilter] = useState(NaN);
 
   useEffect(() => {
     const handleEscape = (e: any) => {
@@ -101,6 +102,7 @@ export function BaseCardSection({
       cccOperator: cccOperator,
       query: bcQuery,
       rarityFilter: bcRarity,
+      setFilter: setFilter,
     });
     return cards
       .filter((c) => filters.keep(c))
@@ -121,7 +123,7 @@ export function BaseCardSection({
       break;
     case '>=':
       costOptOne = bcCostValOne;
-      costOptTwo = 7;
+      costOptTwo = 8;
       break;
     default: // <=>
       costOptOne = bcCostValOne;
@@ -136,7 +138,7 @@ export function BaseCardSection({
       break;
     case '>=':
       cccOptOne = ccc;
-      cccOptTwo = 7;
+      cccOptTwo = 8;
       break;
     default:
       cccOptOne = ccc;
@@ -257,7 +259,7 @@ export function BaseCardSection({
               <MenuItem value={'<=>'}>&lt;=&gt;</MenuItem>
             </Select>
             <PipButtons
-              count={6}
+              count={7}
               selectedOne={costOptOne}
               selectedTwo={costOptTwo}
               onClick={handleCostFilterClicked}
@@ -290,6 +292,22 @@ export function BaseCardSection({
             ></PipButtons>
           </FormControl>
         </FormGroup>
+        {/* <FormControl>
+          <InputLabel>Set</InputLabel>
+          <Select
+            label="Set"
+            value={setFilter}
+            onChange={(e) => {
+              setSetFilter(e.target.value as number);
+            }}
+          >
+            <MenuItem value={NaN}>
+              <em>Any</em>
+            </MenuItem>
+            <MenuItem value={1}>1 - A New Way</MenuItem>
+            <MenuItem value={3}>2 - Broken Pair</MenuItem>
+          </Select>
+        </FormControl> */}
       </div>
       <BaseCardList
         style={{ height: '71%' }}
