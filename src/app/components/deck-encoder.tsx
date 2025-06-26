@@ -2,7 +2,7 @@ import { DeckSlot } from '../page';
 import { ShrineSlot } from '../cardlists/shrines';
 import { shrines } from '../cardlists/shrines';
 import { shrineImprovements } from '../cardlists/shrine-improvements';
-import { baseCards } from '../cardlists/base-cards';
+import { baseCards } from '../cardlists/base-card-compiler';
 import { essences } from '../cardlists/essences';
 import { useState, useEffect } from 'react';
 import {
@@ -77,7 +77,7 @@ function encodeDeck(deck: DeckSlot[]): string {
 function decodeShrine(code: string): ShrineSlot {
   if (code.length >= 4) {
     return new ShrineSlot(
-      shrines[decodeString(code.substring(0, 2))],
+      shrines.find((s) => s.id == decodeString(code.substring(0, 2)))!,
       shrineImprovements[decodeString(code.substring(2, 4))]
     );
   } else {
@@ -128,7 +128,8 @@ export function useLocalStorageShrine(key: string) {
   useEffect(() => {
     unlocked = false;
     const stored = localStorage.getItem(key);
-    setValue(stored ? decodeShrine(stored) : fallbackValue);
+    const newShrine = stored ? decodeShrine(stored) : fallbackValue;
+    setValue(newShrine);
     return () => {
       unlocked = true;
     };
@@ -136,7 +137,8 @@ export function useLocalStorageShrine(key: string) {
 
   useEffect(() => {
     if (unlocked) {
-      localStorage.setItem(key, encodeShrine(value));
+      const newShrine = encodeShrine(value);
+      localStorage.setItem(key, newShrine);
     }
   }, [value]);
 

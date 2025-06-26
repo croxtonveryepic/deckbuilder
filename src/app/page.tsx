@@ -1,6 +1,7 @@
 'use client';
 import { Alert, Box, Button, Fade, IconButton } from '@mui/material';
-import { baseCards, BaseCard } from './cardlists/base-cards';
+import { baseCards } from './cardlists/base-card-compiler';
+import { BaseCard } from './cardlists/base-cards';
 import { shrines, ShrineSlot } from './cardlists/shrines';
 import { essences, Essence } from './cardlists/essences';
 import { shrineImprovements } from './cardlists/shrine-improvements';

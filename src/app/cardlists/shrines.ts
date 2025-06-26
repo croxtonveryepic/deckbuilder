@@ -16,7 +16,7 @@ export class Shrine {
   type: CardType;
 }
 
-export let shrines: Shrine[] = [
+export const shrines: Shrine[] = [
   {
     name: 'Hall of Shadows - Crooked Cornerstone',
     filename: 'hallofshadowscrookedcornerstone',
@@ -103,7 +103,7 @@ export let shrines: Shrine[] = [
     hp: 20,
     power: 0,
     speed: 0,
-    text: '(C): Use this ability ounce per turn; (1): All (S) non-Continuous Dark Events you control gain +1 Pwr until end of turn. When you resolve an Event for the third time this turn, draw a Card.',
+    text: '(C): Use this ability once per turn; (1): All (S) non-Continuous Dark Events you control gain +1 Pwr until end of turn. When you resolve an Event for the third time this turn, draw a Card.',
     artist: 'Fernando Cordeiro',
     rarity: Rarity.Epic,
     type: CardType.Shrine,
@@ -111,7 +111,7 @@ export let shrines: Shrine[] = [
   {
     name: 'BryMarEstates - Ruins of the Old World',
     filename: 'BryMarEstatesRuinsOfTheOldWorld',
-    id: 6,
+    id: 7,
     identity: Element.Earth,
     hp: 20,
     power: 0,
@@ -124,7 +124,7 @@ export let shrines: Shrine[] = [
   {
     name: 'Storm Peak - Cloud Veiled Castle',
     filename: 'StormPeakCloudVeiledCastle',
-    id: 7,
+    id: 8,
     identity: Element.Air,
     hp: 18,
     power: 0,
