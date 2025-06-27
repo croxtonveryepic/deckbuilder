@@ -134,7 +134,7 @@ export class BaseCardFilters {
       this.ccc(c.ccc) &&
       this.query([
         c.name,
-        c.subtype,
+        ...c.subtype,
         c.text,
         c.artist,
         expansions.get(c.set)!,
@@ -151,7 +151,7 @@ export class UncalculatedBaseCard {
   id: number;
   epic: string | null;
   supertype: BaseCardType;
-  subtype: string;
+  subtype: string[];
   cost: number;
   pips: Element[];
   hp: number;
@@ -172,7 +172,7 @@ export class BaseCard {
   id: number;
   epic: string | null;
   supertype: BaseCardType;
-  subtype: string;
+  subtype: string[];
   cost: number;
   pips: Element[];
   hp: number;
