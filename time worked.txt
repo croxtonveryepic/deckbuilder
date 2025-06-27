@@ -49,15 +49,12 @@ medium priority:
         number of creatures, spells, locations, and weapons (will this even fit?)
     alert system
         when adding cards to the deck using the modal, show the new quantity
-        when importing, exporting, saving, or deleting decks
 
 low priority:
     fix pathing to be build env agnostic // currently using dev/master cherry-pick, which is fine
     manual dark mode switch
     proxies
     options for how to sort the deck
-    deck codes, saving and importing features
-    change background to something flawed themed
 
 keyword glossary, referenced cards (like war kitten)
 indicate which card in a cluster is being inspected in the modal, at least an alert when using the arrow keys
@@ -66,5 +63,3 @@ make "grizzled crop keeper" count as an earth soul
 more set two cards
 set filters
 format-based deckboxes
-split subtypes into string arrays
-restrict to one per epic of the same character
