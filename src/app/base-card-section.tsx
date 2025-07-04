@@ -43,7 +43,7 @@ export function BaseCardSection({
   const [bcQuery, setBcQuery] = useState('');
   const [ccc, setCcc] = useState(NaN);
   const [cccOperator, setCccOperator] = useState('=');
-  const [setFilter, setSetFilter] = useState(NaN);
+  const [setFilter, setSetFilter] = useState('');
 
   useEffect(() => {
     const handleEscape = (e: any) => {
@@ -178,7 +178,7 @@ export function BaseCardSection({
         </FormGroup>
         <FormGroup style={{ width: '90%' }}>
           <div className="type-rarity-container">
-            <FormControl style={{ marginRight: '1rem' }}>
+            <FormControl style={{ marginRight: '.5rem' }}>
               <InputLabel>Supertype</InputLabel>
               <Select
                 label="Supertype"
@@ -199,7 +199,7 @@ export function BaseCardSection({
                 <MenuItem value={BaseCardType.Structure}>Structure</MenuItem>
               </Select>
             </FormControl>
-            <FormControl>
+            <FormControl style={{ marginRight: '.5rem' }}>
               <InputLabel>Rarity</InputLabel>
               <Select
                 label="Rarity"
@@ -215,6 +215,22 @@ export function BaseCardSection({
                 <MenuItem value={Rarity.Uncommon}>Uncommon</MenuItem>
                 <MenuItem value={Rarity.Rare}>Rare</MenuItem>
                 <MenuItem value={Rarity.Epic}>Epic</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>Set</InputLabel>
+              <Select
+                label="Set"
+                value={setFilter}
+                onChange={(e) => {
+                  setSetFilter(e.target.value);
+                }}
+              >
+                <MenuItem value={''}>
+                  <em>Any</em>
+                </MenuItem>
+                <MenuItem value={1}>1 - A New Way</MenuItem>
+                <MenuItem value={3}>2 - Broken Pair</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -292,22 +308,6 @@ export function BaseCardSection({
             ></PipButtons>
           </FormControl>
         </FormGroup>
-        {/* <FormControl>
-          <InputLabel>Set</InputLabel>
-          <Select
-            label="Set"
-            value={setFilter}
-            onChange={(e) => {
-              setSetFilter(e.target.value as number);
-            }}
-          >
-            <MenuItem value={NaN}>
-              <em>Any</em>
-            </MenuItem>
-            <MenuItem value={1}>1 - A New Way</MenuItem>
-            <MenuItem value={3}>2 - Broken Pair</MenuItem>
-          </Select>
-        </FormControl> */}
       </div>
       <BaseCardList
         style={{ height: '71%' }}

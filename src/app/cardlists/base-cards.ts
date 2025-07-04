@@ -34,7 +34,7 @@ export class BaseCardFilters {
     cccOperator: string;
     query: string;
     rarityFilter: Rarity;
-    setFilter: number;
+    setFilter: string;
   }) {
     this.type =
       typeChoice === BaseCardType.Any
@@ -120,9 +120,10 @@ export class BaseCardFilters {
       rarityFilter === Rarity.Any
         ? (rarity: Rarity) => true
         : (rarity: Rarity) => rarity === rarityFilter;
-    this.set = Number.isNaN(set)
-      ? (s: number) => true
-      : (s: number) => s === set;
+    this.set =
+      set === ''
+        ? (s: number) => true
+        : (s: number) => s === (set as unknown as number);
   }
 
   keep(c: BaseCard): boolean {

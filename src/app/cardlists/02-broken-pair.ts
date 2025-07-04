@@ -1257,7 +1257,7 @@ export const brokenPair: UncalculatedBaseCard[] = [
   {
     set: 3,
     name: "Osa'Ra - Master Assassin",
-    filename: 'os_aramasterassassin',
+    filename: 'osa_ramasterassassin',
     id: 197,
     epic: "Osa'Ra",
     supertype: BaseCardType.Unit,
@@ -1947,7 +1947,7 @@ export const brokenPair: UncalculatedBaseCard[] = [
   {
     set: 3,
     name: 'Yawatara Training',
-    filename: 'yawatartraining',
+    filename: 'yawataratraining',
     id: 229,
     epic: null,
     supertype: BaseCardType.ContinuousEvent,
