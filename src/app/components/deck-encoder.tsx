@@ -94,7 +94,7 @@ function decodeDeck(code: string): DeckSlot[] {
     while (i < tokens.length) {
       deck.push(
         new DeckSlot(
-          baseCards[decodeString(tokens[i])],
+          baseCards[decodeString(tokens[i])] || null,
           essences[decodeString(tokens[i + 1])] || null
         )
       );
