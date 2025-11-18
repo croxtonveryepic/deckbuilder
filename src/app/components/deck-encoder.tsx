@@ -498,7 +498,7 @@ function DeckSummaries({
         <Card
           card={
             new Placeholder(
-              '/assets/misc/card-shaped-logo.png',
+              '/deckbuilder/assets/misc/card-shaped-logo.png',
               'Shrine placeholder'
             )
           }
