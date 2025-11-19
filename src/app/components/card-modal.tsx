@@ -145,13 +145,50 @@ export function DeckModal({
 }) {
     const [translucent, setTranslucent] = useState(false);
 
+    let canMoveLeft = false;
+    let canMoveRight = false;
+    let nextLeft = NaN;
+    let nextRight = NaN;
+    if (!Number.isNaN(activeCard)) {
+        let curr = mainDeck[activeCard];
+
+        canMoveLeft = activeCard !== -1;
+        nextLeft = activeCard - 1;
+        // skip any that are duplicate of the current card
+        while (
+            nextLeft > -1 &&
+            mainDeck[nextLeft].baseCard?.id === curr.baseCard?.id &&
+            mainDeck[nextLeft].essence?.id === curr.essence?.id
+        ) {
+            nextLeft--;
+        }
+
+        nextRight = activeCard + 1;
+        if (nextRight !== 0) {
+            while (
+                nextRight < mainDeck.length &&
+                mainDeck[nextRight].baseCard?.id === curr.baseCard?.id &&
+                mainDeck[nextRight].essence?.id === curr.essence?.id
+            ) {
+                nextRight++;
+            }
+            // need to check if we are in the last "cluster" of cards
+        }
+        canMoveRight = nextRight !== mainDeck.length;
+    }
+
     function moveLeft() {
-        setActiveCard(activeCard - 1);
+        setActiveCard(nextLeft);
     }
 
     function moveRight() {
-        setActiveCard(activeCard + 1);
+        setActiveCard(nextRight);
     }
+
+    console.log('canMoveLeft:', canMoveLeft);
+    console.log('nextLeft:', nextLeft);
+    console.log('canMoveRight:', canMoveRight);
+    console.log('nextRight:', nextRight);
 
     function close() {
         setActiveCard(NaN);
@@ -307,6 +344,13 @@ export function DeckModal({
             <div
                 className={className}
                 onClick={close}
+                onWheel={(e) => {
+                    if (e.deltaY < 0 && canMoveLeft) {
+                        moveLeft();
+                    } else if (e.deltaY > 0 && canMoveRight) {
+                        moveRight();
+                    }
+                }}
                 onKeyDown={(e) => {
                     switch (e.key) {
                         case 'Escape':
@@ -317,11 +361,11 @@ export function DeckModal({
                             break;
                         case 'ArrowLeft':
                         case 'Left':
-                            if (activeCard > -1) moveLeft();
+                            if (canMoveLeft) moveLeft();
                             break;
                         case 'ArrowRight':
                         case 'Right':
-                            if (activeCard < mainDeck.length - 1) moveRight();
+                            if (canMoveRight) moveRight();
                             break;
                     }
                 }}
@@ -336,7 +380,7 @@ export function DeckModal({
                     className="modal-left"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <IconButton onClick={moveLeft} disabled={activeCard === -1}>
+                    <IconButton onClick={moveLeft} disabled={!canMoveLeft}>
                         <ArrowBackIosSharpIcon></ArrowBackIosSharpIcon>
                     </IconButton>
                 </div>
@@ -354,10 +398,7 @@ export function DeckModal({
                     className="modal-right"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <IconButton
-                        onClick={moveRight}
-                        disabled={activeCard === mainDeck.length - 1}
-                    >
+                    <IconButton onClick={moveRight} disabled={!canMoveRight}>
                         <ArrowForwardIosSharpIcon></ArrowForwardIosSharpIcon>
                     </IconButton>
                 </div>
