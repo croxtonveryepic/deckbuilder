@@ -185,10 +185,10 @@ export function DeckModal({
         setActiveCard(nextRight);
     }
 
-    console.log('canMoveLeft:', canMoveLeft);
-    console.log('nextLeft:', nextLeft);
-    console.log('canMoveRight:', canMoveRight);
-    console.log('nextRight:', nextRight);
+    // console.log('canMoveLeft:', canMoveLeft);
+    // console.log('nextLeft:', nextLeft);
+    // console.log('canMoveRight:', canMoveRight);
+    // console.log('nextRight:', nextRight);
 
     function close() {
         setActiveCard(NaN);
