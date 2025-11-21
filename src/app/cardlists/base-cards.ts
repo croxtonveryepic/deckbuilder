@@ -1,6 +1,7 @@
 import { CardType } from '../components/card';
 import { BaseCardType, Element, expansions, Rarity } from './enums';
 import { Essence, essences } from './essences';
+import { baseCardMaxCost } from '../base-card-section';
 export class BaseCardFilters {
     private type: (supertype: BaseCardType) => boolean;
     private identity: (pips: Element[]) => boolean;
@@ -65,7 +66,12 @@ export class BaseCardFilters {
         if (costChoiceOne) {
             switch (costOperator) {
                 case '=':
-                    this.cost = (cost: number) => costChoiceOne === cost;
+                    this.cost = function (cost: number) {
+                        if (costChoiceOne === baseCardMaxCost) {
+                            return cost >= costChoiceOne;
+                        }
+                        return costChoiceOne === cost;
+                    };
                     break;
                 case '<=':
                     this.cost = (cost: number) => cost <= costChoiceOne;

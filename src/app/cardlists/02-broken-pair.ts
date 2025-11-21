@@ -1134,7 +1134,7 @@ export const brokenPair: UncalculatedBaseCard[] = [
         epic: null,
         supertype: BaseCardType.Unit,
         subtype: ['Human', 'Barbarian', 'Ranger'],
-        cost: 3,
+        cost: 4,
         pips: [Element.Air],
         hp: 4,
         power: 2,

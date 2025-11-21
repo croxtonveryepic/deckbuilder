@@ -26,6 +26,8 @@ interface BaseCardSectionProps extends ComponentPropsWithoutRef<'div'> {
     onClickBaseCard: (c: BaseCard) => void;
 }
 
+export const baseCardMaxCost = 7;
+
 export function BaseCardSection({
     cards,
     onClickBaseCard,
@@ -297,10 +299,11 @@ export function BaseCardSection({
                             <MenuItem value={'<=>'}>&lt;=&gt;</MenuItem>
                         </Select>
                         <PipButtons
-                            count={7}
+                            count={baseCardMaxCost}
                             selectedOne={costOptOne}
                             selectedTwo={costOptTwo}
                             onClick={handleCostFilterClicked}
+                            includePlus={true}
                         ></PipButtons>
                     </FormControl>
                 </FormGroup>
@@ -329,6 +332,7 @@ export function BaseCardSection({
                             onClick={(num: number) =>
                                 setCcc(num === ccc ? NaN : num)
                             }
+                            includePlus={false}
                         ></PipButtons>
                     </FormControl>
                 </FormGroup>
