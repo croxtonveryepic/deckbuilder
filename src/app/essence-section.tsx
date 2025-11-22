@@ -194,6 +194,7 @@ export function EssenceSection({
                             setCcc(num === ccc ? NaN : num)
                         }
                         zeroIndex={true}
+                        includePlus={false}
                     ></PipButtons>
                 </FormGroup>
             </div>
