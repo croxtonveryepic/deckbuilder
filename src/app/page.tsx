@@ -9,8 +9,8 @@ import { CardType } from './components/card';
 import { useEffect, useState } from 'react';
 import { idGenerator } from './utils';
 import {
-  useLocalStorageDeck,
-  useLocalStorageShrine,
+    useLocalStorageDeck,
+    useLocalStorageShrine,
 } from './components/deck-encoder';
 import { HeldCard, AlertPickup } from './components/drag-context';
 import { DeckContext } from './components/decklist-context';
@@ -25,208 +25,244 @@ import zIndex from '@mui/material/styles/zIndex';
 import { styleText } from 'util';
 
 export class DeckSlot {
-  baseCard: BaseCard | null;
-  essence: Essence | null;
-  id: number;
+    baseCard: BaseCard | null;
+    essence: Essence | null;
+    id: number;
 
-  constructor(baseCard: BaseCard | null, essence: Essence | null) {
-    this.baseCard = baseCard;
-    this.essence = essence;
-    this.id = newCardSlotId();
-  }
+    constructor(baseCard: BaseCard | null, essence: Essence | null) {
+        this.baseCard = baseCard;
+        this.essence = essence;
+        this.id = newCardSlotId();
+    }
 }
 
 const newCardSlotId = idGenerator();
 // const newAlertId = idGenerator();
 export default function Home() {
-  const [shrineMode, setShrineMode] = useState(true);
-  const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
-  const [deck, setDeck] = useLocalStorageDeck();
-  const [heldCard, setHeldCard] = useState(null as HeldCard);
-  const [maxView, setMaxView] = useState(false);
+    const [shrineMode, setShrineMode] = useState(true);
+    const [shrine, setShrine] = useLocalStorageShrine('tempShrine');
+    const [deck, setDeck] = useLocalStorageDeck();
+    const [heldCard, setHeldCard] = useState(null as HeldCard);
+    const [maxView, setMaxView] = useState(false);
 
-  // const [alertMessages, setAlertMessages] = useState({} as any);
-  // const [alertVisible, setAlertVisible] = useState(false);
+    // const [alertMessages, setAlertMessages] = useState({} as any);
+    // const [alertVisible, setAlertVisible] = useState(false);
 
-  function addBaseCard(card: BaseCard) {
-    setDeck([...deck, new DeckSlot(card, null)]);
-  }
-
-  function addEssence(card: Essence) {
-    setDeck([...deck, new DeckSlot(null, card)]);
-  }
-
-  function toggleShrineMode() {
-    setShrineMode(!shrineMode);
-  }
-
-  function removeLayer(id: number) {
-    const c = deck.find((ds) => ds.id === id);
-    if (!c) {
-      console.warn('missing card');
-    } else if (!c.essence) {
-      setDeck(
-        deck.filter((card) => {
-          return id !== card.id;
-        })
-      );
-    } else if (!c.baseCard) {
-      setDeck(deck.filter((ds) => ds.id !== id));
-    } else {
-      setDeck(
-        deck.map((ds) => {
-          if (ds.id === id) {
-            return { ...ds, essence: null };
-          } else {
-            return ds;
-          }
-        })
-      );
+    function addBaseCard(card: BaseCard) {
+        setDeck([...deck, new DeckSlot(card, null)]);
     }
-  }
 
-  function applyEssence(id: number, incomingEssence: Essence) {
-    // from collection
-    if (Number.isNaN(heldCard?.id)) {
-      setDeck(
-        deck.map((ds) => {
-          if (ds.id === id) {
-            return { ...ds, essence: incomingEssence };
-          } else {
-            return ds;
-          }
-        })
-      );
-    } else {
-      // from elsewhere in the deck zone
-      const targetDeckSlot = deck.find((ds) => ds.id === id);
-      const sourceDeckSlot = deck.find((ds) => ds.id === heldCard?.id);
-      const essenceToSwapBack =
-        targetDeckSlot?.essence &&
-        (!sourceDeckSlot?.baseCard ||
-          sourceDeckSlot?.baseCard.validEssences.has(targetDeckSlot.essence.id))
-          ? targetDeckSlot.essence
-          : null;
-      let newDeck;
-      if (sourceDeckSlot?.baseCard === null && essenceToSwapBack === null) {
-        newDeck = deck
-          .filter((ds) => ds.id !== sourceDeckSlot.id)
-          .map((ds) => {
-            if (ds.id === id) {
-              return { ...ds, essence: incomingEssence };
+    function addEssence(card: Essence) {
+        setDeck([...deck, new DeckSlot(null, card)]);
+    }
+
+    function toggleShrineMode() {
+        setShrineMode(!shrineMode);
+    }
+
+    function removeLayer(id: number) {
+        const c = deck.find((ds) => ds.id === id);
+        if (!c) {
+            console.warn('missing card');
+        } else if (!c.essence) {
+            setDeck(
+                deck.filter((card) => {
+                    return id !== card.id;
+                })
+            );
+        } else if (!c.baseCard) {
+            setDeck(deck.filter((ds) => ds.id !== id));
+        } else {
+            setDeck(
+                deck.map((ds) => {
+                    if (ds.id === id) {
+                        return { ...ds, essence: null };
+                    } else {
+                        return ds;
+                    }
+                })
+            );
+        }
+    }
+
+    function applyEssence(
+        id: number,
+        incomingEssence: Essence,
+        applyToAll: boolean
+    ) {
+        if (applyToAll) {
+            // console.log('test');
+            const baseCardId = deck.find((ds) => ds.id === id)?.baseCard?.id;
+            // console.log(baseCardId);
+            // console.log(baseCards[baseCardId!]);
+            // first delete any instance of the unbacked essence
+            let tmp = deck.filter(
+                (ds) =>
+                    ds.baseCard !== null ||
+                    ds.essence?.id !== incomingEssence.id
+            );
+            setDeck(
+                tmp.map((ds) => {
+                    if (ds.baseCard?.id === baseCardId) {
+                        return { ...ds, essence: incomingEssence };
+                    } else if (
+                        !incomingEssence.unlimited &&
+                        ds.essence?.id === incomingEssence.id
+                    ) {
+                        return { ...ds, essence: null };
+                    } else {
+                        return ds;
+                    }
+                })
+            );
+            setHeldCard(null);
+        }
+        // from collection
+        else if (Number.isNaN(heldCard?.id)) {
+            setDeck(
+                deck.map((ds) => {
+                    if (ds.id === id) {
+                        return { ...ds, essence: incomingEssence };
+                    } else {
+                        return ds;
+                    }
+                })
+            );
+        } else {
+            // from elsewhere in the deck zone
+            const targetDeckSlot = deck.find((ds) => ds.id === id);
+            const sourceDeckSlot = deck.find((ds) => ds.id === heldCard?.id);
+            const essenceToSwapBack =
+                targetDeckSlot?.essence &&
+                (!sourceDeckSlot?.baseCard ||
+                    sourceDeckSlot?.baseCard.validEssences.has(
+                        targetDeckSlot.essence.id
+                    ))
+                    ? targetDeckSlot.essence
+                    : null;
+            let newDeck;
+            if (
+                sourceDeckSlot?.baseCard === null &&
+                essenceToSwapBack === null
+            ) {
+                newDeck = deck
+                    .filter((ds) => ds.id !== sourceDeckSlot.id)
+                    .map((ds) => {
+                        if (ds.id === id) {
+                            return { ...ds, essence: incomingEssence };
+                        } else {
+                            return ds;
+                        }
+                    });
             } else {
-              return ds;
+                newDeck = deck.map((ds) => {
+                    if (ds.id === id) {
+                        return { ...ds, essence: incomingEssence };
+                    } else if (ds.id === heldCard?.id) {
+                        return { ...ds, essence: essenceToSwapBack };
+                    } else {
+                        return ds;
+                    }
+                });
             }
-          });
-      } else {
-        newDeck = deck.map((ds) => {
-          if (ds.id === id) {
-            return { ...ds, essence: incomingEssence };
-          } else if (ds.id === heldCard?.id) {
-            return { ...ds, essence: essenceToSwapBack };
-          } else {
-            return ds;
-          }
-        });
-      }
-      setDeck(newDeck);
-      setHeldCard(null); // must re-do here because the source will re-render, which will cause heldCard state to hang if it's a transfer instead of a swap
+            setDeck(newDeck);
+            setHeldCard(null); // must re-do here because the source will re-render, which will cause heldCard state to hang if it's a transfer instead of a swap
+        }
     }
-  }
 
-  let cards = new Map<number, number>();
-  let epics = new Set<string>();
-  let essenceCounts = new Map<number, number>();
-  deck.forEach((ds) => {
-    let id = ds.baseCard?.id;
-    if (id !== undefined) {
-      let count = cards.get(id);
-      cards.set(id, count ? count + 1 : 1);
-      if (ds.baseCard?.epic) {
-        epics.add(ds.baseCard.epic);
-      }
-    }
-    id = ds.essence?.id;
-    if (id !== undefined) {
-      let count = essenceCounts.get(id);
-      essenceCounts.set(id, count ? count + 1 : 1);
-    }
-  });
+    let cards = new Map<number, number>();
+    let epics = new Set<string>();
+    let essenceCounts = new Map<number, number>();
+    deck.forEach((ds) => {
+        let id = ds.baseCard?.id;
+        if (id !== undefined) {
+            let count = cards.get(id);
+            cards.set(id, count ? count + 1 : 1);
+            if (ds.baseCard?.epic) {
+                epics.add(ds.baseCard.epic);
+            }
+        }
+        id = ds.essence?.id;
+        if (id !== undefined) {
+            let count = essenceCounts.get(id);
+            essenceCounts.set(id, count ? count + 1 : 1);
+        }
+    });
 
-  const handleCollectionDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    switch (heldCard?.card.type) {
-      case CardType.BaseCard:
-      case CardType.Essence:
-        removeLayer(heldCard.id);
-        break;
-      case CardType.Shrine:
-        setShrine({ ...shrine, shrine: null });
-        break;
-      case CardType.ShrineImprovement:
-        setShrine({ ...shrine, shrineImprovement: null });
-        break;
-    }
-  };
+    const handleCollectionDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        switch (heldCard?.card.type) {
+            case CardType.BaseCard:
+            case CardType.Essence:
+                removeLayer(heldCard.id);
+                break;
+            case CardType.Shrine:
+                setShrine({ ...shrine, shrine: null });
+                break;
+            case CardType.ShrineImprovement:
+                setShrine({ ...shrine, shrineImprovement: null });
+                break;
+        }
+    };
 
-  // function alert(message: string) {
-  //   let id = newAlertId();
-  //   setAlertMessages((prev) => {
-  //     return { ...prev, [id]: message };
-  //   });
-  //   setTimeout(() => {
-  //     // if (currAlert === message) {
-  //     // setAlertVisible(false);
-  //     // }
+    // function alert(message: string) {
+    //   let id = newAlertId();
+    //   setAlertMessages((prev) => {
+    //     return { ...prev, [id]: message };
+    //   });
+    //   setTimeout(() => {
+    //     // if (currAlert === message) {
+    //     // setAlertVisible(false);
+    //     // }
 
-  //     setAlertMessages((prev) => {
-  //       const { [id]: _, ...newAlerts } = alertMessages;
-  //       return newAlerts;
-  //     });
-  //   }, 2500);
-  // }
+    //     setAlertMessages((prev) => {
+    //       const { [id]: _, ...newAlerts } = alertMessages;
+    //       return newAlerts;
+    //     });
+    //   }, 2500);
+    // }
 
-  // const alerts = Object.values(alertMessages).map((message) => (
-  //   <div style={{ position: 'absolute', left: '50%' }}>
-  //     <Alert
-  //       icon={<Check fontSize="inherit" />}
-  //       severity="success"
-  //       style={{
-  //         position: 'relative',
-  //         left: '-50%',
-  //         top: '70vh',
-  //         zIndex: '999',
-  //       }}
-  //     >
-  //       {message as string}
-  //     </Alert>
-  //   </div>
-  // ));
+    // const alerts = Object.values(alertMessages).map((message) => (
+    //   <div style={{ position: 'absolute', left: '50%' }}>
+    //     <Alert
+    //       icon={<Check fontSize="inherit" />}
+    //       severity="success"
+    //       style={{
+    //         position: 'relative',
+    //         left: '-50%',
+    //         top: '70vh',
+    //         zIndex: '999',
+    //       }}
+    //     >
+    //       {message as string}
+    //     </Alert>
+    //   </div>
+    // ));
 
-  const collectionDropProps = new ConditionalDroppable(
-    (heldCard && !Number.isNaN(heldCard.id)) as boolean,
-    handleCollectionDrop
-  );
-  return (
-    <Box>
-      <AlertPickup.Provider
-        value={(c) => {
-          setHeldCard(c);
-        }}
-      >
-        <DeckContext.Provider
-          value={{
-            shrine: shrine,
-            cards: cards,
-            essences: essenceCounts,
-            epics: epics,
-          }}
-        >
-          {/* <Fade in={alertVisible}>
+    const collectionDropProps = new ConditionalDroppable(
+        (heldCard && !Number.isNaN(heldCard.id)) as boolean,
+        handleCollectionDrop
+    );
+    return (
+        <Box>
+            <AlertPickup.Provider
+                value={(c) => {
+                    setHeldCard(c);
+                }}
+            >
+                <DeckContext.Provider
+                    value={{
+                        shrine: shrine,
+                        cards: cards,
+                        essences: essenceCounts,
+                        epics: epics,
+                    }}
+                >
+                    {/* <Fade in={alertVisible}>
             
           </Fade> */}
-          {/* {alerts} */}
-          {/* <Button
+                    {/* {alerts} */}
+                    {/* <Button
             onClick={() => {
               alert(`${newAlertId()}`);
             }}
@@ -234,53 +270,60 @@ export default function Home() {
           >
             push message
           </Button> */}
-          <DeckSection
-            deck={deck}
-            setDeck={setDeck}
-            shrine={shrine}
-            setShrine={setShrine}
-            shrineMode={shrineMode}
-            toggleShrineMode={toggleShrineMode}
-            heldCard={heldCard}
-            onClickDeckSlot={removeLayer}
-            onDropEssence={applyEssence}
-            onDropBaseCard={addBaseCard}
-            deckMaximized={maxView}
-            toggleMaxView={() => setMaxView(!maxView)}
-          ></DeckSection>
-          {!maxView &&
-            (shrineMode ? (
-              <ShrineSection
-                {...collectionDropProps}
-                shrines={shrines}
-                onClickShrine={(s) =>
-                  setShrine(new ShrineSlot(s, shrine.shrineImprovement))
-                }
-              ></ShrineSection>
-            ) : (
-              <BaseCardSection
-                {...collectionDropProps}
-                cards={baseCards}
-                onClickBaseCard={(card_name) => addBaseCard(card_name)}
-              ></BaseCardSection>
-            ))}
-          {!maxView &&
-            (shrineMode ? (
-              <ShrineImprovementSection
-                {...collectionDropProps}
-                shrineImprovements={shrineImprovements}
-                onClickShrineImprovement={(si) =>
-                  setShrine(new ShrineSlot(shrine.shrine, si))
-                }
-              ></ShrineImprovementSection>
-            ) : (
-              <EssenceSection
-                essences={essences}
-                onClickEssence={addEssence}
-              ></EssenceSection>
-            ))}
-        </DeckContext.Provider>
-      </AlertPickup.Provider>
-    </Box>
-  );
+                    <DeckSection
+                        deck={deck}
+                        setDeck={setDeck}
+                        shrine={shrine}
+                        setShrine={setShrine}
+                        shrineMode={shrineMode}
+                        toggleShrineMode={toggleShrineMode}
+                        heldCard={heldCard}
+                        onClickDeckSlot={removeLayer}
+                        onDropEssence={applyEssence}
+                        onDropBaseCard={addBaseCard}
+                        deckMaximized={maxView}
+                        toggleMaxView={() => setMaxView(!maxView)}
+                    ></DeckSection>
+                    {!maxView &&
+                        (shrineMode ? (
+                            <ShrineSection
+                                {...collectionDropProps}
+                                shrines={shrines}
+                                onClickShrine={(s) =>
+                                    setShrine(
+                                        new ShrineSlot(
+                                            s,
+                                            shrine.shrineImprovement
+                                        )
+                                    )
+                                }
+                            ></ShrineSection>
+                        ) : (
+                            <BaseCardSection
+                                {...collectionDropProps}
+                                cards={baseCards}
+                                onClickBaseCard={(card_name) =>
+                                    addBaseCard(card_name)
+                                }
+                            ></BaseCardSection>
+                        ))}
+                    {!maxView &&
+                        (shrineMode ? (
+                            <ShrineImprovementSection
+                                {...collectionDropProps}
+                                shrineImprovements={shrineImprovements}
+                                onClickShrineImprovement={(si) =>
+                                    setShrine(new ShrineSlot(shrine.shrine, si))
+                                }
+                            ></ShrineImprovementSection>
+                        ) : (
+                            <EssenceSection
+                                essences={essences}
+                                onClickEssence={addEssence}
+                            ></EssenceSection>
+                        ))}
+                </DeckContext.Provider>
+            </AlertPickup.Provider>
+        </Box>
+    );
 }
