@@ -96,25 +96,51 @@ export default function Home() {
             // console.log(baseCardId);
             // console.log(baseCards[baseCardId!]);
             // first delete any instance of the unbacked essence
-            let tmp = deck.filter(
+            let newDeck = deck.filter(
                 (ds) =>
                     ds.baseCard !== null ||
                     ds.essence?.id !== incomingEssence.id
             );
-            setDeck(
-                tmp.map((ds) => {
-                    if (ds.baseCard?.id === baseCardId) {
-                        return { ...ds, essence: incomingEssence };
-                    } else if (
-                        !incomingEssence.unlimited &&
-                        ds.essence?.id === incomingEssence.id
-                    ) {
-                        return { ...ds, essence: null };
-                    } else {
-                        return ds;
+            let baseSwaps = [] as DeckSlot[];
+            let essenceSwaps = [] as DeckSlot[];
+            newDeck = newDeck.map((ds) => {
+                if (ds.baseCard?.id === baseCardId) {
+                    if (ds.essence && ds.essence.id !== incomingEssence.id) {
+                        essenceSwaps.push(ds);
                     }
-                })
-            );
+                    return { ...ds, essence: incomingEssence };
+                } else if (
+                    !incomingEssence.unlimited &&
+                    ds.essence?.id === incomingEssence.id
+                ) {
+                    baseSwaps.push(ds);
+                    return { ...ds, essence: null };
+                } else {
+                    return ds;
+                }
+            });
+            if (
+                baseSwaps.length > 0 &&
+                baseSwaps.length === essenceSwaps.length
+            ) {
+                let card = baseSwaps[0].baseCard!;
+                let essence = essenceSwaps[0].essence!;
+                if (
+                    card.validEssences.has(essence.id) &&
+                    baseSwaps.every((ds) => ds.baseCard!.id === card.id) &&
+                    essenceSwaps.every((ds) => (ds.essence!.id = essence.id))
+                ) {
+                    let set = new Set(baseSwaps.map((ds) => ds.id));
+                    newDeck = newDeck.map((ds) => {
+                        if (set.has(ds.id)) {
+                            return { ...ds, essence: essence };
+                        } else {
+                            return ds;
+                        }
+                    });
+                }
+            }
+            setDeck(newDeck);
             setHeldCard(null);
         }
         // from collection
