@@ -6,23 +6,35 @@ import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
 
 export class Placeholder {
-  type: CardType.Placeholder;
-  filename: string;
-  name: string;
+    type: CardType.Placeholder;
+    filename: string;
+    name: string;
 
-  constructor(filename: string, name: string) {
-    this.type = CardType.Placeholder;
-    this.filename = filename;
-    this.name = name;
-  }
+    constructor(filename: string, name: string) {
+        this.type = CardType.Placeholder;
+        this.filename = filename;
+        this.name = name;
+    }
+}
+export class CardBack {
+    type: CardType.CardBack;
+    filename: string;
+    name: string;
+
+    constructor(filename: string, name: string) {
+        this.type = CardType.CardBack;
+        this.filename = filename;
+        this.name = name;
+    }
 }
 
 export type AnyCard =
-  | Shrine
-  | ShrineImprovement
-  | BaseCard
-  | Essence
-  | Placeholder;
+    | Shrine
+    | ShrineImprovement
+    | BaseCard
+    | Essence
+    | Placeholder
+    | CardBack;
 export type HeldCard = { card: AnyCard; id: number } | null;
 
 // export const disam = {

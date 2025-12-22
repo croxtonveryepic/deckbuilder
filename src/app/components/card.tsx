@@ -10,188 +10,200 @@ import { ConditionalDraggable } from './conditional-draggable';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 
 export enum CardType {
-  Shrine = 'shrines',
-  BaseCard = 'base-cards',
-  ShrineImprovement = 'shrine-improvements',
-  Essence = 'essences',
-  Placeholder = 'placeholder',
+    Shrine = 'shrines',
+    BaseCard = 'base-cards',
+    ShrineImprovement = 'shrine-improvements',
+    Essence = 'essences',
+    Placeholder = 'placeholder',
+    CardBack = 'placeholder2',
 }
 
 export class DisplayData {
-  name: string;
-  filename: string;
-  type: CardType;
+    name: string;
+    filename: string;
+    type: CardType;
 }
 
 interface CardProps extends ComponentPropsWithoutRef<'div'> {
-  card: AnyCard;
-  onClick?: (card: any) => void;
-  onContextMenu?: (card: any) => void;
-  className?: string;
-  disabled?: boolean;
-  cardSlotId?: number;
+    card: AnyCard;
+    onClick?: (card: any) => void;
+    onContextMenu?: (card: any) => void;
+    className?: string;
+    disabled?: boolean;
+    cardSlotId?: number;
 }
 
 export function Card({
-  card,
-  onClick,
-  onContextMenu,
-  className = '',
-  disabled = false,
-  cardSlotId = NaN,
-  ...rest
+    card,
+    onClick,
+    onContextMenu,
+    className = '',
+    disabled = false,
+    cardSlotId = NaN,
+    ...rest
 }: CardProps) {
-  const pickup = useContext(AlertPickup);
+    const pickup = useContext(AlertPickup);
 
-  let path, alt, cn, priority;
-  if (card.type === CardType.Placeholder) {
-    path = card.filename;
-    alt = card.name;
-    cn = 'card unbacked-overlay';
-    priority = true;
-  } else {
-    path = '/assets/' + card.type + '/' + card.filename + '.png';
-    alt = card.name;
-    cn =
-      card.type === CardType.Essence || card.type === CardType.ShrineImprovement
-        ? 'card unbacked-overlay'
-        : 'card';
-  }
-  if (disabled) {
-    cn += ' greyed';
-    onClick = undefined;
-  }
-  let dragProps = new ConditionalDraggable(
-    !disabled,
-    (e) => pickup({ card: card, id: cardSlotId }),
-    (e) => pickup(null)
-  );
-  return (
-    <div className={cn + ' ' + className} {...dragProps} {...rest}>
-      <Image
-        src={path}
-        alt={card.name}
-        width="145"
-        height="203"
-        onClick={(e) => onClick && onClick(card)}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          onContextMenu && onContextMenu(card);
-        }}
-        priority={priority}
-      />
-    </div>
-  );
+    let path, alt, cn, priority;
+    if (card.type === CardType.Placeholder) {
+        path = card.filename;
+        alt = card.name;
+        cn = 'card unbacked-overlay';
+        priority = true;
+    } else if (card.type === CardType.CardBack) {
+        path = card.filename;
+        alt = card.name;
+        cn = 'card';
+        priority = true;
+    } else {
+        path = '/assets/' + card.type + '/' + card.filename + '.png';
+        alt = card.name;
+        cn =
+            card.type === CardType.Essence ||
+            card.type === CardType.ShrineImprovement
+                ? 'card unbacked-overlay'
+                : 'card';
+    }
+    if (disabled) {
+        cn += ' greyed';
+        onClick = undefined;
+    }
+    let dragProps = new ConditionalDraggable(
+        !disabled,
+        (e) => pickup({ card: card, id: cardSlotId }),
+        (e) => pickup(null)
+    );
+    return (
+        <div className={cn + ' ' + className} {...dragProps} {...rest}>
+            <Image
+                src={path}
+                alt={card.name}
+                width="739"
+                height="1035"
+                onClick={(e) => onClick && onClick(card)}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    onContextMenu && onContextMenu(card);
+                }}
+                loading="lazy"
+                // priority={priority}
+            />
+        </div>
+    );
 }
 
 interface ShrineProps extends ComponentPropsWithoutRef<'div'> {
-  shrineSlot: ShrineSlot;
-  onClick?: () => void;
-  onContextMenu?: () => void;
-  className?: string;
+    shrineSlot: ShrineSlot;
+    onClick?: () => void;
+    onContextMenu?: () => void;
+    className?: string;
 }
 
 export function ImprovedShrine({
-  shrineSlot,
-  onClick,
-  onContextMenu,
-  className = '',
-  ...rest
+    shrineSlot,
+    onClick,
+    onContextMenu,
+    className = '',
+    ...rest
 }: ShrineProps) {
-  const pickup = useContext(AlertPickup);
-  className += ' card';
-  return (
-    <Container className={className} {...rest}>
-      <div>
-        <Image
-          className="base-card"
-          src={'/assets/shrines/' + shrineSlot.shrine?.filename + '.png'}
-          alt={shrineSlot.shrine?.name || ''}
-          width="145"
-          height="203"
-        />
-      </div>
-      <div
-        draggable
-        onDragStart={(e) => {
-          pickup({
-            card: shrineSlot.shrineImprovement as ShrineImprovement,
-            id: 1,
-          });
-        }}
-        onDragEnd={(e) => {
-          pickup(null);
-        }}
-      >
-        <Image
-          className="overlay"
-          src={
-            '/assets/shrine-improvements/' +
-            shrineSlot.shrineImprovement?.filename +
-            '.png'
-          }
-          alt={shrineSlot.shrineImprovement?.name || ''}
-          width="145"
-          height="203"
-          onClick={(e) => onClick && onClick()}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            onContextMenu && onContextMenu();
-          }}
-        />
-      </div>
-    </Container>
-  );
+    const pickup = useContext(AlertPickup);
+    className += ' card';
+    return (
+        <Container className={className} {...rest}>
+            <div>
+                <Image
+                    className="base-card"
+                    src={
+                        '/assets/shrines/' +
+                        shrineSlot.shrine?.filename +
+                        '.png'
+                    }
+                    alt={shrineSlot.shrine?.name || ''}
+                    width="739"
+                    height="1035"
+                />
+            </div>
+            <div
+                draggable
+                onDragStart={(e) => {
+                    pickup({
+                        card: shrineSlot.shrineImprovement as ShrineImprovement,
+                        id: 1,
+                    });
+                }}
+                onDragEnd={(e) => {
+                    pickup(null);
+                }}
+            >
+                <Image
+                    className="overlay"
+                    src={
+                        '/assets/shrine-improvements/' +
+                        shrineSlot.shrineImprovement?.filename +
+                        '.png'
+                    }
+                    alt={shrineSlot.shrineImprovement?.name || ''}
+                    width="739"
+                    height="1035"
+                    onClick={(e) => onClick && onClick()}
+                    onContextMenu={(e) => {
+                        e.preventDefault();
+                        onContextMenu && onContextMenu();
+                    }}
+                />
+            </div>
+        </Container>
+    );
 }
 
 interface ImbuedCardProps extends ComponentPropsWithoutRef<'div'> {
-  card: BaseCard;
-  essence: Essence;
-  onClick?: () => void;
-  onContextMenu?: () => void;
-  className?: string;
-  cardSlotId: number;
+    card: BaseCard;
+    essence: Essence;
+    onClick?: () => void;
+    onContextMenu?: () => void;
+    className?: string;
+    cardSlotId: number;
 }
 
 export function ImbuedCard({
-  card,
-  essence,
-  onClick,
-  onContextMenu,
-  className = '',
-  cardSlotId,
-  ...rest
+    card,
+    essence,
+    onClick,
+    onContextMenu,
+    className = '',
+    cardSlotId,
+    ...rest
 }: ImbuedCardProps) {
-  const pickup = useContext(AlertPickup);
-  className += ' card';
-  return (
-    <Container className={className} {...rest}>
-      <Image
-        className="base-card"
-        src={'/assets/base-cards/' + card.filename + '.png'}
-        alt={card.name}
-        width="145"
-        height="203"
-      />
-      <Image
-        className="overlay"
-        src={'/assets/essences/' + essence.filename + '.png'}
-        alt={essence.name}
-        width="145"
-        height="203"
-        onClick={(e) => onClick && onClick()}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          onContextMenu && onContextMenu();
-        }}
-        draggable
-        onDragStart={(e) => {
-          pickup({ card: essence, id: cardSlotId });
-        }}
-        onDragEnd={(e) => {
-          pickup(null);
-        }}
-      />
-    </Container>
-  );
+    const pickup = useContext(AlertPickup);
+    className += ' card';
+    return (
+        <Container className={className} {...rest}>
+            <Image
+                className="base-card"
+                src={'/assets/base-cards/' + card.filename + '.png'}
+                alt={card.name}
+                width="739"
+                height="1035"
+            />
+            <Image
+                className="overlay"
+                src={'/assets/essences/' + essence.filename + '.png'}
+                alt={essence.name}
+                width="739"
+                height="1035"
+                onClick={(e) => onClick && onClick()}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    onContextMenu && onContextMenu();
+                }}
+                draggable
+                onDragStart={(e) => {
+                    pickup({ card: essence, id: cardSlotId });
+                }}
+                onDragEnd={(e) => {
+                    pickup(null);
+                }}
+            />
+        </Container>
+    );
 }

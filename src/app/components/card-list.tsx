@@ -10,7 +10,7 @@ import { Shrine } from '../cardlists/shrines';
 import { ShrineImprovement } from '../cardlists/shrine-improvements';
 import { BaseCard } from '../cardlists/base-cards';
 import { Essence } from '../cardlists/essences';
-import { HeldCard, Placeholder } from './drag-context';
+import { CardBack, HeldCard, Placeholder } from './drag-context';
 import { ConditionalDroppable } from './conditional-droppable';
 import { DeckContext } from './decklist-context';
 import { ConditionalDragEnterLeave } from './conditional-drag-enter-leave';
@@ -199,7 +199,7 @@ function calcClusterWidth(
     isTtsMode = false
 ): string {
     if (isMaximized && isTtsMode) {
-        return '7.5vw';
+        return 'unset';
     }
     return (
         (isMaximized ? 6.5 + 4.875 * dupeCount : 5 + 3.75 * dupeCount) + 'vw'
@@ -457,10 +457,7 @@ export function Deck({
                     key={-1}
                     className={'last'}
                     card={
-                        new Placeholder(
-                            '/assets/misc/card-back.png',
-                            'Card back'
-                        )
+                        new CardBack('/assets/misc/card-back.png', 'Card back')
                     }
                 ></Card>
             </Grid>
@@ -530,6 +527,40 @@ export function Deck({
 
     const gridClass = deckMaximized && ttsMode ? 'tts' : 'standard';
 
+    let grid;
+    let ttsGrid;
+    if (ttsMode) {
+        grid = [[], [], [], []] as JSX.Element[][];
+        if (shrine) {
+            grid[0].push(<Grid item>{shrine}</Grid>);
+        }
+        let n = 0;
+        let i = 0;
+        while (i < 4 && n < deck.length) {
+            while (grid[i].length < 13) {
+                grid[i].push(deck[n]);
+                n++;
+            }
+            i++;
+        }
+        ttsGrid = (
+            <div className="tts-mode">
+                <Grid container className={gridClass}>
+                    {grid[0]}
+                </Grid>
+                <Grid container className={gridClass}>
+                    {grid[1]}
+                </Grid>
+                <Grid container className={gridClass}>
+                    {grid[2]}
+                </Grid>
+                <Grid container className={gridClass}>
+                    {grid[3]}
+                </Grid>
+            </div>
+        );
+    }
+
     return (
         <div className="main-deck" {...deckDroppable}>
             <DeckModal
@@ -538,10 +569,14 @@ export function Deck({
                 activeCard={modalCard}
                 setActiveCard={setModalCard}
             ></DeckModal>
-            <Grid container className={gridClass}>
-                <Grid item>{shrine}</Grid>
-                {deck}
-            </Grid>
+            {ttsMode ? (
+                ttsGrid
+            ) : (
+                <Grid container className={gridClass}>
+                    <Grid item>{shrine}</Grid>
+                    {deck}
+                </Grid>
+            )}
         </div>
     );
 }
