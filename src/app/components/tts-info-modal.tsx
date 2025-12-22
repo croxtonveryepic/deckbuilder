@@ -51,25 +51,17 @@ export function TtsInfoModal({}: {}) {
                         <br></br>
                         <p>
                             This feature generates a high-res image so you can
-                            upload your deck to Tabletop Simulator. Doing this
-                            in the browser is tricky. This is what you must do:
+                            upload your deck to Tabletop Simulator.
                         </p>
                         <br></br>
                         <ul>
                             <li>1. Open the link below.</li>
                             <li>
-                                2. Decrease your browser zoom (hold ctrl and
-                                mousewheel down or press minus){' '}
-                                <b>to the minimum it will go.</b> You should see
-                                most of your deck.
+                                2. Click anywhere on the screen. This converts
+                                the browser-rendered HTML to an image. Make sure
+                                everything looks right.
                             </li>
-                            <li>3. Refresh the page.</li>
-                            <li>
-                                4. Click anywhere on the screen. Make sure
-                                everything looks right. If not, try again.
-                            </li>
-                            <li>5. Click again to save.</li>
-                            <li>6. Reset your browser zoom (ctrl 0).</li>
+                            <li>3. Click again to save.</li>
                         </ul>
                     </Paper>
                     <div
