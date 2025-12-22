@@ -10,8 +10,8 @@
     --small-card-height: 7vw;
     --medium-card-width: 6.5vw;
     --medium-card-height: 9.1vw;
-    --tts-card-width: 7.5vw;
-    --tts-card-height: 10.5vw;
+    --tts-card-width: unset;
+    --tts-card-height: unset;
     --large-card-width: 7.55vw;
     --large-card-height: 10.57vw;
 }
@@ -180,7 +180,7 @@ body {
             align-items: center;
             justify-content: center;
             button {
-                width: 14rem;
+                width: 8rem;
                 border-color: black;
                 border-width: medium;
                 padding: 0.5rem;
@@ -204,6 +204,21 @@ body {
         padding-right: 3%;
         .MuiGrid-container.tts .MuiGrid-item {
             margin: 0;
+        }
+    }
+}
+
+.deck-container.tts {
+    /* overflow: scroll; */
+    width: 9490px;
+    height: 4140px;
+    .main-deck {
+        padding-left: 0%;
+        padding-right: 0%;
+        img {
+            width: 730 !important;
+            height: 1035 !important;
+            /* max-width: unset !important; */
         }
     }
 }
@@ -543,11 +558,14 @@ body {
 }
 
 .deck-container.max.tts {
+    width: max-content;
+    overflow-y: scroll;
+    overflow-x: scroll;
     padding-left: 0;
     padding-right: 0;
     .main-deck {
-        padding-left: 1.25vw;
-        padding-right: 1.25vw;
+        padding-left: 0;
+        padding-right: 0;
         .card img {
             width: var(--tts-card-width);
             min-width: var(--tts-card-width);
@@ -692,4 +710,9 @@ body {
 
 .warn {
     color: #a32224;
+}
+
+li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }

@@ -13,6 +13,9 @@ import { useState } from 'react';
 import { TernaryButton } from './ternary-button';
 import { ExportDeck, SaveDeck } from './deck-encoder';
 import { baseCardMaxCost } from '../base-card-section';
+import html2canvas from 'html2canvas';
+import Router from 'next/router';
+import { TtsInfoModal } from './tts-info-modal';
 
 class Colors {
     colors: Map<Element, number>;
@@ -264,18 +267,6 @@ export function DeckTracker({
                     setShrine={setShrine}
                     setDeck={setDeck}
                 ></ExportDeck>
-                {/* load deck */}
-                {/* <IconButton onClick={toggleLoadDeckModal}>
-          <LibraryBooks></LibraryBooks>
-        </IconButton>
-        <LoadDeckModal
-          open={loadDeckModal}
-          toggle={toggleLoadDeckModal}
-          setShrineAndDeck={(ss, ds) => {
-            setShrine(ss);
-            setDeck(ds);
-          }}
-        ></LoadDeckModal> */}
             </div>
             <div className="card-counts">
                 <div>
@@ -335,21 +326,7 @@ export function DeckTracker({
                 title="Identities (For each Element, number of cards having that color identity, after Essence cost increases)"
                 colors={identities}
             ></ColorDisplay>
-            {deckMaximized && (
-                <Tooltip
-                    title="Arrange the deck so it can be screenshotted and uploaded to Tabletop Simulator"
-                    enterDelay={300}
-                >
-                    <div className="tts-mode">
-                        <TernaryButton
-                            state={ttsMode}
-                            labelOne="Tabletop Simulator Mode"
-                            labelTwo="Tabletop Simulator Mode"
-                            setState={toggleTtsMode}
-                        ></TernaryButton>
-                    </div>
-                </Tooltip>
-            )}
+            {deckMaximized && <TtsInfoModal></TtsInfoModal>}
             <div className="minmax">
                 <IconButton onClick={toggleMaxView}>
                     {deckMaximized ? (
