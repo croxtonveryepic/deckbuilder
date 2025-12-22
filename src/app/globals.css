@@ -216,8 +216,8 @@ body {
         padding-left: 0%;
         padding-right: 0%;
         img {
-            width: 730 !important;
-            height: 1035 !important;
+            width: 730px !important;
+            height: 1035px !important;
             /* max-width: unset !important; */
         }
     }
