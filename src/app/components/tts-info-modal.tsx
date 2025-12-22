@@ -32,7 +32,7 @@ export function TtsInfoModal({}: {}) {
                 <div
                     style={{
                         width: '24vw',
-                        height: '51vh',
+                        height: '37vh',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
