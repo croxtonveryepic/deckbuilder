@@ -210,8 +210,8 @@ body {
 
 .deck-container.tts {
     /* overflow: scroll; */
-    width: 9490px;
-    height: 4140px;
+    width: 7300px;
+    height: 6210px;
     .main-deck {
         padding-left: 0%;
         padding-right: 0%;

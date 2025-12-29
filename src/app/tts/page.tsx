@@ -16,8 +16,8 @@ const windowOptions = {
     scale: 1,
     x: 0,
     y: 0,
-    width: 9490,
-    height: 4140,
+    width: 7300,
+    height: 6210,
 };
 const MIME_TYPE = 'image/png';
 

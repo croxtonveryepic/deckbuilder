@@ -530,14 +530,14 @@ export function Deck({
     let grid;
     let ttsGrid;
     if (ttsMode) {
-        grid = [[], [], [], []] as JSX.Element[][];
+        grid = [[], [], [], [], [], []] as JSX.Element[][];
         if (shrine) {
             grid[0].push(<Grid item>{shrine}</Grid>);
         }
         let n = 0;
         let i = 0;
-        while (i < 4 && n < deck.length) {
-            while (grid[i].length < 13) {
+        while (i < 6 && n < deck.length) {
+            while (grid[i].length < 10) {
                 grid[i].push(deck[n]);
                 n++;
             }
@@ -556,6 +556,12 @@ export function Deck({
                 </Grid>
                 <Grid container className={gridClass}>
                     {grid[3]}
+                </Grid>
+                <Grid container className={gridClass}>
+                    {grid[4]}
+                </Grid>
+                <Grid container className={gridClass}>
+                    {grid[5]}
                 </Grid>
             </div>
         );
