@@ -55,13 +55,13 @@ export default function TTS() {
     }
 
     return (
-        <div id="tts-base">
+        <div id="tts-base" onClick={downloadScreenshot}>
             {/* <button onClick={downloadScreenshot} style={{ zIndex: '3' }}>
                 download
             </button> */}
+
             <div
                 className="deck-container tts"
-                onClick={downloadScreenshot}
                 // style={{ visibility: 'hidden' }}
             >
                 <Deck

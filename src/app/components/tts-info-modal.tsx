@@ -33,7 +33,7 @@ export function TtsInfoModal({}: {}) {
                 <div
                     style={{
                         width: '24vw',
-                        height: '51vh',
+                        height: '43vh',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -45,33 +45,44 @@ export function TtsInfoModal({}: {}) {
                 >
                     <Paper
                         style={{
-                            padding: '2%',
+                            padding: '3%',
                         }}
                     >
                         <h3>Tabletop Simulator Export</h3>
                         <br></br>
                         <p>
                             This feature generates a high-res image so you can
-                            upload your deck to Tabletop Simulator. Doing this
-                            in the browser is tricky. This is what you must do:
+                            upload your deck to Tabletop Simulator. Use{' '}
+                            <Link
+                                href={'/assets/misc/card-back.png'}
+                                target="_blank"
+                                style={{
+                                    color: 'blue',
+                                    textDecorationLine: 'underline',
+                                }}
+                                download
+                            >
+                                this
+                            </Link>{' '}
+                            for the card back.
                         </p>
                         <br></br>
                         <ul>
                             <li>1. Open the link below.</li>
                             <li>
-                                2. Decrease your browser zoom (hold ctrl and
-                                mousewheel down or press minus){' '}
-                                <b>to the minimum it will go.</b> You should see
-                                most of your deck.
+                                2. Click anywhere on the deck (you may have to
+                                zoom out). This converts the browser-rendered
+                                HTML to an image.
                             </li>
-                            <li>3. Refresh the page.</li>
                             <li>
-                                4. Click anywhere on the screen. Make sure
-                                everything looks right. If not, try again.
+                                3. Click again to save (or right click &gt; save
+                                as).
                             </li>
-                            <li>5. Click again to save.</li>
-                            <li>6. Reset your browser zoom (ctrl 0).</li>
-                        </ul>
+                            <li>
+                                4. Import the deck to TTS, using 6 rows, 51
+                                cards.
+                            </li>
+                        </ul>{' '}
                     </Paper>
                     <div
                         style={{
@@ -84,7 +95,10 @@ export function TtsInfoModal({}: {}) {
                         <Link
                             href={'tts'}
                             target="_blank"
-                            style={{ color: 'blue' }}
+                            style={{
+                                color: 'blue',
+                                textDecorationLine: 'underline',
+                            }}
                         >
                             I understand —&gt;
                         </Link>
