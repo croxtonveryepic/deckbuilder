@@ -443,26 +443,26 @@ export function Deck({
         }
     }
 
-    if (deckMaximized && ttsMode) {
-        deck.push(
-            <Grid
-                item
-                className="card-cluster"
-                style={{
-                    width: calcClusterWidth(deckMaximized, 0, ttsMode),
-                }}
-                key={-1}
-            >
-                <Card
-                    key={-1}
-                    className={'last'}
-                    card={
-                        new CardBack('/assets/misc/card-back.png', 'Card back')
-                    }
-                ></Card>
-            </Grid>
-        );
-    }
+    // if (deckMaximized && ttsMode) {
+    //     deck.push(
+    //         <Grid
+    //             item
+    //             className="card-cluster"
+    //             style={{
+    //                 width: calcClusterWidth(deckMaximized, 0, ttsMode),
+    //             }}
+    //             key={-1}
+    //         >
+    //             <Card
+    //                 key={-1}
+    //                 className={'last'}
+    //                 card={
+    //                     new CardBack('/assets/misc/card-back.png', 'Card back')
+    //                 }
+    //             ></Card>
+    //         </Grid>
+    //     );
+    // }
 
     let shrine;
     let shrineDroppable = new ConditionalDroppable(
